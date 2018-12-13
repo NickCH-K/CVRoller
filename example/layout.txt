@@ -1,0 +1,100 @@
+version: web, out="cv.html", raw="cv.md"
+version: pdf, out="HuntingtonKleinCV.pdf"
+version: wd, out="WordCV.docx"
+file: cvdata.xlsx
+
+##head
+format: "{name}\br{email}, {phone}\br{website}, Twitter: @{twitter}, GitHub: {github}"
+
+##date
+type: date
+
+##employment
+title: Employment
+version: pdf, wd
+
+##education
+title: Education
+version: pdf, wd
+
+##cites
+type: cites
+version: pdf, wd
+format: "{cite}"
+
+##cites
+title: Peer-Reviewed Publications
+version: web
+subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+format: "{cite} [Link]({link}). {extra}\br**Abstract**: {abstract}\br"
+sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+
+##pubs2
+title: "Other Work"
+version: pdf, wd
+format: "{cite}"
+
+##pubs2
+title: "Other Work"
+subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
+version: web
+format: "{cite} {extra}\br{abstract}\br"
+sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+
+##working
+type: cites
+title: "Working Papers"
+version: pdf, wd
+
+##working
+type: cites
+title: "Working Papers"
+subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+version: web
+format: "{cite} {extra}\br**Abstract**: {abstract}\br"
+sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+
+##tag
+type: text
+text: "[The File Drawer](http://nickchk.com/filedrawer.html) (Dormant Papers)"
+version: web
+
+##book
+title: Book
+version: pdf, wd
+
+##teaching
+title: Teaching
+version: pdf, wd
+
+##conference
+title: "Conference Presentations & Invited Talks"
+version: pdf, wd
+
+##awards
+title: "Fellowships And Awards"
+version: pdf, wd
+order: year, descending
+format: | {year} | {name} |
+
+##servicereferee
+sep:", "
+order: alphabetical
+title: "Referee Service"
+version: pdf, wd
+
+##serviceother
+title: "Discussant Service"
+version: pdf, wd
+
+##thesis
+title: "Thesis Committees"
+version: pdf, wd
+
+##workingon
+title: "Things I'm Working On"
+version: web
+order: alphabetical
+
+##media
+title: "Media Mentions"

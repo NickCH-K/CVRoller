@@ -19,6 +19,11 @@ from datetime import datetime
 from calendar import month_name
 import codecs
 
+
+from os import chdir, getcwd
+wd=getcwd()
+chdir(wd+'/example')
+
 #Open up file containing CV layout information
 structfile = open('layout.txt','r')
 struct = structfile.read()
@@ -329,16 +334,17 @@ for v in versions:
     #####happens inside, or perhaps in a function to be referenced in the if statement.
     if versions[v]['type'] == 'html':
         #####TODO: bring in theme for outlining structure of file, using the markdown-cv package http://elipapa.github.io/markdown-cv/ ?. For now...
-        cv = '<html><head><title>CV</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'+cv+'</body></html>'
+        cv = '<html><head><title>CV</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'+markdown(cv,extensions=['markdown.extensions.tables'])+'</body></html>'
         
         output_file = codecs.open(versions[v]['out'], "w",
                           encoding="utf-8",
                           errors="xmlcharrefreplace"
                           )
-        output_file.write(markdown(cv,extensions=['markdown.extensions.tables']))
+        output_file.write(cv)
         #####TODO: figure out what is necessary to get tables to actually work here
     elif versions[v]['type'] == 'pdf':
         #####TODO: Write out to LaTeX, either on base level or with 
+        1
     elif versions[v]['type'] in ['docx','doc']:
         1
         

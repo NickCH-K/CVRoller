@@ -102,4 +102,4 @@ The third is `date`, which prints the current date and/or time:
 type: date
 ```
 
-By default, this uses `title:" will print 'Last Updated: MonthName Date, Year'. But this can be customized. A `title` option will change the 'Last Updated: ', and the `format` option, which is by default `'{monthname} {day}, {year}'`, can be used to change how the date/time is, using the attributes `year, month, monthname, day, hour, minute,` or `second`.
+By default, this uses `title: "Last Updated: "` and will print 'Last Updated: MonthName Date, Year'. But this can be customized. A `title` option will change the 'Last Updated: ', and the `format` option, which is by default `'{monthname} {day}, {year}'`, can be used to change how the date/time is, using the attributes `year, month, monthname, day, hour, minute,` or `second`.

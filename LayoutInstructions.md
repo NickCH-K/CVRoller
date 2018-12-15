@@ -1,15 +1,12 @@
----
-title: How to Write a CVRoller Layout File
-author: Nick Huntington-Klein
----
-
-#How to Write a CVRoller Layout File
+How to Write a CVRoller Layout File
+===================================
 
 This document will describe how the CVRoller Layout file works.
 
 CVRoller Layout files are simple text documents that outline the sections of a CV and the options for each section.
 
-#CVRoller Layout File Metadata
+CVRoller Layout File Metadata
+------------------------------
 
 Each layout file begins with a block of metadata that contains important information to be applied to the whole document. Here's an example:
 
@@ -26,7 +23,8 @@ After the versions, other metadata options can be filled in. The only required o
 
 As of this writing, no other metadata options are recognized. ADD MORE.
 
-#Versions
+Versions
+------------------------------
 
 CVRoller allows you to build multiple different kinds of CVs at once, whether you want a website and PDF version of the same CV, or if you want certain sections to appear in some versions of the CV but not in others (for example, my PDF CV contains the classes I teach, but I don't list this on my website).
 
@@ -46,7 +44,8 @@ Current supported non-required options include:
 
 `sectionframe`, tells CVRoller how to attach a section title, referred to as `{title}` to the `{meat}` of the section, which includes all the data. This is by default set to `**{title}**\br{meat}` and can be overriden in individual sections by adding `sectionframe` options to those sections. Use `\br` to indicate line breaks, and otherwise use Markdown. Commas are not currently supported FIX THIS.
 
-#Head Section
+Head Section
+------------------------------
 
 After the metadata, the CVRoller Layout file contains information on each section of the CV to be included, and the options for each section. Here's an example:
 
@@ -80,7 +79,8 @@ Options available include:
 
 `sep` is similar to the `sectionglue` option from the Verisons section above, except that instead of gluing together sections, this glues together items. By default, this is `\br`, with a line break between each item. But, for example, setting `sep:", "` will list all items on the same line, separated by commas.
 
-#Special Sections
+Special Sections
+------------------------------
 
 There are three currently recognized special section types that don't follow normal rules.
 

@@ -1,4 +1,5 @@
-#Near Term Fixes and Features
+Near Term Fixes and Features
+----------------------------
 
 ##Small Fixes/Features
 *Allow layout file to have two different versions of the same-named section

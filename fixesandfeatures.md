@@ -1,8 +1,3 @@
----
-title: CVRoller Fixes and Features in Progress
-author: Nick Huntington-Klein
----
-
 #Near Term Fixes and Features
 
 ##Small Fixes/Features

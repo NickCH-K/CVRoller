@@ -1,8 +1,8 @@
 Near Term Fixes and Features
-----------------------------
+============================
 
 Small Fixes/Features
-====================
+--------------------
 * Allow layout file to have two different versions of the same-named section
 * Improve method for reading in options and layout structure
 * Allow commas in version options
@@ -19,7 +19,7 @@ Small Fixes/Features
 *Add LaTeX-out and pandoc-out
 
 Big Fixes/Features
-==================
+------------------
 * recognize citation sections by looking for a s['citestyle'] argument and run the relevant attributes through a CSL to generate the item. This may require pandoc and/or routing through BiBTeX first? Note: https://www.chriskrycho.com/2015/academic-markdown-and-citations.html
 * Allow theming! Native themes specific to CVRoller (this actually would be a small fix), or, ideally, working with other CV themes like markdown-cv http://elipapa.github.io/markdown-cv/ or LaTeX moderncv https://www.ctan.org/pkg/moderncv. Add theme option to versions.
 

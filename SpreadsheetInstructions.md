@@ -1,9 +1,5 @@
----
-title: How to Write a CVRoller Data File
-author: Nick Huntington-Klein
----
-
-#How to Write a CVRoller Spreadsheet File
+How to Write a CVRoller Spreadsheet File
+========================================
 
 A CVRoller spreadsheet file, identified by the `file` option in the CVRoller Layout file, contains all the necessary information that will be laid out in the CV.
 

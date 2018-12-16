@@ -23,6 +23,8 @@ After the versions, other metadata options can be filled in. The only required o
 
 As of this writing, no other metadata options are recognized. ADD MORE.
 
+Comments can be added to layout files using the percent sign `%`. Any line beginning with `%` will be ignored.
+
 Versions
 ------------------------------
 

@@ -18,6 +18,7 @@ from markdown import markdown
 from datetime import datetime
 from calendar import month_name
 import codecs
+import json
 
 #####################
 ##     USEFUL      ##
@@ -44,10 +45,18 @@ def getoptions(block):
     #turn into a dict
     outdict = {i[0]:i[1] for i in out}
     return outdict
-            
+
+#This function recursively calculates the depth of a dict, in order to tell
+#what kind of JSON file is being opened
+#Lifted straight from https://www.geeksforgeeks.org/python-find-depth-of-a-dictionary/
+def dict_depth(dic, level = 1): 
+    if not isinstance(dic, dict) or not dic: 
+        return level 
+    return max(dict_depth(dic[key], level + 1) 
+                               for key in dic)             
 
 #This function reads in a CV data file and returns it in a dict
-def readdata(file):
+def readdata(file,secname):
     ###Now read in the CV data
     #Will be reading it all into this dict
     data = {}
@@ -57,18 +66,61 @@ def readdata(file):
     #####TODO: allow other file types, convert to pandas if not directly readable
     if dbtype in ['xlsx','xls']:
         #Open up the xlsx file and get the sheet
-        sheet = pandas.read_excel(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='utf-8')
+        sheet = pandas.read_excel(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
     if dbtype == 'csv' :
-        sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
+        #Some encoding issues on Windows. Try a few.
+        try:
+            sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
+        except:
+            try:
+                sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='latin1')
+            except:
+                try:
+                    sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='iso-8859-1')
+                except:
+                    try:
+                        sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='cp1252')
+                    except:
+                        raise ValueError('Unable to find working encoding for '+file)
+    if dbtype == 'json' :
+        with open(file,'r') as jsonfile:
+            sheet = json.load(jsonfile)
+        #Check how many levels deep it goes.
+        #Properly formatted, if it's got the section label, it should go 3 deep
+        #If it doesn't, it should go 2.
+        #Anything else and it's improperly formatted!
+        #Note that dict_depth reports what I refer to as "depth" here +1, so it's really
+        #3 and 4 we look for
+        jsondepth = dict_depth(sheet)
+        if jsondepth == 3:
+            sheet = {secname:sheet}
+        elif jsondepth not in [3,4]:
+            raise ValueError('JSON Data Improperly formatted. See help file.')
+        return sheet
     
-    #Strip the sections for clarity and lowercase them for matching
-    sheet['section'].apply(lambda x: x.strip().lower())
+    try:
+        #Strip the sections for clarity and lowercase them for matching
+        sheet['section'].apply(lambda x: x.strip().lower())
+    except:
+        #If section is missing, this is a single-section file. Assign section
+        sheet['section'] = secname
+
+    #If id, attribute, or content are missing, data is improperly formatted.
+    for s in ['id','attribute','content']:
+        try:
+            sheet[s]
+        except:
+            raise ValueError(s+' column missing from '+file)
+
+    
     #ensure Content column is all strings
     sheet['content'].apply(str)
+    #As is the ID column, in case string IDs are appended later
+    sheet['id'].apply(str)
     #If attribute is missing, fill it in with 'raw' for typeless data
     sheet['attribute'].replace('nan','raw',inplace=True)
 
-    #For each section, pull out that data, put it in order, and turn into a dict
+    #For each section, pull out that data and turn into a dict
     #####TODO: note that missing values currently evaluate to the actual string 'nan'
     #####rather than a NaN or a Null. Is that right?
     for sec in sheet['section'].unique():
@@ -84,8 +136,6 @@ def readdata(file):
             #Check if 'id' is entirely missing; if so, fill it in with lower=later
         if sum(secdata['id']=='nan') == seclength:
             secdata = secdata.assign(id = list(range(0,seclength)))
-        
-        #####TODO: figure out best way to handle if only some is missing
        
         #Create an ordered dict to read the observations into
         secdict = OrderedDict({})
@@ -96,7 +146,7 @@ def readdata(file):
             try: 
                 secdict[str(secdata.loc[i]['id'])]
             except:
-                secdict[str(secdata.loc[i]['id'])] = {'id':secdata.loc[i]['id']}
+                secdict[str(secdata.loc[i]['id'])] = {'id':str(secdata.loc[i]['id'])}
             secdict[str(secdata.loc[i]['id'])][secdata.loc[i]['attribute']] = secdata.loc[i]['content']
     
         #And store
@@ -313,13 +363,30 @@ del struct
 ##       IN        ##
 ##    CV DATA      ##
 #####################
-#####TODO: allow sections to have their own data-in files, which then get appended to sheetdict
 
-data = readdata(metadict['file'])
+#Read in main data file if present
+try:
+    data = readdata(metadict['file'],'')
+except:
+    data = OrderedDict({})
+    
+#Go through each section. If it has a file specified, add that in
+for sec in structdict:
+    try: 
+        #See if file option is specified. If it is, read it in
+        addldata = readdata(structdict[sec]['file'],structdict[sec]['name'])
+        #See if section already exists in data. 
+        try:
+            #If it is, append it.
+            data[structdict[sec]['name']].update(addldata[structdict[sec]['name']])
+        except:
+            # If not, create the section
+            data[structdict[sec]['name']] = addldata[structdict[sec]['name']]    
+    except:
+        ''
 
-
-######TODO: Fix ordering! Worked before, but this fix did not allow different orderings
-######for different versions of same section. So it's broke. Old code:
+######TODO: Fix ordering! Worked before, but it was broken to allow different orderings
+######for different versions of same section. Old code:
 '''
     #If there's an order attribute for the section, get it and use it
     try: 

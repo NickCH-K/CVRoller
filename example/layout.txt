@@ -23,6 +23,7 @@ version: pdf, wd
 type: cites
 version: pdf, wd
 format: "{cite}"
+file: bibliography.xlsx
 
 ##cites
 title: Peer-Reviewed Publications
@@ -100,3 +101,4 @@ order: alphabetical
 
 ##media
 title: "Media Mentions"
+file: mediamentions.json

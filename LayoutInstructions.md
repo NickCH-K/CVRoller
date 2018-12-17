@@ -5,6 +5,8 @@ This document will describe how the CVRoller Layout file works.
 
 CVRoller Layout files are simple text documents that outline the sections of a CV and the options for each section.
 
+Comments can be added to layout files using the percent sign `%`. Any line beginning with `%` will be ignored.
+
 CVRoller Layout File Metadata
 ------------------------------
 
@@ -19,11 +21,14 @@ file: cvdata.xlsx
 
 The metadata block begins by listing all the *versions* of the document to be produced. Here we have three versions: web, pdf, and wd. These names can be anything. I could call the PDF version of the CV myCVforEmail and it would work fine. Each time CVRoller is run, it will generate each of these three versions separately. Each of the versions must go at the top of the metadata block.
 
-After the versions, other metadata options can be filled in. The only required option is `file`, which tells CVRoller where to find the information that will actually go in the CV.
+After the versions, other metadata options can be filled in. 
+
+Options available include:
+
+`file`, which tells CVRoller where to find the information that will actually go in the CV. If `file` is not specified in the metadata, each section must have its own `file` option.
 
 As of this writing, no other metadata options are recognized. ADD MORE.
 
-Comments can be added to layout files using the percent sign `%`. Any line beginning with `%` will be ignored.
 
 Versions
 ------------------------------
@@ -68,6 +73,8 @@ No options are required. A section without any options will simply print out all
 Options available include:
 
 `version` tells CVRoller which CV versions to include this section in, separated by commas. By default, each section is included in all versions. So `version: web, pdf` tells CVRoller to include this section in the CVs named `web` and `pdf` but not any others. Note that if you want the same section to show up in multiple versions but *formatted differently* in each of them (for example, perhaps I want `working` to show up in my wd CV but without the abstract), then you can simply make another copy of `##working` in the layout file, give it `version: wd`, and specify the options differently.
+
+`file` tells CVRoller to open up an a file of additional CV data and use it for this section. All data in the file will be applied to this section, so this requires a separate file containing only data for this section. If there is also data for this section specified in the CV-wide data file, both sources of data will be used.
 
 `type` determines the section type. This is useful if you have a theme that refers to different section types, and want multiple sections formatted with the same type. By default, `type` is set to the section name.
 

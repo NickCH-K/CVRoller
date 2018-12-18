@@ -13,9 +13,13 @@ CVRoller Layout File Metadata
 Each layout file begins with a block of metadata that contains important information to be applied to the whole document. Here's an example:
 
 ```
-version: web, out="cv.html", raw="cv.md"
-version: pdf, out="HuntingtonKleinCV.pdf"
-version: wd, out="WordCV.docx"
+version: web
+    out: "cv.html"
+	raw: "cv.md"
+version: pdf
+    out: "HuntingtonKleinCV.pdf"
+version: wd
+    out: "WordCV.docx"
 file: cvdata.xlsx
 ```
 
@@ -38,18 +42,20 @@ CVRoller allows you to build multiple different kinds of CVs at once, whether yo
 Each version option has the following format:
 
 ```
-version: name, out="fileout.type", option="option"
+version: name
+    out: "fileout.type"
+	option: "option"
 ```
 
-Where name is the key you can use to refer to the version, which we'll be using later when we tell CVRoller when to include or exclude sections. The only required option is `out` which tells CVRoller what file it will be writing to. 
+Where name is the key you can use to refer to the version, which we'll be using later when we tell CVRoller when to include or exclude sections. The only required option is `out` which tells CVRoller what file it will be writing to. The indentations for options are not required.
 
 Current supported non-required options include:
 
-`raw="file.md"` tells CVRoller to save the raw compiled Markdown code for this CV variant to file.
+`raw: "file.md"` tells CVRoller to save the raw compiled Markdown code for this CV variant to a file called `file.md`.
 
-`sectionglue`, which is by default set to two line breaks (`\br\br`), tells CVRoller how to 'glue' sections together, i.e. what goes between them. Use `\br` to indicate line breaks, and otherwise use Markdown.
+`sectionglue`, which is by default set to two line breaks (`sectionglue: "\br\br"`), tells CVRoller how to 'glue' sections together, i.e. what goes between them. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
-`sectionframe`, tells CVRoller how to attach a section title, referred to as `{title}` to the `{meat}` of the section, which includes all the data. This is by default set to `**{title}**\br{meat}` and can be overriden in individual sections by adding `sectionframe` options to those sections. Use `\br` to indicate line breaks, and otherwise use Markdown. Commas are not currently supported FIX THIS.
+`sectionframe`, tells CVRoller how to attach a section title, referred to as `{title}` to the `{meat}` of the section, which includes all the data. This is by default set to `sectionframe: "**{title}**\br{meat}"` and can be overriden in individual sections by adding `sectionframe` options to those sections. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
 Head Section
 ------------------------------

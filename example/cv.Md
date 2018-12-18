@@ -3,7 +3,7 @@ nhuntington-klein@fullerton.edu, (657) 278-3918
 nickchk.com, Twitter: @nickchk, GitHub: NickCH-K
 
 **Last updated: **  
-Last updated: December 16, 2018  
+Last updated: December 17, 2018  
 
 
 **Peer-Reviewed Publications**  

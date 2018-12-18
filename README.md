@@ -22,14 +22,15 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Allow sections to have their own data-in files (especially .bib for citations), then append that data to the main data already read in before processing.
 * Allow data to be read in from JSON or other format rather than spreadsheet
 * Get CSV import working, it's broken
+* Allow commas in version options
 
 Small Fixes/Features to Come
 --------------------
-* Allow commas in version options
 * Currently has heavy reliance on layout file ending lines with \n. Be more flexible
 * Turn 'meat' construction into callable functions for flexibility.
 * Add LaTeX-out and Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
+* Fix ordering that broke when changing data structure
 
 Big Fixes/Features to Come
 ------------------

@@ -11,6 +11,8 @@ It's a generic automatic-document generator that happens to be designed for CVs.
 @author: nhuntington-klein@fullerton.edu
 """
 
+#Had to be installed: markdown, pybtex
+
 from re import sub
 import pandas
 from collections import OrderedDict, defaultdict
@@ -241,6 +243,8 @@ def buildmd(vsd,data,secframedef,secglue):
 ##     ACTION!     ##
 ##   EXCITEMENT!   ##
 ##   ADVENTURE!    ##
+##   THE CODE...   ##
+##    BEGINS!      ##
 #####################
         
 #####TODO: this is a placeholder; include more generic way of locating location file
@@ -276,8 +280,42 @@ if struct[0] == '%':
 meta = struct[0:struct.find('##')]
 #Take out of struct
 struct = struct[struct.find('##')+2:]
-                                            
+                            
+#Separate metadata into version information and the rest
+#Make sure there are versions
+if meta.find('version:') == -1 :
+    raise ValueError('Layout structure file must specify at least one version to create.')
+#Find the first place where a line begins with either an approved metadata option name
+#or the ## starting the sections
+#don't count the missings.
+versionend = min([i for i in [meta.find('\nfile'),meta.find('##')] if i > 0])
+options = meta[0:versionend].split('version:')
+meta = meta[versionend:]
+
 #Store versions, files, and types
+#First, split the version name from the rest
+options = [i.split('\n',maxsplit = 1) for i in options]
+#Remove blanks
+options = [[i for i in j if i] for j in options if j]
+#Twice in case there was an existing single blank string
+options = [[i for i in j if i] for j in options if j]
+#Get options out and store in a dict
+#Title should not have quotes or surrounding spaces in it.
+versions = {sub('[\'"]','',i[0]).strip():getoptions(i[1]) for i in options}
+#Bring in one more with the file type, if not pre-specified
+for v in versions:
+    try:
+        #Figure out if type is specified. If so, make it lowercase
+        versions[v]['type'] = versions[v]['type'].lower()
+    except:
+        #If not, get it from filename
+        #Find the index of the out option, then get the second argument to find filename
+        filename = versions[v]['out']
+        versions[v]['type'] = filename[filename.find('.')+1:].lower()
+#Clean up
+del options
+
+'''
 versions = {}
 #Get the names of all the CV versions and their output designations
 if meta.find('version:') == -1 :
@@ -310,7 +348,7 @@ else:
         versions[options[0][0]] = optdict       
         #And cut to next one
         meta = meta[meta.find('\n')+1:]
-
+'''
 #Within metadata, parse all the meta-options
 metadict = getoptions(meta)
 #Clean up

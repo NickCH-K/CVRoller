@@ -1,7 +1,11 @@
 %A comment!
-version: web, out="cv.html", raw="cv.md"
-version: pdf, out="HuntingtonKleinCV.pdf"
-version: wd, out="WordCV.docx"
+version: web
+    out: cv.html
+	raw: "cv.md"
+version: pdf
+    out: "HuntingtonKleinCV.pdf"
+version: wd
+    out: "WordCV.docx"
 file: cvdata.xlsx
 
 ##head

@@ -82,8 +82,6 @@ Options available include:
 
 `file` tells CVRoller to open up an a file of additional CV data and use it for this section. All data in the file will be applied to this section, so this requires a separate file containing only data for this section. If there is also data for this section specified in the CV-wide data file, both sources of data will be used.
 
-`type` determines the section type. This is useful if you have a theme that refers to different section types, and want multiple sections formatted with the same type. By default, `type` is set to the section name.
-
 `title` is the title of the section, to be printed. Similarly, `subtitle` is the subtitle. By default, `title` is the section name and subtitle is blank. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
 `format` gives the layout of each item in the section. In the data, I have `cite, extra,` and `abstract` attributes for each item. The `format` option says how all of these attributes should be arranged into a single entry. By default, `format` is either set by theme, or is simply `{raw}` and will list out each of the items given no attribute. Use `\br` to indicate line breaks, `{attributename}` to indicate where particular attributes should go, and otherwise use Markdown.
@@ -93,6 +91,48 @@ Options available include:
 `order` determines the order in which items are displayed. By default, each item is displayed in descending order according to its `id` in the data. `order: ascending` will instead use ascending order, `order: alphabetical` will order the items according to the alphabetical order of the *content* of the item, and `order: attributename, ascending` or `order: attributename, descending` will order items according to the `attributename` attribute of each item (which can be any attribute) in ascending or descending order.
 
 `sep` is similar to the `sectionglue` option from the Verisons section above, except that instead of gluing together sections, this glues together items. By default, this is `\br`, with a line break between each item. But, for example, setting `sep:", "` will list all items on the same line, separated by commas.
+
+Using BibTeX Databases
+----------------------
+
+One section option not covered so far is `bib`. `bib` tells CVRoller to import a BibTeX database and use the citations in it as data for this section. Make sure that the database is in BibTex format, not Better BibTex. The database can be in .bib or JSON format, with the JSON file formatted according to [this example](https://github.com/brechtm/citeproc-py/blob/master/examples/citeproc_json.py). 
+
+`bib` takes two arguments, separated by commas. The first is the file location of the database, and should end in .bib or .json. The second is the citation style. This option uses CSL formatting. You can select any style available on [this page](https://www.zotero.org/styles). Either download one of the .csl files and then put the filepath in as the option, ending in .csl, or just put in the ID of the citation style and CVRoller will get it for you. Just hover over the style you want, right-click or command-click, select "copy link location", and include this as the option. For example, the very first style on that page gives "https://www.zotero.org/styles/3-biotech". 
+
+CSL files stored on other websites may also work; your mileage may vary. Getting the .csl file from a website will store it on your computer so you can refer to it by filepath naxt time. 
+
+By default, `bib` will use all citations in the database. `bib` can take a third argument of a list of citation keys, separated by semicolons ;. This tells CVRoller which citation keys from the database to use. Alternately, if there is data for the section with a `key` attribute, these will be used as the citation keys to include.
+
+For example, the `bib` option 
+
+`bib: "library.bib", https://www.zotero.org/styles/apa, "frank2012;james2015"`
+
+will use the APA style with the library.bib database, picking only the citation keys `frank2012` and `james2015`. Alternately, if the section's data included rows with the term `key` in the attribute column, and `frank2012` and `james2015` as rows in the content column, only `frank2012` and `james2015` would be chosen.
+
+`type` determines the section type. This is useful if you have a theme that refers to different section types, and want multiple sections formatted with the same type. By default, `type` is set to the section name.
+
+By default, citations gathered in this way will be ordered in reverse chronological order according to the `year` and `month` BibTeX attributes (if available). `order: ascending` will give ascending chronological order. Chronological order can be overriden with an `order` option in the section. `order: id` will order according to the the reverse of the order the keys are read in, so with `james2015` first and then `frank2012` in the above example, or in the reverse of the order in which the .bib file itself is written if no keys are specified. `order: id, ascending` will use the actual order the keys are read in.
+
+If designing a `format` option for this section, the formatted citation is stored in the `{raw}` attribute. All other BibTeX attributes will be available using their BibTeX attribute names, other than the ones that citeproc-py processes into its own format. The only exceptions are that `{DOI}`, `{PMID}`, `{ISBN}`, and `{ISSN}` will be capitalized, even if they're not capitalized in the BiBTeX file.
+
+This function uses the [https://github.com/brechtm/citeproc-py](citeproc-py) package, and so any citation cases that cannot be handled by citeproc-by is not guaranteed to be handled by CVRoller. CVRoller will, in addition to what citeproc-py picks up, take every attribute in the BibTeX file and make it available for the CSL style interpreter (citeproc-py will ignore some attributes that styles do use, like `DOI`), or for your `format` option (e.g., citeproc-py will not pick up an `abstract` item). However, for CVRoller to be able to do this, if you're using a .bib file, that .bib file has to be squeaky clean! CVRoller uses a comma followed by a new line to identify a new item. So, every item must end with a comma followed by a new line.
+
+```
+@article{key,
+    title = {My Paper},
+	volume = {3}
+	}
+```
+
+will work, but 
+
+```
+@article{key,
+    title = {My Paper}, volume = {3}
+	}
+```
+
+will not. Similarly, if you have a comma followed by a new line in any of the attributes (for example if you have a paragraph break in an abstract that for some reason ends on a comma), that won't work either.
 
 Special Sections
 ------------------------------

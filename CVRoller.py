@@ -11,16 +11,18 @@ It's a generic automatic-document generator that happens to be designed for CVs.
 @author: nhuntington-klein@fullerton.edu
 """
 
-#Had to be installed: markdown, pybtex
+#Had to be installed: markdown, citeproc-py
 
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 from re import sub
-import pandas
 from collections import OrderedDict, defaultdict
 from markdown import markdown
-from datetime import datetime
 from calendar import month_name
 import codecs
-import json
+#####TODO: figure out if we actually need any of this, if not we can avoid importing
+#####this unless there's actually a .bib import
+from citeproc.py2compat import *
 
 #####################
 ##     USEFUL      ##
@@ -65,26 +67,8 @@ def readdata(file,secname):
     # Figure out type of CV file it is
     dbtype = file[file.find('.')+1:]
 
-    #####TODO: allow other file types, convert to pandas if not directly readable
-    if dbtype in ['xlsx','xls']:
-        #Open up the xlsx file and get the sheet
-        sheet = pandas.read_excel(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
-    if dbtype == 'csv' :
-        #Some encoding issues on Windows. Try a few.
-        try:
-            sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
-        except:
-            try:
-                sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='latin1')
-            except:
-                try:
-                    sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='iso-8859-1')
-                except:
-                    try:
-                        sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='cp1252')
-                    except:
-                        raise ValueError('Unable to find working encoding for '+file)
     if dbtype == 'json' :
+        import json
         with open(file,'r') as jsonfile:
             sheet = json.load(jsonfile)
         #Check how many levels deep it goes.
@@ -99,6 +83,31 @@ def readdata(file,secname):
         elif jsondepth not in [3,4]:
             raise ValueError('JSON Data Improperly formatted. See help file.')
         return sheet
+    #Otherwise we need pandas
+    import pandas
+    if dbtype in ['xlsx','xls']:
+        #Open up the xlsx file and get the sheet
+        sheet = pandas.read_excel(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
+    elif dbtype == 'csv' :
+        #Some encoding issues on Windows. Try a few.
+        try:
+            sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
+        except:
+            try:
+                sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='latin1')
+            except:
+                try:
+                    sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='iso-8859-1')
+                except:
+                    try:
+                        sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='cp1252')
+                    except:
+                        try:
+                            sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='utf-8')
+                        except:
+                            raise ValueError('Unable to find working encoding for '+file)
+    else:
+        raise ValueError('Filetype for '+file+' not supported.')
     
     try:
         #Strip the sections for clarity and lowercase them for matching
@@ -186,6 +195,7 @@ def buildmd(vsd,data,secframedef,secglue):
         #####Note: https://www.chriskrycho.com/2015/academic-markdown-and-citations.html
         #####May have to use bibtex and locate a bst file for LaTeX?
         if s['type'] == 'date':
+            from datetime import datetime
             dt = datetime.now()
             year = dt.year
             month = dt.month
@@ -239,6 +249,154 @@ def buildmd(vsd,data,secframedef,secglue):
     
     return cv
 
+#This function reads in citation data in .bib or .json format using citeproc
+#Obviously, this copies heavily from the citeproc example files.
+def readcites(filename,style,keys=None):
+    #Get packages we only need if doing this
+    # Import the citeproc-py classes we'll use below.
+    from citeproc import CitationStylesStyle, CitationStylesBibliography
+    from citeproc import formatter
+    from citeproc import Citation, CitationItem
+    import warnings
+    
+    #Determine which file type we're dealing with
+    if filename[filename.find('.')+1:].lower() == 'bib':
+        from citeproc.source.bibtex import BibTeX
+        #load in data
+        #Try encodings until one sticks.
+        #####TODO: Suppress warnings here.
+        try:
+            bib_source = BibTeX(filename)
+        except:
+            try:
+                bib_source = BibTeX(filename,encoding='latin1')
+            except:
+                try:
+                    bib_source = BibTeX(filename,encoding='iso-8859-1')
+                except:
+                    try:
+                        bib_source = BibTeX(filename,encoding='cp1252')
+                    except:
+                        try:
+                            bib_source = BibTeX(filename,encoding='utf-8')
+                        except:
+                            raise ValueError('Unable to find working encoding for '+filename)    
+            
+        #####TODO: at this point, go BACK through the BibTeX file and pick up all
+        #the attributes and add them, even the ones not supported by citeproc-py
+        #Based on BibTeX file formatting, this is likely to be fiddly. So let it error out.
+        with open(filename,"r") as f:
+            bibtext = f.read()
+        
+        #Convert it to a format where getoptions can read it. 
+        #We need each attribute on a single line,
+        #and the commas separating attributes need to be \ns
+        #Based on BibTeX file formatting, this is likely to be fiddly. So let it error out.
+        try:
+            for b in bib_source:
+                #Isolate options, which begin after the key and a comma,
+                #and go until the } that precedes a new line and an @ (the next key)
+                #or the end of the file
+                
+                #SO! start at {key
+                keytext = bibtext[bibtext.find('{'+'long_completed_2015'):]
+                #Then jump to after the first comma
+                keytext = keytext[keytext.find(',')+1:]
+                #Now stop the next time we see a \n@, then, very comma followed by a new line is a new item
+                keytext = keytext[:keytext.find('\n@')-1].split(',\n')
+                #Then, item names/values are split by the first = sign
+                keytext = [i.split('=',maxsplit=1) for i in keytext]
+                #Strip whitespce and remove curly braces
+                keytext = [[sub('[{}]','',i.strip()) for i in j] for j in keytext]
+                #If quotes are used to surround, remove those too
+                for i in keytext:
+                    if ((i[1][0] in ['"',"'"]) and (i[1][len(i[1])-1] in ['"',"'"])):
+                        i[1] = i[1][1:len(i[1])-1]
+                    #Make these attributes upper-case
+                    if (i[0].lower() in ['doi','isbn','issn','pmid']):
+                        i[0] = i[0].upper()
+                    
+                    #Finally, add these items to bib_source, but only if they're not already there.
+                    #don't overwrite anything citeproc-py did.
+                    try:
+                        bib_source[b][i[0]]
+                    except:
+                        bib_source[b][i[0]] = i[1]
+        except:
+            warnings.warn('BibTeX file '+filename+' isn\'t squeaky clean. See layout help file. Couldn\'t import items other than those defined by citeproc-py.')
+        
+    elif filename[filename.find('.')+1:].lower() == 'json':
+        #####TODO: JSON INPUT IS UNTESTED
+        import json
+        from citeproc.source.json import CiteProcJSON
+        #load in data
+        with open(filename,'r') as jsonfile:
+            jsonbib = json.load(jsonfile)
+        bib_source = CiteProcJSON(json.loads(jsonbib))   
+        
+        #pick up all the attributes and add them, even the ones not supported by citeproc-py
+        for b in jsonbib:
+            bib_source[b['id']].update(b)
+        
+    else:
+        raise ValueError('Filetype for '+filename+' not supported.')
+    
+    
+    
+    #If filepath is specified, use that for style.
+    if style.find('.csl') > -1:
+        bib_style = CitationStylesStyle(style,validate=False)
+    else:
+        #Otherwise, load it, save it, bring it in, and at the end, delete it
+        import requests
+        #Get the file
+        csl = requests.get(style)
+        #Write it to disk
+        ######TODO: Is there a way to use this with the file in memory rather than writing it?
+        with open(style[style.rfind('/')+1:]+'.csl',"w") as f:
+            f.write(csl.text)
+        bib_style = CitationStylesStyle(style[style.rfind('/')+1:]+'.csl',validate=False)
+    
+    #Create bibliography
+    bibliography = CitationStylesBibliography(bib_style, bib_source, formatter.html)
+    
+    #Register citations. If a predetermined list of keys is given, use those.
+    #Otherwise, take all keys in file
+    if keys == None:
+        bibliography.register(Citation([CitationItem(i) for i in bib_source]))
+        #Copy over keys so we can iterate over it later
+        keys = bib_source
+    else:
+        bibliography.register(Citation([CitationItem(i) for i in keys]))
+        
+    #Try to put in reverse chronological order by getting year and month values, if available
+    #while building dictionary
+    bibdata = OrderedDict()
+    count = 0
+    for i in keys:
+        #Construct date if possible
+        try:
+            year = bib_source[i]['issued']['year']
+        except:
+            year = 0
+        try:
+            month = bib_source[i]['issued']['month']
+        except:
+            month = 0
+        date = str(year*100+month)
+        #Turn each part into a regular dict so the data can be easily accessed later
+        bibdata[str(count)] = dict(bib_source[i])
+        #Add in the new data. Change <i> and <b> back to Markdown for LaTeX and Word purposes later
+        bibdata[str(count)].update({'item':i,'date':date,'raw':str(bibliography.bibliography()[count]).replace('<b>','**').replace('</b>','**').replace('<i>','*').replace('</i>','*')})
+        #bibdata[str(count)] = {'item':i,'date':date,'raw':str(bibliography.bibliography()[count])}
+        #Add in all values
+        #for j in bib_source[i]:
+        #    bibdata[j] = bib_source[i][j]
+        count = count + 1
+    
+    return bibdata
+    
+
 #####################
 ##     ACTION!     ##
 ##   EXCITEMENT!   ##
@@ -265,7 +423,6 @@ struct = structfile.read()
 ###Start reading CV layout structure
 #####TODO: allow generic line-end characters, not just \n
 #####TODO: allow properly formatted JSON structure file to be read in directly
-#####TODO: allow comments in structure file
 
 #Remove comments from structure file - lines that start with %.
 #Count how many comments we have and edit that many lines out
@@ -315,40 +472,6 @@ for v in versions:
 #Clean up
 del options
 
-'''
-versions = {}
-#Get the names of all the CV versions and their output designations
-if meta.find('version:') == -1 :
-    raise ValueError('Layout structure file must specify at least one version to create.')
-else:
-    while meta.find('version:') > -1:
-        #Cut to start of versions
-        meta = meta[meta.find('version:')+8:]
-        #Cut the options into segments
-        options = [[j.strip() for j in i.split('=')] for i in meta[0:meta.find('\n')].split(',')]
-        #if the option content begins and ends with quotes, get rid of them
-        #as that's intended to report the info inside
-        for o in options:
-            #Make sure it's not the name
-            if len(o) > 1:
-                if ((o[1][0] in ['"',"'"]) and (o[1][len(o[1])-1] in ['"',"'"])):
-                    o[1] = o[1][1:len(o[1])-1]
-        #Bring in one more with the file type, if not pre-specified
-        try:
-            #Figure out if type is specified
-            [o[0] for o in options].index('type')
-        except:
-            #If not, get it from filename
-            #Find the index of the out option, then get the second argument to find filename
-            filename = options[[o[0] for o in options].index('out')][1]
-            options.append(['type',filename[filename.find('.')+1:]])
-        #Store options as a dict
-        optdict = {o[0]:o[1] for o in options[1:]}
-        #and add to dict of versions
-        versions[options[0][0]] = optdict       
-        #And cut to next one
-        meta = meta[meta.find('\n')+1:]
-'''
 #Within metadata, parse all the meta-options
 metadict = getoptions(meta)
 #Clean up
@@ -361,7 +484,6 @@ del meta
 #####################
 
 ###Now to the sections
-#####TODO: allow two different versions of same-name section
 #Split into sections
 struct = struct.split('##')
 #lead each one off with "name:" so the given title will fill in a name attribute
@@ -423,28 +545,6 @@ for sec in structdict:
     except:
         ''
 
-######TODO: Fix ordering! Worked before, but it was broken to allow different orderings
-######for different versions of same section. Old code:
-'''
-    #If there's an order attribute for the section, get it and use it
-    try: 
-        sortoption = structdict[sec]['order']
-        #Alphabetical option means sort by the content
-        if sortoption == 'alphabetical':
-            sortvar = secdata.loc[1]['attribute']
-            sortascending = True
-        elif sortoption == 'ascending':
-            sortascending = True
-        else:
-            #split at comma
-            sortoption = [i.strip() for i in sortoption.split(',')]
-            sortvar = sortoption[0]
-            if sortoption[1] == 'ascending':
-                sortascending = True
-    except:
-        ''
-'''
-
 #####################
 ##      BUILD      ##
 ##       THE       ##
@@ -488,15 +588,110 @@ for v in versions:
     
     #Now remake vsd with named top-level keys
     vsd = OrderedDict({vsd[sec]['name']:vsd[sec] for sec in vsd})
+
+    #If there's a bib option, bring in the citations!
+    for sec in vsd:
+        try:
+            #split option
+            bibopt = vsd[sec]['bib'].split(',')
+            #remove whitespace
+            bibopt = [i.strip() for i in bibopt]
+            #Remove quotes at beginning and end
+            for i in bibopt:
+                if ((i[0] in ['"',"'"]) and (i[len(i[1])-1] in ['"',"'"])):
+                    i = i[1:len(i[1])-1]
+            #If there's a list of keys in the option, start the key list!
+            keys = []
+            try:
+                optkeys = bibopt[2].split(';')
+                [keys.append(i.strip()) for i in optkeys]
+            except:
+                ''
+            
+            #If there's a list of keys in the data, remove them from data but add them to keys
+            try:
+                for row in data[sec]:
+                    try:
+                        keys.append(data[sec][row]['key'])
+                        data[sec].pop(row)
+                    except:
+                        ''
+            except:
+                ''
+            #If neither source had any keys, replace keys with None
+            if len(keys) == 0:
+                keys = None
+            
+            #Now get the formatted citation and add to the data
+            try:
+                data[sec].update(readcites(bibopt[0],bibopt[1],keys))
+            except:
+                #If it didn't exist up to now, create it
+                data[sec] = readcites(bibopt[0],bibopt[1],keys)
+            
+            #By default, sections with .bib entries are sorted by the date attribute
+            #So put that in unless an order is already specified
+            try:
+                vsd[sec]['order']
+            except:
+                vsd[sec]['order'] = 'date'
+        except:
+            ''
+    
+    #Now reorder the data as appropriate
+    for sec in vsd:
+        #Make sure we actually have data to sort, we won't for, e.g., text or date
+        try:
+            #If there's an order attribute for the section, get it and use it
+            try: 
+                sortoption = vsd[sec]['order']
+                #Alphabetical option means sort by the raw content
+                if sortoption == 'alphabetical':
+                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1]['raw']))
+                elif sortoption == 'ascending':
+                    #Attempt to turn ids to numbers
+                    try:
+                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: float(t[0])))
+                    except:
+                        #but if that's not possible...
+                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[0]))
+                else:
+                    #split at comma
+                    sortoption = [i.strip() for i in sortoption.split(',')]
+                    sortvar = sortoption[0]
+                    #Descending by default
+                    try:
+                        sortoption[1]
+                    except:
+                        sortoption.append('descending')
+                    
+                    #And sort by variable by direction
+                    if sortoption[1] == 'ascending':
+                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1][sortoption[0]]))
+                    else:
+                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1][sortoption[0]],reverse=True))                    
+            except:
+                #By default, sort by id in descending order
+                #Attempt to turn ids to numbers
+                try:
+                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: float(t[0]),reverse=True))
+                except:
+                    #but if that's not possible...
+                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[0],reverse=True))
+        except:
+            ''
+
     
     #Now build it!
     cv = buildmd(vsd,data,secframedef,secglue)
     
     #If it asks for the raw code, save it.
     try:
-        raw = open(versions[v]['raw'],"w")
-        raw.write(cv)
-        raw.close()
+        r = codecs.open(versions[v]['raw'], "w",
+                          encoding="utf-8",
+                          errors="xmlcharrefreplace"
+                          )
+        r.write(cv)
     except:
         ''
     
@@ -507,6 +702,7 @@ for v in versions:
     #####happens inside, or perhaps in a function to be referenced in the if statement.
     if versions[v]['type'] == 'html':
         #####TODO: bring in theme for outlining structure of file, using the markdown-cv package http://elipapa.github.io/markdown-cv/ ?. For now...
+        #####TODO: figure out why this doesn't actually parse into a table.
         cv = '<html><head><title>CV</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'+markdown(cv,extensions=['markdown.extensions.tables'])+'</body></html>'
         
         output_file = codecs.open(versions[v]['out'], "w",
@@ -516,7 +712,7 @@ for v in versions:
         output_file.write(cv)
         #####TODO: figure out what is necessary to get tables to actually work here
     elif versions[v]['type'] == 'pdf':
-        #####TODO: Write out to LaTeX, either on base level or with 
+        #####TODO: Write out to LaTeX, either on base level or with moderncv
         1
     elif versions[v]['type'] in ['docx','doc']:
         1

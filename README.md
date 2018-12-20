@@ -21,25 +21,27 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Allow structure file to have comments; omit lines starting with comment character(s?) and update Layout Instructions to match
 * Allow sections to have their own data-in files (especially .bib for citations), then append that data to the main data already read in before processing.
 * Allow data to be read in from JSON or other format rather than spreadsheet
-* Get CSV import working, it's broken
+* Add CSV import
 * Allow commas in version options
+* Import citations from .bib or JSON, format them, order them, display them.
+* Turn 'meat' construction into callable functions for flexibility.
 
 Small Fixes/Features to Come
 --------------------
 * Currently has heavy reliance on layout file ending lines with \n. Be more flexible
-* Turn 'meat' construction into callable functions for flexibility.
 * Add LaTeX-out and Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
-* Fix ordering that broke when changing data structure
+* Figure out way to allow tables more easily (tables currently work but you have to very oddly stick the table header row in the format option). Note this follows from the markdown package's markdown parser requiring a table header.
+* Find all HTML tags in citation formatting and change back to Markdown for the purpose of eventual LaTeX-out and Word-out. <i> and <b> already changed back. But are there others?
+* JSON citation input is untested
+* Suppress citeproc-py warnings for unsupported fields when reading in bibtex files
 
 Big Fixes/Features to Come
 ------------------
-* recognize citation sections by looking for a s['citestyle'] argument and run the relevant attributes through a CSL to generate the item. This may require pandoc and/or routing through BiBTeX first? Note: https://www.chriskrycho.com/2015/academic-markdown-and-citations.html
 * Allow theming! Native themes specific to CVRoller (this actually would be a small fix), or, ideally, working with other CV themes like markdown-cv http://elipapa.github.io/markdown-cv/ or LaTeX moderncv https://www.ctan.org/pkg/moderncv. Add theme option to versions.
 
 Medium/Far Term Fixes and Features to Come
 ----------------------------------
-
 * Import citations from online databases like ORCID and PubMed
 * Add scheduler so that if run on a server, will regularly check for updates to data and re-generate files
 * Add uploader or FTP so that the generated CVs can be automatically uploaded to a website
@@ -52,3 +54,4 @@ Original Planned Additions Perhaps Abandoned or Not a Problem
 * Allow other spreadsheet formats <- maybe not necessary, allows CSV, Excel, JSON already
 * Current implementation uses pandas to read in data as strings, which turns missings into the actual string 'nan'. Is that the best way?
 * Is there a better way of getting line breaks from the layout and data files than forcing people to write \br and turning it into space-space-\n?
+* Figure out how to import and use CSL files without having to write them to disk

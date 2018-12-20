@@ -26,20 +26,21 @@ version: pdf, wd
 ##cites
 type: cites
 version: pdf, wd
-format: "{cite}"
-file: bibliography.xlsx
+bib: publications.bib, https://www.zotero.org/styles/chicago-author-date-16th-edition
 
 ##cites
 title: Peer-Reviewed Publications
 version: web
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
-format: "{cite} [Link]({link}). {extra}\br**Abstract**: {abstract}\br"
+format: "{raw} [Link]({link}). {note}\br**Abstract**: {abstract}\br"
 sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+bib: publications.bib, https://www.zotero.org/styles/chicago-author-date-16th-edition
 
 ##pubs2
 title: "Other Work"
 version: pdf, wd
 format: "{cite}"
+file: nonpeerreviewedpubs.csv
 
 ##pubs2
 title: "Other Work"
@@ -47,6 +48,7 @@ subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntingt
 version: web
 format: "{cite} {extra}\br{abstract}\br"
 sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+file: nonpeerreviewedpubs.csv
 
 ##working
 type: cites
@@ -82,7 +84,7 @@ version: pdf, wd
 title: "Fellowships And Awards"
 version: pdf, wd
 order: year, descending
-format: | {year} | {name} |
+format: {year}, {name}
 
 ##servicereferee
 sep:", "

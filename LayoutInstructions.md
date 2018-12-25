@@ -15,7 +15,6 @@ Each layout file begins with a block of metadata that contains important informa
 ```
 version: web
     out: "cv.html"
-	raw: "cv.md"
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 version: wd
@@ -51,8 +50,6 @@ Where name is the key you can use to refer to the version, which we'll be using 
 
 Current supported non-required options include:
 
-`raw: "file.md"` tells CVRoller to save the raw compiled Markdown code for this CV variant to a file called `file.md`.
-
 `sectionglue`, which is by default set to two line breaks (`sectionglue: "\br\br"`), tells CVRoller how to 'glue' sections together, i.e. what goes between them. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
 `sectionframe`, tells CVRoller how to attach a section title, referred to as `{title}` to the `{meat}` of the section, which includes all the data. This is by default set to `sectionframe: "**{title}**\br{meat}"` and can be overriden in individual sections by adding `sectionframe` options to those sections. Use `\br` to indicate line breaks, and otherwise use Markdown.
@@ -65,14 +62,13 @@ After the metadata, the CVRoller Layout file contains information on each sectio
 ```
 ##working
 version: web, pdf
-type: cites
 title: "Working Papers"
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 format: "{cite} {extra}\br**Abstract**: {abstract}\br"
 sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
 ```
 
-Each section starts with the section name, led off by two hash tags `##`. This name tells CVRoller what CV data to pick up. So this section will use CV information tagged for the `working` section (not case-sensitive).
+Each section starts with the section name, led off by two hash tags `##`. This name tells CVRoller what CV data to pick up. So this section will use CV information tagged for the `working` section (not case-sensitive). It doesn't matter much what you name your sections, except for the head section (with your name, email, etc.), which either must be called `head`, or should have the `type: head` option.
 
 No options are required. A section without any options will simply print out all the section entries in the data that aren't assigned an attribute.
 
@@ -80,13 +76,15 @@ Options available include:
 
 `version` tells CVRoller which CV versions to include this section in, separated by commas. By default, each section is included in all versions. So `version: web, pdf` tells CVRoller to include this section in the CVs named `web` and `pdf` but not any others. Note that if you want the same section to show up in multiple versions but *formatted differently* in each of them (for example, perhaps I want `working` to show up in my wd CV but without the abstract), then you can simply make another copy of `##working` in the layout file, give it `version: wd`, and specify the options differently.
 
+`type` tells the theme what kind of section we're working with. If this is omitted, the theme will use default formatting. This will generally be omitted unless you want to make use of multiple different stylings offered by your theme, or unless you want to specify a special kind of section (see below).
+
 `file` tells CVRoller to open up an a file of additional CV data and use it for this section. All data in the file will be applied to this section, so this requires a separate file containing only data for this section. If there is also data for this section specified in the CV-wide data file, both sources of data will be used.
 
 `title` is the title of the section, to be printed. Similarly, `subtitle` is the subtitle. By default, `title` is the section name and subtitle is blank. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
 `format` gives the layout of each item in the section. In the data, I have `cite, extra,` and `abstract` attributes for each item. The `format` option says how all of these attributes should be arranged into a single entry. By default, `format` is either set by theme, or is simply `{raw}` and will list out each of the items given no attribute. Use `\br` to indicate line breaks, `{attributename}` to indicate where particular attributes should go, and otherwise use Markdown.
 
-`sectionframe` is as discussed above for the versions. This overrides the default `sectionframe` argument for just this section.
+`sectionframe` is as discussed above for the versions. This overrides the default `sectionframe` argument for just this section. Note that it can be very difficult to get `sectionframe` to work properly with the theme you've chosen, and generally you just want to let the theme handle this one.
 
 `order` determines the order in which items are displayed. By default, each item is displayed in descending order according to its `id` in the data. `order: ascending` will instead use ascending order, `order: alphabetical` will order the items according to the alphabetical order of the *content* of the item, and `order: attributename, ascending` or `order: attributename, descending` will order items according to the `attributename` attribute of each item (which can be any attribute) in ascending or descending order.
 

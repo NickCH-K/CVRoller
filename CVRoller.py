@@ -11,15 +11,15 @@ It's a generic automatic-document generator that happens to be designed for CVs.
 @author: nhuntington-klein@fullerton.edu
 """
 
-#Had to be installed: markdown, citeproc-py
+#Had to be installed: citeproc-py, pypandoc
 
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 from re import sub
 from collections import OrderedDict, defaultdict
-from markdown import markdown
 from calendar import month_name
-import codecs
+import pypandoc
+import json
 #####TODO: figure out if we actually need any of this, if not we can avoid importing
 #####this unless there's actually a .bib import
 from citeproc.py2compat import *
@@ -68,7 +68,6 @@ def readdata(file,secname):
     dbtype = file[file.find('.')+1:]
 
     if dbtype == 'json' :
-        import json
         with open(file,'r') as jsonfile:
             sheet = json.load(jsonfile)
         #Check how many levels deep it goes.
@@ -164,90 +163,6 @@ def readdata(file,secname):
         data[sec] = secdict
     
     return data
-
-#This constructs a Markdown text file containing the code for the CV
-def buildmd(vsd,data,secframedef,secglue):
-    #Go through each section to prepare it individually
-    for sec in vsd:
-        s = vsd[sec]
-        
-        #Set section frame to default
-        try:
-            secframe = s['sectionframe']
-        except:
-            secframe = secframedef
-            
-            #####heads and text inserts get no title by default
-            if s['type'] in ['head','text']:
-                secframe = '{meat}'
-        
-        #Default separator between entries, unless one is specified
-        try:
-            s['sep']
-        except:
-            s['sep'] = '  \n'
-        
-        #Time to build the meat!
-        
-        #Check for special types to be generated not from data.
-        #####TODO: recognize citation sections by looking for a s['citestyle'] argument
-        #####and run the relevant attributes through a CSL to generate the item
-        #####Note: https://www.chriskrycho.com/2015/academic-markdown-and-citations.html
-        #####May have to use bibtex and locate a bst file for LaTeX?
-        if s['type'] == 'date':
-            from datetime import datetime
-            dt = datetime.now()
-            year = dt.year
-            month = dt.month
-            monthname = month_name[month]
-            day = dt.day
-            hour = dt.hour
-            minute = dt.minute
-            second = dt.second
-            #Allow custom format, but if none available use a default
-            try:
-                s['format']
-            except:
-                s['format'] = '{monthname} {day}, {year}'
-            s['meat'] = s['title']+s['format'].format(year=year,month=month,monthname=monthname,day=day,hour=hour,minute=minute,second=second)+'  \n'
-        elif s['type'] == 'text':
-            s['meat'] = s['text']
-        else:
-            #Default format for meat, outside of dates, is just to list all the raw data
-            try:
-                s['format']
-            except:
-                s['format'] = '{raw}'
-            
-            #Check that data actually exists for this section
-            try:
-                data[sec]
-                #####TODO: wrap these in tags so that a template file can get them
-                #####This may require doing all of this separately by file-out type
-                #Build each entry by plugging each entry's attributes into its format
-                #Make it a defaultdict so any missing keys return a blank, not an error
-                #format_map, not format(**) to allow defaultdict
-                for i in data[sec]:
-                    data[sec][i]['itemmeat'] = s['format'].format_map(defaultdict(lambda:'',data[sec][i]))
-                
-                #Build section meat by bringing together each item meat
-                s['meat'] = s['sep'].join([data[sec][i]['itemmeat'] for i in data[sec]])           
-            except:
-                ''
-     
-        #Build full section
-        try:
-            s['out'] = secframe.format(title=s['title'],subtitle=s['subtitle'],meat=s['meat'])
-        except:
-            s['out'] = secframe.format(title=s['title'],meat=s['meat'])
-        
-        #Clean up
-        s['meat'] = None     
-        
-    #Glue together sections for full file
-    cv = secglue.join([vsd[sec]['out'] for sec in vsd])
-    
-    return cv
 
 #This function reads in citation data in .bib or .json format using citeproc
 #Obviously, this copies heavily from the citeproc example files.
@@ -395,7 +310,176 @@ def readcites(filename,style,keys=None):
         count = count + 1
     
     return bibdata
+
+#This determines if there is a .bib file to be read, and if so 
+#sets things up for the above readcites() function to work.
+def arrangecites(vsd,sec,data):
+    try:
+        #split option
+        bibopt = vsd[sec]['bib'].split(',')
+        #remove whitespace
+        bibopt = [i.strip() for i in bibopt]
+        #Remove quotes at beginning and end
+        for i in bibopt:
+            if ((i[0] in ['"',"'"]) and (i[len(i[1])-1] in ['"',"'"])):
+                i = i[1:len(i[1])-1]
+        #If there's a list of keys in the option, start the key list!
+        keys = []
+        try:
+            optkeys = bibopt[2].split(';')
+            [keys.append(i.strip()) for i in optkeys]
+        except:
+            ''
+        
+        #If there's a list of keys in the data, remove them from data but add them to keys
+        try:
+            for row in data[sec]:
+                try:
+                    keys.append(data[sec][row]['key'])
+                    data[sec].pop(row)
+                except:
+                    ''
+        except:
+            ''
+        #If neither source had any keys, replace keys with None
+        if len(keys) == 0:
+            keys = None
+        
+        #Now get the formatted citation and add to the data
+        try:
+            data[sec].update(readcites(bibopt[0],bibopt[1],keys))
+        except:
+            #If it didn't exist up to now, create it
+            data[sec] = readcites(bibopt[0],bibopt[1],keys)
+        
+        #By default, sections with .bib entries are sorted by the date attribute
+        #So put that in unless an order is already specified
+        try:
+            vsd[sec]['order']
+        except:
+            vsd[sec]['order'] = 'date'
+    except:
+        ''
+
+ 
+#This applies a data-sorting order, using assigned via 'order' if given
+#or by id if not given.
+def sortitems(vsd,sec,data):
+    #Make sure we actually have data to sort, we won't for, e.g., text or date
+    try:
+        #If there's an order attribute for the section, get it and use it
+        try: 
+            sortoption = vsd[sec]['order']
+            #Alphabetical option means sort by the raw content
+            if sortoption == 'alphabetical':
+                data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1]['raw']))
+            elif sortoption == 'ascending':
+                #Attempt to turn ids to numbers
+                try:
+                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: float(t[0])))
+                except:
+                    #but if that's not possible...
+                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[0]))
+            else:
+                #split at comma
+                sortoption = [i.strip() for i in sortoption.split(',')]
+                #Descending by default
+                try:
+                    sortoption[1]
+                except:
+                    sortoption.append('descending')
+                
+                #And sort by variable by direction
+                if sortoption[1] == 'ascending':
+                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1][sortoption[0]]))
+                else:
+                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1][sortoption[0]],reverse=True))                    
+        except:
+            #By default, sort by id in descending order
+            #Attempt to turn ids to numbers
+            try:
+                data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: float(t[0]),reverse=True))
+            except:
+                #but if that's not possible...
+                data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[0],reverse=True))
+    except:
+        ''
+
+#This constructs a Markdown text file containing the code for the CV
+def buildmd(vsd,data,secframedef,secglue,itemwrapperdef):
+    #Go through each section to prepare it individually
+    for sec in vsd:
+        s = vsd[sec]
+        
+        #Set section frame to default
+        try:
+            secframe = s['sectionframe']
+        except:
+            secframe = secframedef
+            
+            #####heads get no title by default
+            if s['type'] == 'head':
+                secframe = '{meat}'
+        
+        try:
+            itemwrapper = s['itemwrapper']
+        except:
+            itemwrapper = itemwrapperdef
+        
+        #Default separator between entries, unless one is specified
+        try:
+            s['sep']
+        except:
+            s['sep'] = '  \n'
+        
+        #Time to build the meat!
+        
+        #Check for special types to be generated not from data.
+        if s['type'] == 'date':
+            from datetime import datetime
+            dt = datetime.now()
+            year = dt.year
+            month = dt.month
+            monthname = month_name[month]
+            day = dt.day
+            hour = dt.hour
+            minute = dt.minute
+            second = dt.second
+            #Create meat
+            s['meat'] = itemwrapper.format(item=s['title']+s['format'].format(year=year,month=month,monthname=monthname,day=day,hour=hour,minute=minute,second=second)+'  \n')
+        elif s['type'] == 'text':
+            s['meat'] = itemwrapper.format(item=s['text'])
+        else:            
+            #Check that data actually exists for this section
+            try:
+                data[sec]
+                #####TODO: wrap these in tags so that a template file can get them
+                #####This may require doing all of this separately by file-out type
+                #Build each entry by plugging each entry's attributes into its format
+                #Make it a defaultdict so any missing keys return a blank, not an error
+                #format_map, not format(**) to allow defaultdict
+                for i in data[sec]:
+                    data[sec][i]['itemmeat'] = itemwrapper.format(item=s['format'].format_map(defaultdict(lambda:'',data[sec][i])))
+                
+                #Build section meat by bringing together each item meat
+                s['meat'] = s['sep'].join([data[sec][i]['itemmeat'] for i in data[sec]])           
+            except:
+                ''
+     
+        #Build full section
+        try:
+            s['out'] = secframe.format(title=s['title'],subtitle=s['subtitle']+'  \n  \n',meat=s['meat'])
+        except:
+            s['out'] = secframe.format(title=s['title'],subtitle='',meat=s['meat'])
+        
+        #Clean up
+        s['meat'] = None     
+        
+    #Glue together sections for full file
+    cv = secglue.join([vsd[sec]['out'] for sec in vsd])
     
+    return cv
+
 
 #####################
 ##     ACTION!     ##
@@ -498,11 +582,14 @@ for i in struct:
     structdict[str(count)] = getoptions(i)
 
     #Filling in missing values:
-    #If it's missing a "type" attribute, fill it in with the name
+    #If it's missing a "type" attribute, give it a default
     try: 
         structdict[str(count)]['type']
     except:
-        structdict[str(count)]['type'] = structdict[str(count)]['name']
+        structdict[str(count)]['type'] = 'default'
+        #Unless it's named 'head', give that a 'head' type by default
+        if structdict[str(count)]['name'] == 'head':
+            structdict[str(count)]['type'] = 'head'
     #Same with title
     try: 
         structdict[str(count)]['title']
@@ -510,7 +597,20 @@ for i in struct:
         structdict[str(count)]['title'] = structdict[str(count)]['name']
         #Unless it's a date, default title 'Last updated: '
         if structdict[str(count)]['type'] == 'date':
-            structdict[str(count)]['title'] = 'Last updated: '        
+            structdict[str(count)]['title'] = 'Last updated: ' 
+        #or a text, default title blank
+        if structdict[str(count)]['type'] == 'text':
+            structdict[str(count)]['title'] = ''
+    #And now for format
+    try:
+        structdict[str(count)]['format']
+    except:
+        if structdict[str(count)]['type'] == 'date':
+            structdict[str(count)]['format'] = '{monthname} {day}, {year}'
+        else:
+            #Default format for meat, outside of dates, is just to list all the raw data
+            structdict[str(count)]['format'] = '{raw}'
+
     #And now make sure the name is in lower case for matching
     structdict[str(count)]['name'] = structdict[str(count)]['name'].lower()
     
@@ -550,24 +650,9 @@ for sec in structdict:
 ##       THE       ##
 ##      FILES      ##
 #####################
-
-###Loop over each version to create it 
-for v in versions:   
-    #####TODO: bring in theme gluing together the sections
-    #####and setting theming, e.g. styling, from versions[v]['theme']
-    ###Until then, some placeholder default glue
-    try: 
-        secglue = versions[v]['sectionglue']
-    except:
-        secglue = '\n\n'
-    
-    #####TODO: bring in theme gluing together the sections
-    #####until then, default section frame, or whatever is set in the structure
-    try:
-        secframedef = versions[v]['sectionframe']
-    except:
-        secframedef = '**{title}**  \n{meat}'        
         
+###Loop over each version to create it 
+for v in versions:             
     #Create a version-specific version of the structure
     vsd = structdict
     #Drop all sections that aren't used in this version
@@ -591,130 +676,140 @@ for v in versions:
 
     #If there's a bib option, bring in the citations!
     for sec in vsd:
-        try:
-            #split option
-            bibopt = vsd[sec]['bib'].split(',')
-            #remove whitespace
-            bibopt = [i.strip() for i in bibopt]
-            #Remove quotes at beginning and end
-            for i in bibopt:
-                if ((i[0] in ['"',"'"]) and (i[len(i[1])-1] in ['"',"'"])):
-                    i = i[1:len(i[1])-1]
-            #If there's a list of keys in the option, start the key list!
-            keys = []
-            try:
-                optkeys = bibopt[2].split(';')
-                [keys.append(i.strip()) for i in optkeys]
-            except:
-                ''
-            
-            #If there's a list of keys in the data, remove them from data but add them to keys
-            try:
-                for row in data[sec]:
-                    try:
-                        keys.append(data[sec][row]['key'])
-                        data[sec].pop(row)
-                    except:
-                        ''
-            except:
-                ''
-            #If neither source had any keys, replace keys with None
-            if len(keys) == 0:
-                keys = None
-            
-            #Now get the formatted citation and add to the data
-            try:
-                data[sec].update(readcites(bibopt[0],bibopt[1],keys))
-            except:
-                #If it didn't exist up to now, create it
-                data[sec] = readcites(bibopt[0],bibopt[1],keys)
-            
-            #By default, sections with .bib entries are sorted by the date attribute
-            #So put that in unless an order is already specified
-            try:
-                vsd[sec]['order']
-            except:
-                vsd[sec]['order'] = 'date'
-        except:
-            ''
+        arrangecites(vsd,sec,data)
     
     #Now reorder the data as appropriate
     for sec in vsd:
-        #Make sure we actually have data to sort, we won't for, e.g., text or date
-        try:
-            #If there's an order attribute for the section, get it and use it
-            try: 
-                sortoption = vsd[sec]['order']
-                #Alphabetical option means sort by the raw content
-                if sortoption == 'alphabetical':
-                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1]['raw']))
-                elif sortoption == 'ascending':
-                    #Attempt to turn ids to numbers
-                    try:
-                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: float(t[0])))
-                    except:
-                        #but if that's not possible...
-                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[0]))
-                else:
-                    #split at comma
-                    sortoption = [i.strip() for i in sortoption.split(',')]
-                    sortvar = sortoption[0]
-                    #Descending by default
-                    try:
-                        sortoption[1]
-                    except:
-                        sortoption.append('descending')
-                    
-                    #And sort by variable by direction
-                    if sortoption[1] == 'ascending':
-                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1][sortoption[0]]))
-                    else:
-                        data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[1][sortoption[0]],reverse=True))                    
-            except:
-                #By default, sort by id in descending order
-                #Attempt to turn ids to numbers
-                try:
-                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: float(t[0]),reverse=True))
-                except:
-                    #but if that's not possible...
-                    data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[0],reverse=True))
-        except:
-            ''
-
-    
-    #Now build it!
-    cv = buildmd(vsd,data,secframedef,secglue)
-    
-    #If it asks for the raw code, save it.
-    try:
-        r = codecs.open(versions[v]['raw'], "w",
-                          encoding="utf-8",
-                          errors="xmlcharrefreplace"
-                          )
-        r.write(cv)
-    except:
-        ''
-    
-    #Write finished version to file
-    #####TODO: If it turns out that the meat and sections need to be constructed differently
-    #####based on which type it is (for example, because type tags need to be applied differently)
-    #####then swap the nesting so this if statement is on the outside, and all the gluing
-    #####happens inside, or perhaps in a function to be referenced in the if statement.
-    if versions[v]['type'] == 'html':
-        #####TODO: bring in theme for outlining structure of file, using the markdown-cv package http://elipapa.github.io/markdown-cv/ ?. For now...
-        #####TODO: figure out why this doesn't actually parse into a table.
-        cv = '<html><head><title>CV</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'+markdown(cv,extensions=['markdown.extensions.tables'])+'</body></html>'
+        sortitems(vsd,sec,data)
         
-        output_file = codecs.open(versions[v]['out'], "w",
-                          encoding="utf-8",
-                          errors="xmlcharrefreplace"
-                          )
-        output_file.write(cv)
-        #####TODO: figure out what is necessary to get tables to actually work here
+    #Write finished version to file
+    if versions[v]['type'] == 'html':
+        #Theme may require name separate
+        try:
+            for i in data['head']:
+                name = data['head'][i]['name']
+        except:
+            name = ''
+        
+        #Bring in theme, if present
+        try:
+            with open(versions[v]['theme'],'r') as jsonfile:
+                theme = json.load(jsonfile)
+            
+            #If parts are overwritten
+            try: 
+                secglue = versions[v]['sectionglue']
+            except:
+                secglue = theme['sectionglue']
+                
+            try:
+                secframedef = versions[v]['sectionframe']
+            except:
+                secframedef = theme['sectionframe']
+        except:
+            #####TODO: Redo this with modern HTML/CSS protocols like a decent human
+            #Fill in with defaults
+            theme = {}
+            theme['header'] = '<html><head><title>{name} CV</title>{style}<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'
+            theme['style'] = ('<style>'
+                 '*{font-family: Georgia, serif;'
+                 'font-size: medium}'
+                 'table.section {'
+                 'border: 0px;'
+                 'background-color: #FFFFFF;'
+                 'width: 70%;'
+                 'margin-left: auto;'
+                 'margin-right: auto}'
+                 '.sectitle {'
+                 'text-align: right;'
+                 'vertical-align: text-top;'
+                 'color: #33cc33;'
+                 'width: 20%;'
+                 'border-right: solid 1px black;'
+                 'padding: 20px}'
+                 '.secmeat {'
+                 'text-align: left;'
+                 'width: 80%;'
+                 'padding: 20px;}'
+                 'hr.secdiv {'
+                 'height: 1px;'
+                 'border: 0;'
+                 'width: 25%;'
+                 'background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}'
+                 '.abstract {font-size:small}'
+                 '.head {'
+                 'margin-left: auto;'
+                 'margin-right: auto;'
+                 'text-align: right}'
+                 '.head.name {'
+                 'font-size: xx-large;'
+                 'color: #33cc33}'
+                 '.photo {float:left;'
+                 'padding-right: 40px}'
+                 '</style>')
+            theme['footer'] = '</body></html>'
+            
+            try: 
+                secglue = versions[v]['sectionglue']
+            except:
+                secglue = ''
+    
+            try:
+                secframedef = versions[v]['sectionframe']
+            except:
+                secframedef = '<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>'  
+
+            try:
+                itemwrapperdef = versions[v]['itemwrapper']
+            except:
+                itemwrapperdef = '{item}'  
+                
+            for sec in vsd:
+                #If it's a special title-less format, just put it by itself
+                if vsd[sec]['type'] in ['head','date']:
+                    try:
+                        vsd[sec]['sectionframe']
+                    except:
+                        vsd[sec]['sectionframe'] = '<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>'
+                
+                if vsd[sec]['type'] == 'head':
+                    vsd[sec]['secframe'] = '<div class = "head">{meat}</div>'
+                
+                #Apply span wrappers to each element with the naming convention sectionname-attributename
+                #Or just sectionname if it's raw
+                #Get full list of attributes in the section
+                attlist = []
+                try:
+                    [[attlist.append(i) for i in data[vsd[sec]['name']][j]] for j in data[vsd[sec]['name']]]
+                except:
+                    if vsd[sec]['type'] == 'date':
+                        attlist = ['year','month','monthname','day','hour','minute','second']
+                    else:
+                        attlist = ['raw']
+                        
+                #Limit to unique list
+                attlist = list(set(attlist))
+                
+                #Now, wherever in the format we see the sub code, replace it with the sub code wrapped in a span
+                for a in attlist:
+                    #Skip the substitution if it's inside parentheses, as that will mess up Markdown translation
+                    if vsd[sec]['format'][vsd[sec]['format'].find('{'+a+'}')-1] == '(' and vsd[sec]['format'][vsd[sec]['format'].find('{'+a+'}')+len('{'+a+'}')] == ')':
+                        ''
+                    else:
+                        vsd[sec]['format'] = sub('{'+a+'}','<span class = "'+vsd[sec]['type']+' '+a+'">{'+a+'}</span>',vsd[sec]['format'])
+                
+                
+                
+        #Now build it!
+        cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef)
+    
+        pypandoc.convert_text(theme['header'].format(name=name,style=theme['style'])+cv+theme['footer'],'html',format='md',outputfile='cv.html',encoding='utf-8')
     elif versions[v]['type'] == 'pdf':
         #####TODO: Write out to LaTeX, either on base level or with moderncv
         1
     elif versions[v]['type'] in ['docx','doc']:
+        1
+    elif versions[v]['type'] in ['md']:
         1
         
 

@@ -1,18 +1,17 @@
 %A comment!
 version: web
     out: cv.html
-	raw: "cv.md"
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 version: wd
     out: "WordCV.docx"
+version: markdown
+	out: "cv.md"
 file: cvdata.xlsx
 
 ##head
-format: "{name}\br{email}, {phone}\br{website}, Twitter: @{twitter}, GitHub: {github}"
-
-##date
-type: date
+type: head
+format: "{photo}{name}\br{position}, {institution}\br{email}, {phone}\br{website}, Twitter: @{twitter}, GitHub: {github}"
 
 ##employment
 title: Employment
@@ -24,17 +23,16 @@ title: Education
 version: pdf, wd
 
 ##cites
-type: cites
 version: pdf, wd
-bib: publications.bib, https://www.zotero.org/styles/chicago-author-date-16th-edition
+bib: publications.bib, chicago-author-date-16th-edition.csl
 
 ##cites
 title: Peer-Reviewed Publications
 version: web
+type: cites
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
-format: "{raw} [Link]({link}). {note}\br**Abstract**: {abstract}\br"
-sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
-bib: publications.bib, https://www.zotero.org/styles/chicago-author-date-16th-edition
+format: "{raw} [Link]({url}). {note}\br{abstract}\br"
+bib: publications.bib, chicago-author-date-16th-edition.csl
 
 ##pubs2
 title: "Other Work"
@@ -46,26 +44,25 @@ file: nonpeerreviewedpubs.csv
 title: "Other Work"
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
 version: web
-format: "{cite} {extra}\br{abstract}\br"
-sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+type: cites
+format: "{cite} {extra}\br {abstract}\br"
 file: nonpeerreviewedpubs.csv
 
 ##working
-type: cites
 title: "Working Papers"
 version: pdf, wd
 
 ##working
-type: cites
 title: "Working Papers"
+type: cites
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 version: web
-format: "{cite} {extra}\br**Abstract**: {abstract}\br"
-sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+format: "{cite}\br{extra}\br {abstract}\br"
 
 ##tag
 type: text
-text: "[The File Drawer](http://nickchk.com/filedrawer.html) (Dormant Papers)"
+text: "[The File Drawer](http://nickchk.com/filedrawer.html)"
+title: Dormant Papers
 version: web
 
 ##book
@@ -108,3 +105,6 @@ order: alphabetical
 ##media
 title: "Media Mentions"
 file: mediamentions.json
+
+##date
+type: date

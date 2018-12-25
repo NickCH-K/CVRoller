@@ -1,7 +1,7 @@
 section,id,attribute,content
-pubs2,7,cite,"""vtable: A Quick and Easy Variable Browser for R."" 2018. [github.com/NickCH-K/vtable](github.com/NickCH-K/vtable)."
+pubs2,7,cite,"""vtable: A Quick and Easy Variable Browser for R."" 2018. [github.com/NickCH-K/vtable](https://www.github.com/NickCH-K/vtable)."
 pubs2,7,abstract,"This is an R package for the purpose of viewing information about data while working on it. vtable() automatically generates an displays a table of information about the variables in a data set, including name, class, range, labels, and summary statistics."
-pubs2,7,extra,[Link](http://nickchk.com/nickchk.com/vtable.html). [GitHub](http://nickchk.com/github.com/NickCH-K/vtable)
+pubs2,7,extra,[Link](http://nickchk.com/vtable.html).
 pubs2,6,cite,"""Student Courseload at CSU Fullerton"" with Andrew Gill. 2018. Report for CSU Fullerton."
 pubs2,6,abstract,This report details a pair of studies performed at CSU Fullerton. The first uses administrative data to examine the effect of an increased student courseload on student performance. The second examines an experiment performed with the goal of increasing student courseload.
 pubs2,5,cite,"""Assessing the Effects of Tuition-Free Community College in Maryland"" with William Zumeta. 2017. Maryland Independent Colleges and Universities Association."
@@ -19,4 +19,4 @@ pubs2,1,abstract,"Evidence suggests teacher hiring in public schools is ad-hoc a
 pubs2,1,link,[PDF](http://www.cedr.us/papers/working/CEDR%20Policy%20Brief%202014-9.pdf)
 pubs2,8,cite,"""A Study of West Point Shows How Women Help Each Other Advance"" with Elaina Rose (2018). Harvard Business Review."
 pubs2,8,abstract,"This Harvard Business Review article summarizes work by myself and Elaina Rose on the performance of women at the West Point military academy in the early 1980s. We look at the progression gap between men and women, and whether women tended to do better when randomly placed in companies that have a heavier concentration of women."
-pubs2,8,link,[Link](https://hbr.org/2018/11/a-study-of-west-point-shows-how-women-help-each-other-advance)
+pubs2,8,extra,[Link](https://hbr.org/2018/11/a-study-of-west-point-shows-how-women-help-each-other-advance)

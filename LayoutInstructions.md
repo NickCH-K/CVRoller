@@ -15,6 +15,7 @@ Each layout file begins with a block of metadata that contains important informa
 ```
 version: web
     out: "cv.html"
+	theme: defaulttheme.txt
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 version: wd
@@ -49,6 +50,8 @@ version: name
 Where name is the key you can use to refer to the version, which we'll be using later when we tell CVRoller when to include or exclude sections. The only required option is `out` which tells CVRoller what file it will be writing to. The indentations for options are not required.
 
 Current supported non-required options include:
+
+`theme`, which selects the theme that will be used for formatting. This can be a theme file location, or for PDFs can be the name of the moderncv theme of choice.
 
 `sectionglue`, which is by default set to two line breaks (`sectionglue: "\br\br"`), tells CVRoller how to 'glue' sections together, i.e. what goes between them. Use `\br` to indicate line breaks, and otherwise use Markdown.
 

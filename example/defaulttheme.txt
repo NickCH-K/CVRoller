@@ -1,0 +1,63 @@
+%Default Theme for CVRoller (this file is unnecessary and for testing and demonstrative purposes only, as this theme is baked into the code anyway)
+
+##header
+
+<html><head><title>{name} CV</title>{style}<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>
+
+##style
+
+<style>
+*{font-family: Georgia, serif;
+	font-size: medium}
+table.section {
+	border: 0px;
+	background-color: #FFFFFF;
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto}
+.sectitle {
+	text-align: right;
+	vertical-align: text-top;
+	color: #33cc33;
+	width: 20%;
+	border-right: solid 1px black;
+	padding: 20px}
+.secmeat {
+	text-align: left;
+	width: 80%;
+	padding: 20px;}
+hr.secdiv {
+	height: 1px;
+	border: 0;
+	width: 25%;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}
+.abstract {font-size:small}
+.head.name {
+	font-size: xx-large;
+	color: #33cc33}
+.photo {float:left;
+	padding-right: 40px}
+</style>
+
+##footer
+
+</body></html>
+
+##sectionglue
+
+##sectionframe
+
+<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>
+
+##sectionframe:head
+
+<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>
+
+##sectionframe:date
+
+<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>
+
+##itemwrapper
+
+{item}
+

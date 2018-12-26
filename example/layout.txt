@@ -1,36 +1,47 @@
-%A comment!
+%This section lays out the versions and their options
 version: web
     out: cv.html
+	theme: defaulttheme.txt
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 version: wd
     out: "WordCV.docx"
 version: markdown
 	out: "cv.md"
+%followed by other information, notably the CV data itself
 file: cvdata.xlsx
 
+%Each section is marked by two hash tags ##, then the name of the section
 ##head
+%The type of the section tells the theme how to style it
+%And also there are a few special section types CVRoller treats differently: head, date, text.
 type: head
+%A format option tells CVRoller how to construct each item out of its constituent parts.
 format: "{photo}{name}\br{position}, {institution}\br{email}, {phone}\br{website}, Twitter: @{twitter}, GitHub: {github}"
 
 ##employment
 title: Employment
 version: pdf, wd
-%Another comment
 
 ##education
 title: Education
 version: pdf, wd
 
 ##cites
+title: Academic Publications
 version: pdf, wd
+%A bib option uses a BibTeX library (either in .bib form, or JSON form), then points to a .csl citation style
+%which can also be a citation style at zotero.com.
 bib: publications.bib, chicago-author-date-16th-edition.csl
 
 ##cites
-title: Peer-Reviewed Publications
+title: Academic Publications
 version: web
 type: cites
+%Subtitles are allowed
+%Note the use here (and in other places) of Markdown formatting for things like links, images, etc.
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+%the bib option will store the formatted citation as a {raw} attribute, and it can be accessed by the format option in that way.
 format: "{raw} [Link]({url}). {note}\br{abstract}\br"
 bib: publications.bib, chicago-author-date-16th-edition.csl
 
@@ -38,8 +49,10 @@ bib: publications.bib, chicago-author-date-16th-edition.csl
 title: "Other Work"
 version: pdf, wd
 format: "{cite}"
+%Sections can have their own source file.
 file: nonpeerreviewedpubs.csv
 
+%Note that the same section can appear multiple times, formatted differently for different versions of the CV.
 ##pubs2
 title: "Other Work"
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
@@ -57,7 +70,7 @@ title: "Working Papers"
 type: cites
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 version: web
-format: "{cite}\br{extra}\br {abstract}\br"
+format: "{cite} {extra}\br {abstract}\br"
 
 ##tag
 type: text
@@ -80,10 +93,14 @@ version: pdf, wd
 ##awards
 title: "Fellowships And Awards"
 version: pdf, wd
+%By default, items are presented by ID in the original data in descending order, or, failing that, in reverse order of how they're stored in
+%the CV data file. but you can order by other things, too.
 order: year, descending
 format: {year}, {name}
 
 ##servicereferee
+%The sep option shows how items are separated from each other, by default a line break
+%using ", " here instead of a line break will include all the items in a single line, separated by commas.
 sep:", "
 order: alphabetical
 title: "Referee Service"
@@ -104,6 +121,7 @@ order: alphabetical
 
 ##media
 title: "Media Mentions"
+%Data can be loaded from JSON as well
 file: mediamentions.json
 
 ##date

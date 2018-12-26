@@ -501,8 +501,8 @@ chdir(wd+'/example')
 #####################
 
 #Open up file containing CV layout information
-structfile = open('layout.txt','r')
-struct = structfile.read()
+with open('layout.txt','r') as structfile:
+    struct = structfile.read()
 
 ###Start reading CV layout structure
 #####TODO: allow generic line-end characters, not just \n
@@ -693,19 +693,61 @@ for v in versions:
         
         #Bring in theme, if present
         try:
-            with open(versions[v]['theme'],'r') as jsonfile:
-                theme = json.load(jsonfile)
+            with open(versions[v]['theme'],'r') as themefile:
+                themetext = themefile.read()
             
-            #If parts are overwritten
+            ###Start reading theme layout structure
+
+            #Remove comments from theme file - lines that start with %.
+            #Count how many comments we have and edit that many lines out
+            for i in range(0,themetext.count('\n%')):
+                #Cut from the occurrence of the % to the end of the line
+                themetext = themetext[0:themetext.find('\n%')+1]+themetext[themetext.find('\n%')+1:][themetext[themetext.find('\n%')+1:].find('\n')+1:]
+            
+            ###Now to the theme sections
+            #Split into sections
+            themetext = themetext.split('##')
+            #The first line of each section is the key, the rest is the text
+            theme = {}
+            [theme.update({i[0:i.find('\n')]:i[i.find('\n')+1:]}) for i in themetext]                    
+            
+            #Allow user to overwrite parts, and offer defaults if the theme omits them.
             try: 
                 secglue = versions[v]['sectionglue']
             except:
-                secglue = theme['sectionglue']
+                try:
+                    secglue = theme['sectionglue']
+                except:
+                    secglue = ''
                 
             try:
                 secframedef = versions[v]['sectionframe']
             except:
-                secframedef = theme['sectionframe']
+                try: 
+                    secframedef = theme['sectionframe']
+                except:
+                    secframedef = '<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>'  
+
+            try:
+                itemwrapperdef = versions[v]['itemwrapper']
+            except:
+                try: 
+                    itemwrapperdef = theme['itemwrapper']
+                except:
+                    itemwrapperdef = '{item}'  
+            
+            #If theme contains any section-specific theming, bring that in
+            for i in theme:
+                #If the key is attribute:section that's how we know!
+                if i.find(':') > -1:
+                    #split into attribute and section
+                    modify = i.split(':')
+                    #find any sections with that type and modify them.
+                    for sec in vsd:
+                        if vsd[sec]['type'] == modify[1]:
+                            vsd[sec][modify[0]] = theme[i]
+                
+                
         except:
             #####TODO: Redo this with modern HTML/CSS protocols like a decent human
             #Fill in with defaults
@@ -737,10 +779,6 @@ for v in versions:
                  'width: 25%;'
                  'background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}'
                  '.abstract {font-size:small}'
-                 '.head {'
-                 'margin-left: auto;'
-                 'margin-right: auto;'
-                 'text-align: right}'
                  '.head.name {'
                  'font-size: xx-large;'
                  'color: #33cc33}'
@@ -752,7 +790,7 @@ for v in versions:
             try: 
                 secglue = versions[v]['sectionglue']
             except:
-                secglue = ''
+                secglue = '\n'
     
             try:
                 secframedef = versions[v]['sectionframe']
@@ -775,29 +813,30 @@ for v in versions:
                 if vsd[sec]['type'] == 'head':
                     vsd[sec]['secframe'] = '<div class = "head">{meat}</div>'
                 
-                #Apply span wrappers to each element with the naming convention sectionname-attributename
-                #Or just sectionname if it's raw
-                #Get full list of attributes in the section
-                attlist = []
-                try:
-                    [[attlist.append(i) for i in data[vsd[sec]['name']][j]] for j in data[vsd[sec]['name']]]
-                except:
-                    if vsd[sec]['type'] == 'date':
-                        attlist = ['year','month','monthname','day','hour','minute','second']
-                    else:
-                        attlist = ['raw']
-                        
-                #Limit to unique list
-                attlist = list(set(attlist))
-                
-                #Now, wherever in the format we see the sub code, replace it with the sub code wrapped in a span
-                for a in attlist:
-                    #Skip the substitution if it's inside parentheses, as that will mess up Markdown translation
-                    if vsd[sec]['format'][vsd[sec]['format'].find('{'+a+'}')-1] == '(' and vsd[sec]['format'][vsd[sec]['format'].find('{'+a+'}')+len('{'+a+'}')] == ')':
-                        ''
-                    else:
-                        vsd[sec]['format'] = sub('{'+a+'}','<span class = "'+vsd[sec]['type']+' '+a+'">{'+a+'}</span>',vsd[sec]['format'])
-                
+        #Apply span wrappers to each element with the naming convention sectionname-attributename
+        #Or just sectionname if it's raw
+        for sec in vsd:
+            #Get full list of attributes in the section
+            attlist = []
+            try:
+                [[attlist.append(i) for i in data[vsd[sec]['name']][j]] for j in data[vsd[sec]['name']]]
+            except:
+                if vsd[sec]['type'] == 'date':
+                    attlist = ['year','month','monthname','day','hour','minute','second']
+                else:
+                    attlist = ['raw']
+                    
+            #Limit to unique list
+            attlist = list(set(attlist))
+            
+            #Now, wherever in the format we see the sub code, replace it with the sub code wrapped in a span
+            for a in attlist:
+                #Skip the substitution if it's inside parentheses, as that will mess up Markdown translation
+                if vsd[sec]['format'][vsd[sec]['format'].find('{'+a+'}')-1] == '(' and vsd[sec]['format'][vsd[sec]['format'].find('{'+a+'}')+len('{'+a+'}')] == ')':
+                    ''
+                else:
+                    vsd[sec]['format'] = sub('{'+a+'}','<span class = "'+vsd[sec]['type']+' '+a+'">{'+a+'}</span>',vsd[sec]['format'])
+        
                 
                 
         #Now build it!

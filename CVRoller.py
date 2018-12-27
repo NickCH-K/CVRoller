@@ -582,14 +582,11 @@ for i in struct:
     structdict[str(count)] = getoptions(i)
 
     #Filling in missing values:
-    #If it's missing a "type" attribute, give it a default
+    #If it's missing a "type" attribute, give it its name, in lower-case, as a default
     try: 
         structdict[str(count)]['type']
     except:
-        structdict[str(count)]['type'] = 'default'
-        #Unless it's named 'head', give that a 'head' type by default
-        if structdict[str(count)]['name'] == 'head':
-            structdict[str(count)]['type'] = 'head'
+        structdict[str(count)]['type'] = structdict[str(count)]['name'].lower()
     #Same with title
     try: 
         structdict[str(count)]['title']
@@ -693,7 +690,14 @@ for v in versions:
         
         #Bring in theme, if present
         try:
-            with open(versions[v]['theme'],'r') as themefile:
+            #Split up options
+            themeopts = ('themetitle='+versions[v]['theme']).split(',')
+            #separate into attributes and content
+            themeopts = [[i.strip() for i in j.split('=')] for j in themeopts]
+            #and turn into dict
+            themeopts = {i[0]:i[1] for i in themeopts}
+            
+            with open(themeopts['themetitle'],'r') as themefile:
                 themetext = themefile.read()
             
             ###Start reading theme layout structure
@@ -703,13 +707,35 @@ for v in versions:
             for i in range(0,themetext.count('\n%')):
                 #Cut from the occurrence of the % to the end of the line
                 themetext = themetext[0:themetext.find('\n%')+1]+themetext[themetext.find('\n%')+1:][themetext[themetext.find('\n%')+1:].find('\n')+1:]
-            
+            #The above procedure doesn't work if there's a comment on the first line
+            if themetext[0] == '%':
+                themetext = themetext[themetext.find('\n')+1:]
+ 
             ###Now to the theme sections
             #Split into sections
             themetext = themetext.split('##')
             #The first line of each section is the key, the rest is the text
             theme = {}
             [theme.update({i[0:i.find('\n')]:i[i.find('\n')+1:]}) for i in themetext]                    
+
+            #Allow options to be set, if there's an options section
+            try:
+                #First, turn content of theme options into dict
+                theme['options'] = getoptions(theme['options'])
+                #Then, overwrite default options with any user-specified options
+                for i in themeopts:
+                    theme['options'][i] = themeopts[i]
+                
+                #Insert those options into any part of the theming.
+                for i in theme:
+                    #'options' is a dict not a str, so don't do it there
+                    if not i == 'options':
+                        #use sub while looping through existing options rather than format because there are other {}s to not be translated yet (like style)
+                        for j in theme['options']:
+                            theme[i] = sub('{'+j+'}',theme['options'][j],theme[i])
+                
+            except:
+                ''
             
             #Allow user to overwrite parts, and offer defaults if the theme omits them.
             try: 
@@ -747,7 +773,7 @@ for v in versions:
                         if vsd[sec]['type'] == modify[1]:
                             vsd[sec][modify[0]] = theme[i]
                 
-                
+            
         except:
             #####TODO: Redo this with modern HTML/CSS protocols like a decent human
             #Fill in with defaults
@@ -812,7 +838,7 @@ for v in versions:
                 
                 if vsd[sec]['type'] == 'head':
                     vsd[sec]['secframe'] = '<div class = "head">{meat}</div>'
-                
+            
         #Apply span wrappers to each element with the naming convention sectionname-attributename
         #Or just sectionname if it's raw
         for sec in vsd:
@@ -851,7 +877,3 @@ for v in versions:
     elif versions[v]['type'] in ['md']:
         1
         
-
-###Now to construct each section as markdown
-
-###Then turn the markdown into HTML/LaTeX/etc.    

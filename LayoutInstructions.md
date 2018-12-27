@@ -15,15 +15,19 @@ Each layout file begins with a block of metadata that contains important informa
 ```
 version: web
     out: "cv.html"
-	theme: defaulttheme.txt
+	theme: defaulttheme.txt, titlecolor=#FF0000
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 version: wd
     out: "WordCV.docx"
+version: rawMD
+    out: "rawmarkdown.md"
 file: cvdata.xlsx
 ```
 
 The metadata block begins by listing all the *versions* of the document to be produced. Here we have three versions: web, pdf, and wd. These names can be anything. I could call the PDF version of the CV myCVforEmail and it would work fine. Each time CVRoller is run, it will generate each of these three versions separately. Each of the versions must go at the top of the metadata block.
+
+Currently supported version variations include HTML, PDF (processed using the moderncv LaTeX package), Word (NOT YET SUPPORTED), or Markdown (which provides the raw Markdown code of the CV without any special formatting or theming). If you'd like to have your HTML-styled CV in PDF or Word format, you can make it as an HTML file, open it up in your browser, and use "Print PDF" or "Save Page As..." to turn it into a PDF or Word document.
 
 After the versions, other metadata options can be filled in. 
 
@@ -51,7 +55,7 @@ Where name is the key you can use to refer to the version, which we'll be using 
 
 Current supported non-required options include:
 
-`theme`, which selects the theme that will be used for formatting. This can be a theme file location, or for PDFs can be the name of the moderncv theme of choice.
+`theme`, which selects the theme that will be used for formatting. This can be a theme file location, or for PDFs can be the name of the moderncv theme of choice. Any theme options follow a comma, and take the form `option=value`, such as in `theme: defaulttheme.txt, titlecolor=#FF0000`. 
 
 `sectionglue`, which is by default set to two line breaks (`sectionglue: "\br\br"`), tells CVRoller how to 'glue' sections together, i.e. what goes between them. Use `\br` to indicate line breaks, and otherwise use Markdown.
 

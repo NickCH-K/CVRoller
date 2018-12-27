@@ -1,7 +1,8 @@
 %This section lays out the versions and their options
+%Note that sectiondivider in the defaulttheme.txt file is on by default, this is just for illustration
 version: web
     out: cv.html
-	theme: defaulttheme.txt
+	theme: defaulttheme.txt, sectiondivider=on
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 version: wd
@@ -50,6 +51,7 @@ title: "Other Work"
 version: pdf, wd
 format: "{cite}"
 %Sections can have their own source file.
+%In this case it would be easier to just fold this into the main file, this is for illustration.
 file: nonpeerreviewedpubs.csv
 
 %Note that the same section can appear multiple times, formatted differently for different versions of the CV.

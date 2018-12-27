@@ -22,8 +22,8 @@ Each CVRoller theme file is split into attributes marked by two hash tags, `##` 
 
 sets the `footer` attribute of the theme to the value `</body></html>`. No spaces are allowed on the `##` line. `## footer` will not work.
 
-Attributes
-----------
+Required Attributes
+-------------------
 
 There are three required attributes in a CVRoller HTML theme: `header`, `style`, and `footer`. 
 
@@ -57,6 +57,9 @@ The proper CSS class names for formatting are addressed below.
 </body></html>
 ```
 
+Optional Attributes
+-------------------
+
 There are also several optional attributes which have defaults if not assigned. These are the same attributes that the user can specify in the `versions` part of the layout file, or for specific sections. If the theme and the layout file both specify one of these attributes, the layout file takes precedence:
 
 `sectionglue`, which is by default set to a line breaks (`\n`), tells CVRoller how to 'glue' sections together, i.e. what goes between them.
@@ -84,12 +87,38 @@ will apply this particular section frame just to sections with the `head` type.
 
 You may want to seriously consider including a `format:head` part in your theme, as `head` really needs a format, and if it's not in the theme the user will be forced to figure out the syntax for `format` in order to use your theme.
 
+User Options
+------------
+
+You can allow users to fill in certain parts of your theme with their own values by including an `options` attribute, for example:
+
+```
+##options
+
+titlecolor: #33ff33
+sectiondivider: on
+```
+
+Then, in later parts of the theme, if you include the option in curly braces, like `{titlecolor}`, that will be filled in with the provided value. The `titlecolor` option here allows the user to choose their own color for headers.
+
+```
+.sectitle {
+	text-align: right;
+	vertical-align: text-top;
+	color: {titlecolor};
+	width: 20%;
+	border-right: solid 1px black;
+	padding: 20px}
+```
+
+Note that each user option is followed by a colon and then a default value. So the default title color in this theme is `#33ff33`.
+
 CSS Classes
 ------------
 
 When writing CSS, you can assign theming to particular parts of the CV by referring to the appropriate classes. Classes of interest:
 
-Under the default `sectionframe`, section titles have the class `sectitle` and section meat has the class `secmeat`. This can be changed using the `sectionframe` attribute of the theme. For example, this part of the `style` attribute formats the meat of the CV:
+Under the default `sectionframe`, section titles have the class `sectitle` and section meat has the class `secmeat`. For example, this part of the `style` attribute formats the meat of the CV:
 
 ```
 .secmeat {
@@ -98,15 +127,15 @@ Under the default `sectionframe`, section titles have the class `sectitle` and s
 	padding: 20px;}
 ```
 
-Aside from these, each piece of text in the CV is given two classes: its section class and its attribute class.
+These names can be changed using the `sectionframe` attribute of the theme. Aside from these, each piece of text in the CV is given two classes: its section class and its attribute class.
 
-Each attribute is given the class with that attribute name. When writing documentation for your class, be sure to specify the particular attribute names you want things to have so you can style them appropriately. For example, 
+Each attribute is given the class with that attribute name from the CV data. When writing documentation for your class, be sure to specify the particular attribute names you want things to have so you can style them appropriately. For example, 
 
 ```
 .abstract {font-size:small}
 ```
 
-gives a small font size any time an `abstract` attribute pops up.
+gives a small font size to all text that comes from an `abstract` attribute.
 
 Alternately, you can use section as a class. For example, if you want everything in the `teaching` section to be red, you could do:
 
@@ -121,3 +150,13 @@ Don't forget that CSS allows you to style overlapping classes. So if you want th
 	font-size: xx-large;
 	color: #33cc33}
 ```
+
+One thing to keep in mind is that citations processed from a BibTeX file are pre-processed into a single attribute and included in the HTML as `{raw}`. So if you want to style the citations specifically, you will need to style the `.raw` class. However, this can be tricky as all CV data without explicit attributes are also labeled `raw`. You can get aroudn this with overlapping classes. For example,
+
+```
+.cites.raw {
+	color: #FF0000
+}
+```
+
+would make all the BibTeX citations red as long as they're in a section with the `cites` type, but leave alone any other sections that use the `raw` attribute.

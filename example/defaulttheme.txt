@@ -1,5 +1,15 @@
 %Default Theme for CVRoller (this file is unnecessary and for testing and demonstrative purposes only, as this theme is baked into the code anyway)
 
+%List all user-settable options in 'options', one per line, with default following a colon
+##options
+
+%Sets color of section title and also your name
+titlecolor: #009933
+%Determines whether there's a horizontal rule between each section. on or off.
+sectiondivider: on
+
+%Required options include header, style, and footer.
+
 ##header
 
 <html><head><title>{name} CV</title>{style}<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>
@@ -18,7 +28,7 @@ table.section {
 .sectitle {
 	text-align: right;
 	vertical-align: text-top;
-	color: #33cc33;
+	color: {titlecolor};
 	width: 20%;
 	border-right: solid 1px black;
 	padding: 20px}
@@ -31,10 +41,12 @@ hr.secdiv {
 	border: 0;
 	width: 25%;
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}
+hr.secdiv.off {
+	height: 0px}
 .abstract {font-size:small}
 .head.name {
 	font-size: xx-large;
-	color: #33cc33}
+	color: {titlecolor}}
 .photo {float:left;
 	padding-right: 40px}
 </style>
@@ -47,7 +59,7 @@ hr.secdiv {
 
 ##sectionframe
 
-<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>
+<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv {sectiondivider}"/><br/>
 
 ##sectionframe:head
 

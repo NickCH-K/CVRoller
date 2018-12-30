@@ -15,7 +15,6 @@ Near Term Fixes and Features
 Makin' Progress! Fixes/Features Added Since First Commit
 ----------------------------------
 * Allow layout file to have two different versions of the same-named section
-* Currently, if ID is missing in data, it's filled in with 1 to length. That's fine. But how to handle if only SOME ids are missing? <- will remain in original order
 * Improve method for reading in options and layout structure
 * From first-pass code turn important features into callable functions for later flexibility
 * Allow structure file to have comments; omit lines starting with comment character(s?) and update Layout Instructions to match
@@ -25,20 +24,28 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Allow commas in version options
 * Import citations from .bib or JSON, format them, order them, display them.
 * Turn 'meat' construction into callable functions for flexibility.
+* Add LaTeX-out
+* Fix many, many LaTeX conversion oddities from pypandoc.
+
+Features that are Completed but Need Testing
+----------------------
+* JSON citation input
+* LaTeX item types other than cvitem
+* LaTeX themes and most options for those themes
+* LaTeX PDF processors other than pdflatex
 
 Small Fixes/Features to Come
 --------------------
-* Currently has heavy reliance on layout file ending lines with \n. Be more flexible
-* Add LaTeX-out and Word-out
+* Currently has heavy reliance on layout file ending lines with `\n`. Be more flexible
+* Add Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
 * Figure out way to allow tables more easily (tables currently work but you have to very oddly stick the table header row in the format option). Note this follows from the markdown package's markdown parser requiring a table header.
 * Find all HTML tags in citation formatting and change back to Markdown for the purpose of eventual LaTeX-out and Word-out. <i> and <b> already changed back. But are there others?
-* JSON citation input is untested
 * Suppress citeproc-py warnings for unsupported fields when reading in bibtex files
-
-Big Fixes/Features to Come
-------------------
-* Allow theming! Native themes specific to CVRoller (this actually would be a small fix), or, ideally, working with other CV themes like markdown-cv http://elipapa.github.io/markdown-cv/ or LaTeX moderncv https://www.ctan.org/pkg/moderncv. Add theme option to versions.
+* Allow more generic PDF generation without moderncv
+* Allow version-specific options within a section
+* Use pypandoc.download_pandoc to install pandoc if it isn't already.
+* Allow comments that don't start on the first character of the line
 
 Medium/Far Term Fixes and Features to Come
 ----------------------------------

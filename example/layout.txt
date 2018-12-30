@@ -5,6 +5,8 @@ version: web
 	theme: defaulttheme.txt, sectiondivider=on
 version: pdf
     out: "HuntingtonKleinCV.pdf"
+	theme: banking
+	processor: pdflatex
 version: wd
     out: "WordCV.docx"
 version: markdown
@@ -22,11 +24,13 @@ format: "{photo}{name}\br{position}, {institution}\br{email}, {phone}\br{website
 
 ##employment
 title: Employment
-version: pdf, wd
+version: pdf, wd, markdown
 
 ##education
 title: Education
-version: pdf, wd
+%Indent here is actually kind of ugly, just want to demonstrate it.
+type: indent
+version: pdf, wd, markdown
 
 ##cites
 title: Academic Publications
@@ -37,7 +41,7 @@ bib: publications.bib, chicago-author-date-16th-edition.csl
 
 ##cites
 title: Academic Publications
-version: web
+version: web, markdown
 type: cites
 %Subtitles are allowed
 %Note the use here (and in other places) of Markdown formatting for things like links, images, etc.
@@ -50,6 +54,7 @@ bib: publications.bib, chicago-author-date-16th-edition.csl
 title: "Other Work"
 version: pdf, wd
 format: "{cite}"
+type: hangingindent
 %Sections can have their own source file.
 %In this case it would be easier to just fold this into the main file, this is for illustration.
 file: nonpeerreviewedpubs.csv
@@ -58,7 +63,7 @@ file: nonpeerreviewedpubs.csv
 ##pubs2
 title: "Other Work"
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
-version: web
+version: web, markdown
 type: cites
 format: "{cite} {extra}\br {abstract}\br"
 file: nonpeerreviewedpubs.csv
@@ -66,39 +71,42 @@ file: nonpeerreviewedpubs.csv
 ##working
 title: "Working Papers"
 version: pdf, wd
+type: hangingindent
+format: {cite}
 
 ##working
 title: "Working Papers"
 type: cites
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
-version: web
+version: web, markdown
 format: "{cite} {extra}\br {abstract}\br"
 
 ##tag
 type: text
 text: "[The File Drawer](http://nickchk.com/filedrawer.html)"
 title: Dormant Papers
-version: web
+version: web, markdown
 
 ##book
 title: Book
-version: pdf, wd
+version: pdf, wd, markdown
 
 ##teaching
 title: Teaching
-version: pdf, wd
+version: pdf, wd, markdown
 
 ##conference
 title: "Conference Presentations & Invited Talks"
-version: pdf, wd
+version: pdf, wd, markdown
 
 ##awards
 title: "Fellowships And Awards"
-version: pdf, wd
+version: pdf, wd, markdown
 %By default, items are presented by ID in the original data in descending order, or, failing that, in reverse order of how they're stored in
 %the CV data file. but you can order by other things, too.
 order: year, descending
-format: {year}, {name}
+type: cvitem
+format: {{{year}}}{{{name}}}
 
 ##servicereferee
 %The sep option shows how items are separated from each other, by default a line break
@@ -106,19 +114,19 @@ format: {year}, {name}
 sep:", "
 order: alphabetical
 title: "Referee Service"
-version: pdf, wd
+version: pdf, wd, markdown
 
 ##serviceother
-title: "Discussant Service"
-version: pdf, wd
+title: "Other Service"
+version: pdf, wd, markdown
 
 ##thesis
 title: "Thesis Committees"
-version: pdf, wd
+version: pdf, wd, markdown
 
 ##workingon
 title: "Things I'm Working On"
-version: web
+version: web, markdown
 order: alphabetical
 
 ##media

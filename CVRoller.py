@@ -20,6 +20,7 @@ from collections import OrderedDict, defaultdict
 from calendar import month_name
 import pypandoc
 import json
+from copy import deepcopy
 #####TODO: figure out if we actually need any of this, if not we can avoid importing
 #####this unless there's actually a .bib import
 from citeproc.py2compat import *
@@ -29,29 +30,40 @@ from citeproc.py2compat import *
 ##   FUNCTIONS     ##
 #####################
 
-#This function takes a block of options text and returns those options in a dict
+#####################
+##      FCN:       ##
+##     READ        ##
+##    OPTIONS      ##
+#####################
 def getoptions(block):
-    #Break by row
-    out = block.split('\n')
-    #Remove blank entries from blank lines
-    out = [i for i in out if i]  
-    #Split along the :, use maxsplit in case : is in an argument
-    out = [i.split(':',maxsplit=1) for i in out]
-    #Get rid of trailing and leading spaces
-    #and replace \br with line ending space-space-\n
-    #####TODO: figure out a better way than establishing \br as an alternate line break to allow line breaks in the options, e.g. for item formats
-    out = [[sub(r'\\br','  \n',i.strip()) for i in j] for j in out]
-    #and if the option content begins and ends with quotes, get rid of them
-    #as that's intended to report the info inside
-    for j in out:
-        if ((j[1][0] in ['"',"'"]) and (j[1][len(j[1])-1] in ['"',"'"])):
-            j[1] = j[1][1:len(j[1])-1]
-    #turn into a dict
-    outdict = {i[0]:i[1] for i in out}
-    return outdict
+    #if passed what is already a dict, send it back
+    if isinstance(block,dict):
+        return block
+    else:
+        #Break by row
+        out = block.split('\n')
+        #Remove blank entries from blank lines
+        out = [i for i in out if i]  
+        #Split along the :, use maxsplit in case : is in an argument
+        out = [i.split(':',maxsplit=1) for i in out]
+        #Get rid of trailing and leading spaces
+        #and replace \br with line ending space-space-\n
+        #####TODO: figure out a better way than establishing \br as an alternate line break to allow line breaks in the options, e.g. for item formats
+        out = [[sub(r'\\br','  \n',i.strip()) for i in j] for j in out]
+        #and if the option content begins and ends with quotes, get rid of them
+        #as that's intended to report the info inside
+        for j in out:
+            if ((j[1][0] in ['"',"'"]) and (j[1][len(j[1])-1] in ['"',"'"])):
+                j[1] = j[1][1:len(j[1])-1]
+        #turn into a dict
+        outdict = {i[0]:i[1] for i in out}
+        return outdict
 
-#This function recursively calculates the depth of a dict, in order to tell
-#what kind of JSON file is being opened
+#####################
+##      FCN:       ##
+##   CHECK DICT    ##
+##     DEPTH       ##
+#####################
 #Lifted straight from https://www.geeksforgeeks.org/python-find-depth-of-a-dictionary/
 def dict_depth(dic, level = 1): 
     if not isinstance(dic, dict) or not dic: 
@@ -59,7 +71,11 @@ def dict_depth(dic, level = 1):
     return max(dict_depth(dic[key], level + 1) 
                                for key in dic)             
 
-#This function reads in a CV data file and returns it in a dict
+#####################
+##      FCN:       ##
+##    READ CV      ##
+##      DATA       ##
+#####################
 def readdata(file,secname):
     ###Now read in the CV data
     #Will be reading it all into this dict
@@ -92,19 +108,16 @@ def readdata(file,secname):
         try:
             sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
         except:
-            try:
-                sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='latin1')
-            except:
+            for enc in ['utf-8','iso-8859-1','latin1','cp1252']:
                 try:
-                    sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='iso-8859-1')
+                    sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding=enc)
                 except:
-                    try:
-                        sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='cp1252')
-                    except:
-                        try:
-                            sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='utf-8')
-                        except:
-                            raise ValueError('Unable to find working encoding for '+file)
+                    ''
+            #if nothing worked!
+            try:
+                sheet
+            except:
+                raise ValueError('Unable to find working encoding for '+file)
     else:
         raise ValueError('Filetype for '+file+' not supported.')
     
@@ -164,7 +177,11 @@ def readdata(file,secname):
     
     return data
 
-#This function reads in citation data in .bib or .json format using citeproc
+#####################
+##      FCN:       ##
+##     READ        ##
+##     BIBTEX      ##
+#####################
 #Obviously, this copies heavily from the citeproc example files.
 def readcites(filename,style,keys=None):
     #Get packages we only need if doing this
@@ -311,6 +328,11 @@ def readcites(filename,style,keys=None):
     
     return bibdata
 
+#####################
+##      FCN:       ##
+##      PREP       ##
+##     BIBTEX      ##
+#####################
 #This determines if there is a .bib file to be read, and if so 
 #sets things up for the above readcites() function to work.
 def arrangecites(vsd,sec,data):
@@ -361,7 +383,11 @@ def arrangecites(vsd,sec,data):
     except:
         ''
 
- 
+#####################
+##      FCN:       ##
+##      SORT       ##
+##      DATA       ##
+#####################
 #This applies a data-sorting order, using assigned via 'order' if given
 #or by id if not given.
 def sortitems(vsd,sec,data):
@@ -405,8 +431,286 @@ def sortitems(vsd,sec,data):
     except:
         ''
 
-#This constructs a Markdown text file containing the code for the CV
-def buildmd(vsd,data,secframedef,secglue,itemwrapperdef):
+#####################
+##      FCN:       ##
+##     DEFAULT     ##
+##    THEMING      ##
+#####################
+def defaulttheme(format, v, vsd):
+    if format == 'html':
+        #####TODO: Redo this with modern HTML/CSS <div> protocols like a decent human
+        #Fill in with defaults
+        theme = {}
+        theme['header'] = '<html><head><title>{name} CV</title>{style}<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'
+        theme['style'] = ('<style>'
+             '*{font-family: Georgia, serif;'
+             'font-size: medium}'
+             'table.section {'
+             'border: 0px;'
+             'background-color: #FFFFFF;'
+             'width: 70%;'
+             'margin-left: auto;'
+             'margin-right: auto}'
+             '.sectitle {'
+             'text-align: right;'
+             'vertical-align: text-top;'
+             'color: #009933;'
+             'width: 20%;'
+             'border-right: solid 1px black;'
+             'padding: 20px}'
+             '.secmeat {'
+             'text-align: left;'
+             'width: 80%;'
+             'padding: 20px;}'
+             'hr.secdiv {'
+             'height: 1px;'
+             'border: 0;'
+             'width: 25%;'
+             'background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}'
+             '.abstract {font-size:small}'
+             '.head.name {'
+             'font-size: xx-large;'
+             'color: #009933}'
+             '.photo {float:left;'
+             'padding-right: 40px}'
+             '</style>')
+        theme['footer'] = '</body></html>'
+        
+        try: 
+            secglue = v['sectionglue']
+        except:
+            secglue = '\n'
+
+        try:
+            secframedef = v['sectionframe']
+        except:
+            secframedef = '<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>'  
+
+        try:
+            itemwrapperdef = v['itemwrapper']
+        except:
+            itemwrapperdef = '{item}'  
+            
+        for sec in vsd:
+            #If it's a special title-less format, just put it by itself
+            if vsd[sec]['type'] in ['head','date']:
+                try:
+                    vsd[sec]['sectionframe']
+                except:
+                    vsd[sec]['sectionframe'] = '<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>'
+
+    elif format == 'pdf':
+        #Note that some strange decisions here, like the % comment lines
+        #are to avoid weird pandoc quirks where \ and [ and ] aren't formatted correctly.
+        theme = {}
+        #{{ and }} evaluate to text { and }. { and } alone work with .format, {{{ and }}} are .format surrounded by a LaTeX {} wrapper.
+        theme['header'] = ('%Starting CV document\n'
+             '\\documentclass[{fontsize},{papersize},{fontfamily}]{moderncv}\n'
+             '\\moderncvstyle{{template}}\n'
+             '\\moderncvcolor{{color}}\n'
+             '{pagenumbers}\\nopagenumbers{\n'
+             '{fontchange}\\renewcommand{\\familydefault}{{font}}\n'
+             '\\usepackage[{encoding}]{inputenc}\n'
+             '\\usepackage{hanging}\n'
+             '\\usepackage[scale={scale}]{geometry}\n')
+
+        theme['options'] = ('fontsize: 11pt\n'
+             'papersize: a4paper\n'
+             'fontfamily: sans\n'
+             'template: classic\n'
+             'color: blue\n'
+             'pagenumbers: "" \n'
+             'fontchange: %\n'
+             'font: \\sfdefault\n'
+             'scale: 0.75\n'
+             'encoding: utf8\n'
+             'photowidth: 64pt\n'
+             'photoframe: 0.4pt\n')
+        
+        #No escaping necessary on footer because it is never .formatted
+        theme['footer'] = ('%Footer for document\n'
+             '\\end{document}\n')
+        
+        try: 
+            secglue = v['sectionglue']
+        except:
+            secglue = '\n'
+
+        try:
+            secframedef = v['sectionframe']
+        except:
+            secframedef = '\n\\section{{{title}}}  \n{subtitle}  \n{meat}'
+
+        try:
+            itemwrapperdef = v['itemwrapper']
+        except:
+            itemwrapperdef = '{item}\n'  
+            
+        for sec in vsd:
+            #The 'indent' type is just cvitem with a blank first entry
+            if vsd[sec]['type'] == 'indent':
+                vsd[sec]['itemwrapper'] = '\\cvitem{{}}{{{item}}}'
+                        
+            #If it's a special format, lead with the \command, fill in the brackets with the format option
+            if vsd[sec]['type'] in ['cventry','cvitemwithcomment','cvlistitem','cvitem','cvcolumn']:
+                try:
+                    vsd[sec]['itemwrapper']
+                except:
+                    vsd[sec]['itemwrapper'] = '\\'+vsd[sec]['type']+'{item}'
+            
+            #If it's got a bib option but no specified frame, make it a hanging indent
+            try:
+                vsd[sec]['bib']
+                vsd[sec]['sectionframe'] = '\n\\section{{{title}}}  \n{subtitle}  \n \\begin{{hangparas}}{{.25in}}{{1}} \n {meat} \n \\end{{hangparas}}\n'
+            except:
+                #Or if it's got the hangingindent type
+                if vsd[sec]['type'] == 'hangingindent':
+                    try:
+                        vsd[sec]['sectionframe']
+                    except:
+                        vsd[sec]['sectionframe'] = '\n\\section{{{title}}}  \n{subtitle}  \n \\begin{{hangparas}}{{.25in}}{{1}} \n {meat} \n \\end{{hangparas}}\n'
+            
+            #cvcolumn needs to be surrounded with \begin{cvcolumns}
+            if vsd[sec]['type'] == 'cvcolumn':
+                try: 
+                    vsd[sec]['sectionframe']
+                except:
+                    vsd[sec]['sectionframe'] = '\n\\section{{{title}}}  \n{subtitle}  \n \\begin{{cvcolumns}} \n {meat} \n \\end{{cvcolumns}}\n'
+            
+            #If it has a sep option, we don't want that \n after {item}
+            try:
+                vsd[sec]['sep']
+                vsd[sec]['itemwrapper'] = '{item}'
+            except:
+                #If it doesn't have a sep option, note that for every specified type we don't want
+                #line breaks after, since it turns into an invalid double-break
+                #So just do '\n' instead of the default '  \n'
+                if vsd[sec]['type'] in ['cventry','cvitemwithcomment','cvlistitem','cvitem','cvcolumn','indent']:
+                    vsd[sec]['sep']='\n'
+            
+            #Special moderncv item formats
+            #Note triple - {s, two of which are for the LaTeX {, and the third is for .format
+            try:
+                vsd[sec]['format']
+            except:
+                if vsd[sec]['type'] == 'cventry':
+                    vsd[sec]['format'] = '{{{year}}}{{{accomplishment}}}{{{detail}}}{{}}{{{description}}}'
+                elif vsd[sec]['type'] == 'cvitemwithcomment':
+                    vsd[sec]['format'] = '{{{accomplishment}}}{{{detail}}}{{{comment}}}'
+                elif vsd[sec]['type'] == 'cvlistitem':
+                    vsd[sec]['format'] = '{{{raw}}}'
+                elif vsd[sec]['type'] in ['cvitem','cvcolumn']:
+                    vsd[sec]['format'] = '{{{itemtitle}}}{{{raw}}}'
+            
+        return theme, secglue, secframedef, itemwrapperdef
+    
+    elif format == 'md':
+        #no theme to speak of
+        theme = None
+        
+        #basic defaults
+        try: 
+            secglue = v['sectionglue']
+        except:
+            secglue = '  \n  \n'
+            
+        try:
+            secframedef = v['sectionframe']
+        except:
+            secframedef = '{title}  \n=========\n {subtitle}  \n{meat}'  
+
+        try:
+            itemwrapperdef = v['itemwrapper']
+        except:
+            itemwrapperdef = '* {item}'  
+
+        for sec in vsd:
+            #If it's a special title-less format, just put it by itself
+            if vsd[sec]['type'] in ['head','date']:
+                try:
+                    vsd[sec]['sectionframe']
+                except:
+                    vsd[sec]['sectionframe'] = '{meat}'
+                
+            #If there's any sort of weird sep, get rid of the item wrapper
+            try:
+                vsd[sec]['sep']
+                vsd[sec]['itemwrapper'] = '{item}'
+            except:
+                ''
+                    
+    return theme, secglue, secframedef, itemwrapperdef
+
+#####################
+##      FCN:       ##
+##     APPLY       ##
+##     THEME       ##
+#####################
+def applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd):
+
+    #Allow options to be set, if there's an options section
+    try:
+        #First, turn content of theme options into dict
+        theme['options'] = getoptions(theme['options'])
+        #Then, overwrite default options with any user-specified options
+        for i in themeopts:
+            theme['options'][i] = themeopts[i]
+        
+        #Insert those options into any part of the theming.
+        for i in theme:
+            #'options' is a dict not a str, so don't do it there
+            if not i == 'options':
+                #use sub while looping through existing options rather than format because there are other {}s to not be translated yet (like style)
+                for j in theme['options']:
+                    theme[i] = sub('{'+j+'}',theme['options'][j],theme[i])
+        
+    except:
+        ''
+    
+    #Allow user to overwrite parts, and offer defaults if the theme omits them.
+    try: 
+        secglue = versions[v]['sectionglue']
+    except:
+        try:
+            secglue = theme['sectionglue']
+        except:
+            ''
+        
+    try:
+        secframedef = versions[v]['sectionframe']
+    except:
+        try: 
+            secframedef = theme['sectionframe']
+        except:
+            ''
+    
+    try:
+        itemwrapperdef = versions[v]['itemwrapper']
+    except:
+        try: 
+            itemwrapperdef = theme['itemwrapper']
+        except:
+            ''  
+    
+    #If theme contains any section-specific theming, bring that in
+    for i in theme:
+        #If the key is attribute:section that's how we know!
+        if i.find(':') > -1:
+            #split into attribute and section
+            modify = i.split(':')
+            #find any sections with that type and modify them.
+            for sec in vsd:
+                if vsd[sec]['type'] == modify[1]:
+                    vsd[sec][modify[0]] = theme[i]
+                    
+    return theme, themeopts, secglue, secframedef, itemwrapperdef
+
+#####################
+##      FCN:       ##
+##     BUILD       ##
+##     MD CV       ##
+#####################
+def buildmd(vsd,data,secframedef,secglue,itemwrapperdef,type):
     #Go through each section to prepare it individually
     for sec in vsd:
         s = vsd[sec]
@@ -462,16 +766,41 @@ def buildmd(vsd,data,secframedef,secglue,itemwrapperdef):
                     data[sec][i]['itemmeat'] = itemwrapper.format(item=s['format'].format_map(defaultdict(lambda:'',data[sec][i])))
                 
                 #Build section meat by bringing together each item meat
-                s['meat'] = s['sep'].join([data[sec][i]['itemmeat'] for i in data[sec]])           
+                s['meat'] = s['sep'].join([data[sec][i]['itemmeat'] for i in data[sec]])
+                
+                #Clean up
+                [data[sec][i].pop('itemmeat') for i in data[sec]]
             except:
                 ''
-     
+        
+        
+        #If it's latex, preconvert everything to avoid double-conversion
+        if type == 'pdf':
+            s['title'] = pypandoc.convert_text(s['title'],'latex',format='md',encoding='utf-8')
+            #This process will insert a \r\n, take that out
+            s['title'] = s['title'][0:-2]
+            
+            #no-wrap to avoid weird line breaks around character 70.
+            s['meat'] = pypandoc.convert_text(s['meat'],'latex',format='md',encoding='utf-8',extra_args=['--no-wrap'])
+            try: 
+                s['subtitle'] = pypandoc.convert_text(s['subtitle'],'latex',format='md',encoding='utf-8',extra_args=['--no-wrap'])
+                s['subtitle'] = s['subtitle'][0:-2]
+            except:
+                ''
+        
         #Build full section
         try:
             s['out'] = secframe.format(title=s['title'],subtitle=s['subtitle']+'  \n  \n',meat=s['meat'])
         except:
             s['out'] = secframe.format(title=s['title'],subtitle='',meat=s['meat'])
         
+        '''
+        #If it's LaTeX, preconvert each section for links, etc.
+        #no-wrap to avoid weird line breaks around character 70.
+        if type == 'pdf':
+            s['out'] = pypandoc.convert_text(s['out'],'latex',format='md',encoding='utf-8',extra_args=['--no-wrap'])
+        '''    
+            
         #Clean up
         s['meat'] = None     
         
@@ -650,8 +979,9 @@ for sec in structdict:
         
 ###Loop over each version to create it 
 for v in versions:             
-    #Create a version-specific version of the structure
-    vsd = structdict
+    #Create a version-specific copy of the structure.
+    #we're gonna overwrite this a lot so do a deep copy
+    vsd = deepcopy(structdict)
     #Drop all sections that aren't used in this version
     #Construct this topop array to avoid manipulating an OrderedDict in iteration. Better way?
     topop = []
@@ -680,6 +1010,11 @@ for v in versions:
         sortitems(vsd,sec,data)
         
     #Write finished version to file
+    #####################
+    ##      BUILD      ##
+    ##       THE       ##
+    ##      HTML       ##
+    #####################
     if versions[v]['type'] == 'html':
         #Theme may require name separate
         try:
@@ -717,127 +1052,17 @@ for v in versions:
             #The first line of each section is the key, the rest is the text
             theme = {}
             [theme.update({i[0:i.find('\n')]:i[i.find('\n')+1:]}) for i in themetext]                    
-
-            #Allow options to be set, if there's an options section
-            try:
-                #First, turn content of theme options into dict
-                theme['options'] = getoptions(theme['options'])
-                #Then, overwrite default options with any user-specified options
-                for i in themeopts:
-                    theme['options'][i] = themeopts[i]
-                
-                #Insert those options into any part of the theming.
-                for i in theme:
-                    #'options' is a dict not a str, so don't do it there
-                    if not i == 'options':
-                        #use sub while looping through existing options rather than format because there are other {}s to not be translated yet (like style)
-                        for j in theme['options']:
-                            theme[i] = sub('{'+j+'}',theme['options'][j],theme[i])
-                
-            except:
-                ''
             
-            #Allow user to overwrite parts, and offer defaults if the theme omits them.
-            try: 
-                secglue = versions[v]['sectionglue']
-            except:
-                try:
-                    secglue = theme['sectionglue']
-                except:
-                    secglue = ''
-                
-            try:
-                secframedef = versions[v]['sectionframe']
-            except:
-                try: 
-                    secframedef = theme['sectionframe']
-                except:
-                    secframedef = '<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>'  
-
-            try:
-                itemwrapperdef = versions[v]['itemwrapper']
-            except:
-                try: 
-                    itemwrapperdef = theme['itemwrapper']
-                except:
-                    itemwrapperdef = '{item}'  
+            #Defaults to be easily overriden
+            secglue = ''
+            secframedef = '<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>'  
+            itemwrapperdef = '{item}'
             
-            #If theme contains any section-specific theming, bring that in
-            for i in theme:
-                #If the key is attribute:section that's how we know!
-                if i.find(':') > -1:
-                    #split into attribute and section
-                    modify = i.split(':')
-                    #find any sections with that type and modify them.
-                    for sec in vsd:
-                        if vsd[sec]['type'] == modify[1]:
-                            vsd[sec][modify[0]] = theme[i]
-                
+            theme,themeopts,secglue,secframedef,itemwrapperdef = applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd)
             
         except:
-            #####TODO: Redo this with modern HTML/CSS protocols like a decent human
-            #Fill in with defaults
-            theme = {}
-            theme['header'] = '<html><head><title>{name} CV</title>{style}<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'
-            theme['style'] = ('<style>'
-                 '*{font-family: Georgia, serif;'
-                 'font-size: medium}'
-                 'table.section {'
-                 'border: 0px;'
-                 'background-color: #FFFFFF;'
-                 'width: 70%;'
-                 'margin-left: auto;'
-                 'margin-right: auto}'
-                 '.sectitle {'
-                 'text-align: right;'
-                 'vertical-align: text-top;'
-                 'color: #33cc33;'
-                 'width: 20%;'
-                 'border-right: solid 1px black;'
-                 'padding: 20px}'
-                 '.secmeat {'
-                 'text-align: left;'
-                 'width: 80%;'
-                 'padding: 20px;}'
-                 'hr.secdiv {'
-                 'height: 1px;'
-                 'border: 0;'
-                 'width: 25%;'
-                 'background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}'
-                 '.abstract {font-size:small}'
-                 '.head.name {'
-                 'font-size: xx-large;'
-                 'color: #33cc33}'
-                 '.photo {float:left;'
-                 'padding-right: 40px}'
-                 '</style>')
-            theme['footer'] = '</body></html>'
-            
-            try: 
-                secglue = versions[v]['sectionglue']
-            except:
-                secglue = '\n'
-    
-            try:
-                secframedef = versions[v]['sectionframe']
-            except:
-                secframedef = '<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>'  
-
-            try:
-                itemwrapperdef = versions[v]['itemwrapper']
-            except:
-                itemwrapperdef = '{item}'  
+            theme, secglue, secframedef, itemwrapperdef = defaulttheme('html',versions[v],vsd)
                 
-            for sec in vsd:
-                #If it's a special title-less format, just put it by itself
-                if vsd[sec]['type'] in ['head','date']:
-                    try:
-                        vsd[sec]['sectionframe']
-                    except:
-                        vsd[sec]['sectionframe'] = '<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>'
-                
-                if vsd[sec]['type'] == 'head':
-                    vsd[sec]['secframe'] = '<div class = "head">{meat}</div>'
             
         #Apply span wrappers to each element with the naming convention sectionname-attributename
         #Or just sectionname if it's raw
@@ -862,18 +1087,171 @@ for v in versions:
                     ''
                 else:
                     vsd[sec]['format'] = sub('{'+a+'}','<span class = "'+vsd[sec]['type']+' '+a+'">{'+a+'}</span>',vsd[sec]['format'])
-        
-                
                 
         #Now build it!
-        cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef)
+        cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef,versions[v]['type'])
     
-        pypandoc.convert_text(theme['header'].format(name=name,style=theme['style'])+cv+theme['footer'],'html',format='md',outputfile='cv.html',encoding='utf-8')
+        pypandoc.convert_text(theme['header'].format(name=name,style=theme['style'])+cv+theme['footer'],'html',format='md',outputfile=versions[v]['out'],encoding='utf-8')
+    #####################
+    ##      BUILD      ##
+    ##       THE       ##
+    ##       PDF       ##
+    #####################
     elif versions[v]['type'] == 'pdf':
-        #####TODO: Write out to LaTeX, either on base level or with moderncv
-        1
+        try:
+            themeopts = ('template='+versions[v]['theme']).split(',')
+            #separate into attributes and content
+            themeopts = [[i.strip() for i in j.split('=')] for j in themeopts]
+            #and turn into dict
+            themeopts = {i[0]:i[1] for i in themeopts}
+        except:
+            ''
+        
+        #Get defaults
+        theme, secglue, secframedef, itemwrapperdef = defaulttheme('pdf',versions[v],vsd)
+        
+        #We need theme['options'] to be a dict before going to apply theming
+        theme['options'] = getoptions(theme['options'])
+        
+        #for pagenumbers and fontchange, 'on' and 'off' translate to 'no comment' and 'comment', respectively
+        try:
+            if themeopts['pagenumbers'] == 'on':
+                theme['options']['pagenumbers'] = '%'
+            themeopts.pop('pagenumbers')
+        except:
+            ''
+        try:
+            if themeopts['fontchange'] == 'on':
+                theme['options']['fontchange'] = ' '
+            themeopts.pop('fontchange')
+        except:
+            ''
+        
+        #Do the format for the head section by hand
+        vsd['head']['out'] = ''
+        #It only allows one extrainfo, so compile them and put them all in at the end
+        extrainfo = ''
+        for i in data['head']:
+            for j in data['head'][i]:
+                if j in ['title','address','quote']:
+                    vsd['head']['out'] = vsd['head']['out'] + '\\'+j+'{'+data['head'][i][j]+'}\n'
+                elif j in ['email']:
+                    #Preconvert to get rid of any link framing, doesn't work here
+                    emailadd = data['head'][i][j][:]
+                    #Just the parts in the parentheses
+                    if emailadd.find('(') > -1:
+                        emailadd = emailadd[emailadd.find('(')+1:emailadd.find(')')]
+                    #And if you've got a mailto:, drop that
+                    if emailadd.find('mailto:') > -1:
+                        emailadd = emailadd[emailadd.find(':')+1:]
+                    #and add 
+                    vsd['head']['out'] = vsd['head']['out'] + '\\'+j+'{'+emailadd+'}\n'
+                elif j in ['mobile','fixed','fax']:
+                    phoneformat = sub('[ -]','~',data['head'][i][j])
+                    vsd['head']['out'] = vsd['head']['out'] + '\\phone['+j+']{'+phoneformat+'}\n'
+                elif j in ['phone']:
+                    phoneformat = sub('[ -]','~',data['head'][i][j])
+                    vsd['head']['out'] = vsd['head']['out'] + '\\phone{'+phoneformat+'}\n'
+                elif j in ['linkedin','twitter','github']:
+                    #preconvert to get rid of any link framing
+                    handle = data['head'][i][j][:]
+                    #Just the parts in the parentheses
+                    if handle.find('(') > -1:
+                        handle = handle[handle.find('(')+1:handle.find(')')]
+                    #If the whole thing ends with a slash, get rid of it
+                    if handle[-1:] == '/':
+                        handle = handle[0:-1]
+                    #Just the part after the last slash
+                    if handle.find('/') > -1:
+                        handle = handle[handle.rfind('/')+1:]
+                    vsd['head']['out'] = vsd['head']['out'] + '\\social['+j+']{'+handle+'}\n'
+                elif j in ['homepage','website']:
+                    #Preconvert to get rid of any link framing, doesn't work here
+                    url = data['head'][i][j][:]
+                    #Just the parts in the parentheses
+                    if url.find('(') > -1:
+                        url = url[url.find('(')+1:url.find(')')]
+                    vsd['head']['out'] = vsd['head']['out'] + '\\homepage'+'{'+url+'}\n'
+                elif j in ['address1']:
+                    #Multi-part addresses
+                    try:
+                        vsd['head']['out'] = vsd['head']['out'] + '\\address{'+data['head'][i][j]+'}{'+data['head'][i]['address2']+'}{'+data['head'][i]['address3']+'}\n'
+                    except:
+                        vsd['head']['out'] = vsd['head']['out'] + '\\address{'+data['head'][i][j]+'}{'+data['head'][i]['address2']+'}\n'
+                elif j in ['name']:
+                    #split in two
+                    namesplit = data['head'][i][j].split(' ',maxsplit=1)
+                    namesplit.append('')
+                    vsd['head']['out'] = vsd['head']['out'] + '\\name{'+namesplit[0]+'}{'+namesplit[1]+'}\n'
+                elif j in ['name1']:
+                    vsd['head']['out'] = vsd['head']['out'] + '\\name{'+data['head'][i][j]+'}{'+data['head'][i]['name2']+'}\n'
+                elif j in ['photo','picture','profile','image']:
+                    #Preformat to get rid of any ! image framing, doesn't work here.
+                    imgloc = data['head'][i][j][:]
+                    #Just the parts in the parentheses
+                    if imgloc.find('(') > -1:
+                        imgloc = imgloc[imgloc.find('(')+1:imgloc.find(')')]
+                    vsd['head']['out'] = vsd['head']['out'] + '\\photo['+theme['options']['photowidth']+']['+theme['options']['photoframe']+']{'+imgloc+'}\n'
+                elif j in ['id']:
+                    ''
+                    #Skip id.
+                else:
+                    #If it's the first extrainfo
+                    if len(extrainfo) == 0:
+                        extrainfo = data['head'][i][j]
+                    else:
+                        extrainfo = ', '.join([extrainfo,data['head'][i][j]])
+                    
+        #If there was any extrainfo, add it
+        if len(extrainfo) > 0:
+            vsd['head']['out'] = vsd['head']['out'] + '\\extrainfo{'+extrainfo+'}\n'
+        #The head section must end with the beginning of the document
+        docbegin = ('%Document beginning\n'
+                    '\\begin{document}\n'
+                    '\\makecvtitle')
+        vsd['head']['out'] = vsd['head']['out'] + docbegin
+        #Add the head to the header which will also not be translated by pandoc
+        theme['header'] = theme['header'] + '\n' + vsd['head']['out']
+        #and make sure that buildmd doesn't process the header
+        vsd.pop('head')
+        
+        #and apply theming
+        theme,themeopts,secglue,secframedef,itemwrapperdef = applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd)
+               
+        #Now build it!
+        cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef,versions[v]['type'])
+        
+        #Save the PDF both as a PDF and as a raw .tex file
+        #open up and save to a .tex file with the same filename as the eventual pdf but a .tex extension
+        with open(versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex','w',encoding='utf-8') as texfile:
+            texfile.write(theme['header']+cv+theme['footer'])
+        
+        #Figure out which LaTeX compiler is going to be used
+        try:
+            versions[v]['processor'] = versions[v]['processor'].lower()
+        except:
+            versions[v]['processor'] = 'pdflatex'
+            
+        #and then call it directly to generate the PDF.
+        import subprocess
+        subprocess.call(versions[v]['processor']+' '+versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex')
+        
+    #####################
+    ##      BUILD      ##
+    ##       THE       ##
+    ##      WORD       ##
+    #####################
     elif versions[v]['type'] in ['docx','doc']:
         1
+    #####################
+    ##      BUILD      ##
+    ##       THE       ##
+    ##      MARKDOWN   ##
+    #####################
     elif versions[v]['type'] in ['md']:
-        1
-        
+        theme, secglue, secframedef, itemwrapperdef = defaulttheme('md',versions[v],vsd)
+
+        #Now build it!
+        cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef,versions[v]['type'])
+    
+        pypandoc.convert_text(cv,'md',format='md',outputfile=versions[v]['out'],encoding='utf-8',extra_args=['--no-wrap'])

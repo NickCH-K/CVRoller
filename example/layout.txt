@@ -3,6 +3,7 @@
 version: web
     out: cv.html
 	theme: defaulttheme.txt, sectiondivider=on
+%processor defaults to pdflatex anyway
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 	theme: banking

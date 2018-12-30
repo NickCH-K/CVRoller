@@ -1,9 +1,9 @@
-How to Write a CVRoller Theme
+How to Write a CVRoller HTML/CSS Theme
 =============================
 
-This document will describe how the CVRoller theme file works so that you can write or edit your own.
+This document will describe how the CVRoller theme file works for HTML-out so that you can write or edit your own.
 
-For LaTeX output, CVRoller themes are simply [moderncv](https://www.ctan.org/pkg/moderncv) themes. If you'd like to create your own theme for a PDF CV, you'll need to write a moderncv theme (or write an HTML theme and use Print to get a PDF!).
+For LaTeX output, CVRoller themes are simply [moderncv](https://www.ctan.org/pkg/moderncv) themes. See the LayoutInstructions to see how to customize your moderncv template of choice in the Layout file. If you'd like to create your own theme for a PDF CV, you'll need to write a moderncv theme (or write an HTML theme and use Print to get a PDF!).
 
 This document will mostly explain how to write an HTML theme.
 

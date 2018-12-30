@@ -7,7 +7,7 @@ The goal is to have a format for writing document layout structures and data (in
 
 This project is under construction. Soon it will be to the point where it's basically usable (at least on the base level), but without implementation of some features that may come in handy, and which requires learning the layout language to use. Eventually the goal is to have a system that's easy to use without having to learn too much.
 
-For an explanation of how the CV layout language works, see LayoutInstructions.md. For an explanation on how to put together the CV data file, see SpreadsheetInstructions.md.
+For an explanation of how the CV layout language works, see LayoutInstructions.md. For an explanation on how to put together the CV data file, see CVDataInstructions.md. To figure out how to write your own HTML/CSS theme for CVRoller, see ThemeInstructions.md.
 
 Near Term Fixes and Features
 ============================
@@ -40,7 +40,7 @@ Small Fixes/Features to Come
 * Add Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
 * Figure out way to allow tables more easily (tables currently work but you have to very oddly stick the table header row in the format option). Note this follows from the markdown package's markdown parser requiring a table header.
-* Find all HTML tags in citation formatting and change back to Markdown for the purpose of eventual LaTeX-out and Word-out. <i> and <b> already changed back. But are there others?
+* Find all HTML tags in citation formatting and change back to Markdown for the purpose of eventual LaTeX-out and Word-out. `<i>` and `<b>` already changed back. But are there others?
 * Suppress citeproc-py warnings for unsupported fields when reading in bibtex files
 * Allow more generic PDF generation without moderncv
 * Allow version-specific options within a section

@@ -26,6 +26,7 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Turn 'meat' construction into callable functions for flexibility.
 * Add LaTeX-out
 * Fix many, many LaTeX conversion oddities from pypandoc.
+* Suppress citeproc-py warnings for unsupported fields when reading in bibtex files
 
 Features that are Completed but Need Testing
 ----------------------
@@ -33,6 +34,7 @@ Features that are Completed but Need Testing
 * LaTeX item types other than cvitem
 * LaTeX themes and most options for those themes
 * LaTeX PDF processors other than pdflatex
+* Input files that have various different encodings
 
 Small Fixes/Features to Come
 --------------------
@@ -41,7 +43,6 @@ Small Fixes/Features to Come
 * Put in way of locating layout file other than the placeholder hardcoding.
 * Figure out way to allow tables more easily (tables currently work but you have to very oddly stick the table header row in the format option). Note this follows from the markdown package's markdown parser requiring a table header.
 * Find all HTML tags in citation formatting and change back to Markdown for the purpose of eventual LaTeX-out and Word-out. `<i>` and `<b>` already changed back. But are there others?
-* Suppress citeproc-py warnings for unsupported fields when reading in bibtex files
 * Allow more generic PDF generation without moderncv
 * Allow version-specific options within a section
 * Use pypandoc.download_pandoc to install pandoc if it isn't already.

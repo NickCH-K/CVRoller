@@ -108,18 +108,19 @@ def readdata(file,secname):
         try:
             sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str})
         except:
-            for enc in ['utf-8','iso-8859-1','latin1','cp1252']:
-                try:
-                    sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding=enc)
-                except:
-                    ''
-            #if nothing worked!
             try:
-                sheet
+                sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='cp1252')
             except:
-                raise ValueError('Unable to find working encoding for '+file)
-    else:
-        raise ValueError('Filetype for '+file+' not supported.')
+                try:
+                    sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='latin1')
+                except:
+                    try:
+                        sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='iso-8859-1')
+                    except:
+                        try:
+                            sheet = pandas.read_csv(file,dtype={'section':str,'id':str,'attribute':str,'content':str},encoding='utf-8')
+                        except:
+                            raise ValueError('Unable to find working encoding for '+file)
     
     try:
         #Strip the sections for clarity and lowercase them for matching
@@ -196,21 +197,32 @@ def readcites(filename,style,keys=None):
         from citeproc.source.bibtex import BibTeX
         #load in data
         #Try encodings until one sticks.
-        #####TODO: Suppress warnings here.
         try:
-            bib_source = BibTeX(filename)
+            #Catch warnings because otherwise it warns for every unsupported
+            #Bibtex attribute type. But we fix this later by bringing them in manually
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                bib_source = BibTeX(filename)
         except:
             try:
-                bib_source = BibTeX(filename,encoding='latin1')
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    bib_source = BibTeX(filename,encoding='latin1')
             except:
                 try:
-                    bib_source = BibTeX(filename,encoding='iso-8859-1')
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore")
+                        bib_source = BibTeX(filename,encoding='iso-8859-1')
                 except:
                     try:
-                        bib_source = BibTeX(filename,encoding='cp1252')
+                        with warnings.catch_warnings():
+                            warnings.simplefilter("ignore")
+                            bib_source = BibTeX(filename,encoding='cp1252')
                     except:
                         try:
-                            bib_source = BibTeX(filename,encoding='utf-8')
+                            with warnings.catch_warnings():
+                                warnings.simplefilter("ignore")
+                                bib_source = BibTeX(filename,encoding='utf-8')
                         except:
                             raise ValueError('Unable to find working encoding for '+filename)    
             

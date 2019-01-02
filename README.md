@@ -9,6 +9,18 @@ This project is under construction. Soon it will be to the point where it's basi
 
 For an explanation of how the CV layout language works, see LayoutInstructions.md. For an explanation on how to put together the CV data file, see CVDataInstructions.md. To figure out how to write your own HTML/CSS theme for CVRoller, see ThemeInstructions.md.
 
+How to Use CVRoller
+====================
+1. Ensure that you have installed Python, as well as the `citeproc-py` and `pypandoc` packages (both available via `pip`). `pypandoc` also requires that you install `pandoc`, which can be done with the `pypandoc` package itself (see `help(pypandoc)`), installed separately, or if you install `pypandoc` from Anaconda, `pandoc` will be automatically installed.
+2. If you want to output PDF files, also ensure that you have installed a LaTeX-to-PDF processor like PDFLatex. The processor should be callable from the command line. 
+3. Read the Instruction files `LayoutInstructions.md` and `CVDataInstructions.md` to see how to construct your CVRoller Layout file and your file(s) of CV data. Also see the files in the `example` folder for guidance.
+4. Create a CVRoller Layout file and save it as `layout.txt` (for the moment, this exact name is required). Put it in a folder.
+5. Create any data files you may want - spreadsheets, JSON files, .bib, profile images, etc., and put them in the same folder.
+6. Open up CVRoller.py in a Python instance. Set the working directory to the place where you've saved everything from steps 4 and 5.
+7. Run CVRoller.py! It will output all finished files to the working directory.
+8. Note that if you're creating a PDF file and you successfully make some .tex output but there's no PDF, try opening the .tex in a LaTeX editor and compiling directly. It will give you more detailed error messages than CVRoller can. One I've run into is not being able to locate fontawesome. This can be fixed by uninstalling the fontawesome package and re-installing it as a *non*-administrator. Another is characters in the original data that LaTeX can't parse, which can be fixed by using more standard characters in the original data.
+
+
 Near Term Fixes and Features
 ============================
 

@@ -6,7 +6,7 @@ version: web
 %processor defaults to pdflatex anyway
 version: pdf
     out: "HuntingtonKleinCV.pdf"
-	theme: banking
+	theme: banking, fontfamily=serif
 	processor: pdflatex
 version: wd
     out: "WordCV.docx"
@@ -19,68 +19,57 @@ file: cvdata.xlsx
 ##head
 %The type of the section tells the theme how to style it
 %And also there are a few special section types CVRoller treats differently: head, date, text.
+%Note that type is already the section name by default 
 type: head
 %A format option tells CVRoller how to construct each item out of its constituent parts.
 format: "{photo}{name}\br{position}, {institution}\br{email}, {phone}\br{website}, Twitter: @{twitter}, GitHub: {github}"
+%Note this format option wouldn't work for the moderncv version, but moderncv ignores a head type's format argument anyway.
 
-##employment
-title: Employment
+%The title is by default the section name, so no need to do "employment" and then title: Employment
+%Note that it DOES need to match the section name in the data file, but that's not case sensitive
+##Employment
+%Don't want this in the web version
 version: pdf, wd, markdown
 
-##education
-title: Education
-%Indent here is actually kind of ugly, just want to demonstrate it.
-type: indent
+##Education
+%Indent here is actually kind of ugly, just want to demonstrate it for the moderncv version.
+%The @pdf indicates that this option only applies to the version named pdf.
+type@pdf: indent
 version: pdf, wd, markdown
 
 ##cites
 title: Academic Publications
-version: pdf, wd
 %A bib option uses a BibTeX library (either in .bib form, or JSON form), then points to a .csl citation style
 %which can also be a citation style at zotero.com.
 bib: publications.bib, chicago-author-date-16th-edition.csl
-
-##cites
-title: Academic Publications
-version: web, markdown
-type: cites
 %Subtitles are allowed
 %Note the use here (and in other places) of Markdown formatting for things like links, images, etc.
-subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 %the bib option will store the formatted citation as a {raw} attribute, and it can be accessed by the format option in that way.
-format: "{raw} [Link]({url}). {note}\br{abstract}\br"
-bib: publications.bib, chicago-author-date-16th-edition.csl
+format@web: "{raw} [Link]({url}). {note}\br{abstract}\br"
+format@markdown: "{raw} [Link]({url}). {note}\br{abstract}\br"
 
 ##pubs2
 title: "Other Work"
-version: pdf, wd
 format: "{cite}"
-type: hangingindent
+type@pdf: hangingindent
 %Sections can have their own source file.
 %In this case it would be easier to just fold this into the main file, this is for illustration.
 file: nonpeerreviewedpubs.csv
-
-%Note that the same section can appear multiple times, formatted differently for different versions of the CV.
-##pubs2
-title: "Other Work"
-subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
-version: web, markdown
-type: cites
-format: "{cite} {extra}\br {abstract}\br"
-file: nonpeerreviewedpubs.csv
+format@web: "{cite} {extra}\br {abstract}\br"
+format@markdown: "{cite} {extra}\br {abstract}\br"
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
+subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
 
 ##working
 title: "Working Papers"
-version: pdf, wd
-type: hangingindent
-format: {cite}
-
-##working
-title: "Working Papers"
-type: cites
-subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
-version: web, markdown
-format: "{cite} {extra}\br {abstract}\br"
+type@pdf: hangingindent
+format@pdf: {cite}
+format@web: "{cite} {extra}\br {abstract}\br"
+format@markdown: "{cite} {extra}\br {abstract}\br"
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 
 ##tag
 type: text
@@ -88,12 +77,10 @@ text: "[The File Drawer](http://nickchk.com/filedrawer.html)"
 title: Dormant Papers
 version: web, markdown
 
-##book
-title: Book
+##Book
 version: pdf, wd, markdown
 
-##teaching
-title: Teaching
+##Teaching
 version: pdf, wd, markdown
 
 ##conference
@@ -106,8 +93,9 @@ version: pdf, wd, markdown
 %By default, items are presented by ID in the original data in descending order, or, failing that, in reverse order of how they're stored in
 %the CV data file. but you can order by other things, too.
 order: year, descending
-type: cvitem
-format: {{{year}}}{{{name}}}
+type@pdf: cvitem
+format@pdf: {{{year}}}{{{name}}}
+format@markdown: {year} {name}
 
 ##servicereferee
 %The sep option shows how items are separated from each other, by default a line break

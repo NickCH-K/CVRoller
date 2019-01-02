@@ -1,48 +1,37 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.28)  30 DEC 2018 01:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.3.12)  2 JAN 2019 15:51
 entering extended mode
 **./HuntingtonKleinCV.tex
 (HuntingtonKleinCV.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 75 language(s) loaded.
-
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncv.cls"
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncv.cls"
 Document Class: moderncv 2015/07/28 v2.0.0 modern curriculum vitae and letter d
 ocument class
-
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\s
-ize11.clo"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\size11.clo"
 File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\etoolb
-ox\etoolbox.sty"
-Package: etoolbox 2018/08/19 v2.5f e-TeX tools for LaTeX (JAW)
+("C:\Program Files\MiKTeX 2.9\tex\latex\etoolbox\etoolbox.sty"
+Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count79
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\i
-fthen.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\xcolor
-\xcolor.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\xcolor\xcolor.sty"
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
-cs-cfg\color.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
-cs-def\pdftex.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\colort
-bl\colortbl.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\colortbl\colortbl.sty"
 Package: colortbl 2018/12/12 v1.0d Color table columns (DPC)
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\
-array.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
 Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
 \col@sep=\dimen102
 \extrarowheight=\dimen103
@@ -64,26 +53,21 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxe
-tex\ifxetex.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\ifluatex.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\f
-ontenc.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
 Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\t
-1enc.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
 File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 ))
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\lmo
-dern.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\lm\lmodern.sty"
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -118,30 +102,24 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\url\ur
-l.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
-cs\graphicx.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
-cs\keyval.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
-cs\graphics.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
-cs\trig.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
-cs-cfg\graphics.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
@@ -149,8 +127,7 @@ Package graphics Info: Driver file: pdftex.def on input line 99.
 \Gin@req@height=\dimen104
 \Gin@req@width=\dimen105
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\fancyh
-dr\fancyhdr.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
 Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
 s
 \f@nch@headwidth=\skip44
@@ -163,10 +140,8 @@ s
 \f@nch@O@olf=\skip51
 \f@nch@O@orf=\skip52
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\tweaklist.sty")
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\
-calc.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\tweaklist.sty")
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\calc.sty"
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count81
 \calc@Bcount=\count82
@@ -179,14 +154,11 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count83
 \calc@Cskip=\skip55
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3pack
-ages\xparse\xparse.sty"
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3kern
-el\expl3.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\l3packages\xparse\xparse.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\expl3.sty"
 Package: expl3 2018-12-12 L3 programming layer (loader) 
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3kern
-el\expl3-code.tex"
+("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\expl3-code.tex"
 Package: expl3 2018-12-12 L3 programming layer (code)
 \c_max_int=\count84
 \l_tmpa_int=\count85
@@ -333,8 +305,7 @@ Package: expl3 2018-12-12 L3 programming layer (code)
 \l__seq_internal_a_int=\count166
 \l__seq_internal_b_int=\count167
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3kern
-el\l3pdfmode.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3pdfmode.def"
 File: l3pdfmode.def 2018-12-12 v L3 Experimental driver: PDF mode
 \l__driver_color_stack_int=\count168
 ))
@@ -345,8 +316,7 @@ Package: xparse 2018-10-17 L3 Experimental document command parser
 \l__xparse_mandatory_args_int=\count172
 \l__xparse_v_nesting_int=\count173
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\microt
-ype\microtype.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\microtype.sty"
 Package: microtype 2018/01/14 v2.7a Micro-typographical refinements (RS)
 \MT@toks=\toks17
 \MT@count=\count174
@@ -355,8 +325,7 @@ LaTeX Info: Redefining \textls on input line 793.
 LaTeX Info: Redefining \textmicrotypecontext on input line 1339.
 \MT@listname@count=\count175
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\microt
-ype\microtype-pdftex.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\microtype-pdftex.def"
 File: microtype-pdftex.def 2018/01/14 v2.7a Definitions specific to pdftex (RS)
 
 LaTeX Info: Redefining \lsstyle on input line 913.
@@ -365,17 +334,14 @@ LaTeX Info: Redefining \lslig on input line 913.
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\microt
-ype\microtype.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\microtype.cfg"
 File: microtype.cfg 2018/01/14 v2.7a microtype main configuration file (RS)
 ))
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncvcollection.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncvcollection.sty"
 Package: moderncvcollection 2015/07/28 v2.0.0 moderncv collections
 \c@collection@iterator=\count176
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncvcompatibility.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncvcompatibility.sty"
 Package: moderncvcompatibility 2015/07/28 v2.0.0 modern curriculum vitae and le
 tter compatibility patches
 )
@@ -390,54 +356,45 @@ tter compatibility patches
 \cvcolumnautowidth=\skip66
 \bibindent=\skip67
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncvstylebanking.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncvstylebanking.sty"
 Package: moderncvstylebanking 2015/07/28 v2.0.0 modern curriculum vitae and let
 ter style scheme: banking
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tex-gy
-re\tgpagella.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\tex-gyre\tgpagella.sty"
 Package: tgpagella 2009/09/27 v1.2 TeX Gyre Pagella as default roman family
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
-ek\kvoptions.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\ltxcmds.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\kvsetkeys.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\infwarerr.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\etexcmds.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 ))))
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncviconsawesome.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncviconsawesome.sty"
 Package: moderncviconsawesome 2015/07/28 v2.0.0 modern curriculum vitae and let
 ter icons: awesome
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\fontaw
-esome\fontawesome.sty"
+(C:\Users\nhuntington-klein\AppData\Roaming\MiKTeX\2.9\tex\latex\fontawesome\fo
+ntawesome.sty
 Package: fontawesome 2016/05/15 v4.6.3.1 font awesome icons
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\fontaw
-esome\fontawesomesymbols-generic.tex")
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\fontaw
-esome\fontawesomesymbols-pdftex.tex")))
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncvheadiii.sty"
+(C:\Users\nhuntington-klein\AppData\Roaming\MiKTeX\2.9\tex\latex\fontawesome\fo
+ntawesomesymbols-generic.tex)
+(C:\Users\nhuntington-klein\AppData\Roaming\MiKTeX\2.9\tex\latex\fontawesome\fo
+ntawesomesymbols-pdftex.tex)))
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncvheadiii.sty"
 
 LaTeX Warning: You have requested package `moderncvheadiii',
                but the package provides `moderncvheadiii'.
@@ -449,9 +406,7 @@ eader variant: 3
 \makeheaddetailswidth=\skip68
 \makeheaddetailsboxwidth=\skip69
 \quotewidth=\skip70
-)
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncvbodyiii.sty"
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncvbodyiii.sty"
 
 LaTeX Warning: You have requested package `moderncvbodyiii',
                but the package provides `moderncvbodyiii'.
@@ -464,16 +419,14 @@ ody variant: 3
 \doubleitemcolumnwidth=\skip74
 \listitemsymbolwidth=\skip75
 LaTeX Font Info:    Try loading font information for T1+qpl on input line 85.
-
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tex-gy
-re\t1qpl.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\tex-gyre\t1qpl.fd"
 File: t1qpl.fd 2009/09/25 v1.2 font definition file for T1/qpl
 )
 LaTeX Font Info:    Try loading font information for U+fontawesometwo on input 
 line 85.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\fontaw
-esome\ufontawesometwo.fd"
+(C:\Users\nhuntington-klein\AppData\Roaming\MiKTeX\2.9\tex\latex\fontawesome\uf
+ontawesometwo.fd
 File: ufontawesometwo.fd 2016/05/22 Font definitions for U/fontawesometwo.
 )
 \listitemcolumnwidth=\skip76
@@ -482,27 +435,23 @@ File: ufontawesometwo.fd 2016/05/22 Font definitions for U/fontawesometwo.
 \cvitemwithcommentmainlength=\skip78
 \cvitemwithcommentcommentlength=\skip79
 ))
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\modern
-cv\moderncvcolorblue.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\moderncv\moderncvcolorblue.sty"
 Package: moderncvcolorblue 2015/07/28 v2.0.0 modern curriculum vitae and letter
  color scheme: blue
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\i
-nputenc.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
 Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks18
 \inpenc@posthook=\toks19
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\u
-tf8.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\t
-1enc.dfu"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
 File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
@@ -743,8 +692,7 @@ File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\o
-t1enc.dfu"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
 File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
@@ -785,8 +733,7 @@ File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\o
-msenc.dfu"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
 File: omsenc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
@@ -810,8 +757,7 @@ Now handling font encoding U ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hangin
-g\hanging.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\hanging\hanging.sty"
 Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
 \h@ngcommawd=\skip80
 \h@ngfstopwd=\skip81
@@ -822,16 +768,13 @@ Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
 \h@ngcolonwd=\skip86
 \h@ngscolonwd=\skip87
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geomet
-ry\geometry.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\ifpdf.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
 Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\ifvtex.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
@@ -848,19 +791,15 @@ Package ifvtex Info: VTeX not detected.
 \Gm@layoutvoffset=\dimen148
 \Gm@dimlist=\toks20
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geomet
-ry\geometry.cfg"))
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
-ef\hyperref.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
 Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\hobsub-hyperref.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\hobsub-generic.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -893,30 +832,26 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
-ek\auxhook.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
 \@linkdim=\dimen149
 \Hy@linkcounter=\count185
 \Hy@pagecounter=\count186
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
-ef\pd1enc.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
 File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
 \Hy@SavedSpaceFactor=\count187
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00mikt
-ex\hyperref.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 Package hyperref Info: Option `unicode' set `true' on input line 4383.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
-ef\puenc.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\puenc.def"
 File: puenc.def 2018/02/06 v6.86b Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -949,14 +884,12 @@ LaTeX Info: Redefining \pageref on input line 6443.
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
-ef\hpdftex.def"
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
 File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
 \Fld@listcount=\count193
 \c@bookmark@seq@number=\count194
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
-ek\rerunfilecheck.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
@@ -965,7 +898,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 20.
 Package hyperref Info: Option `bookmarksopen' set `true' on input line 20.
- (HuntingtonKleinCV.aux)
+
+(HuntingtonKleinCV.aux)
 \openout1 = `HuntingtonKleinCV.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
@@ -985,8 +919,7 @@ LaTeX Font Info:    ... okay on input line 20.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 20.
 LaTeX Font Info:    ... okay on input line 20.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\context\base
-\supp-pdf.mkii"
+("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count195
 \scratchdimen=\dimen153
@@ -999,13 +932,10 @@ LaTeX Font Info:    ... okay on input line 20.
 \MPnumerator=\count199
 \makeMPintoPDFobject=\count266
 \everyMPtoPDFconversion=\toks22
-)
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
-ek\epstopdf-base.sty"
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
-ek\grfext.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1026,21 +956,9 @@ Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\microt
-ype\mt-ppl.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\mt-ppl.cfg"
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
-LaTeX Font Info:    Try loading font information for T1+lmss on input line 20.
-
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1l
-mss.fd"
-File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmss' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1077,13 +995,10 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 \AtBeginShipoutBox=\box45
 Package hyperref Info: Link coloring OFF on input line 20.
-
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
-ef\nameref.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
-diek\gettitlestring.sty"
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count267
@@ -1091,12 +1006,11 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 20.
 LaTeX Info: Redefining \pageref on input line 20.
 LaTeX Info: Redefining \nameref on input line 20.
- (HuntingtonKleinCV.out) (HuntingtonKleinCV.out)
+
+(HuntingtonKleinCV.out) (HuntingtonKleinCV.out)
 \@outlinefile=\write3
 \openout3 = `HuntingtonKleinCV.out'.
 
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <24.88> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 21.
 LaTeX Font Info:    Try loading font information for OMS+qpl on input line 21.
 LaTeX Font Info:    No file OMSqpl.fd. on input line 21.
 
@@ -1108,39 +1022,33 @@ LaTeX Font Warning: Font shape `OMS/qpl/m/n' undefined
 LaTeX Font Info:    Try loading font information for U+fontawesomethree on inpu
 t line 21.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\fontaw
-esome\ufontawesomethree.fd"
+(C:\Users\nhuntington-klein\AppData\Roaming\MiKTeX\2.9\tex\latex\fontawesome\uf
+ontawesomethree.fd
 File: ufontawesomethree.fd 2016/05/22 Font definitions for U/fontawesomethree.
 )
 LaTeX Font Info:    Try loading font information for OT1+lmr on input line 21.
-
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\ot1
-lmr.fd"
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\microt
-ype\mt-cmr.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\microtype\mt-cmr.cfg"
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
 LaTeX Font Info:    Try loading font information for OML+lmm on input line 21.
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\oml
-lmm.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 21.
 
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\oms
-lmsy.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMX+lmex on input line 21.
 
 
-("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omx
-lmex.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -1154,30 +1062,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--21
 
  []
 
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <14.4> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 22.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 45.
-
-Overfull \hbox (5.93745pt too wide) in paragraph at lines 69--70
-\T1/lmss/m/n/10.95 (-20) nate Set-ting''. \T1/lmss/m/sl/10.95 (-20) Eco-nomics 
-of Ed-u-ca-tion Re-view \T1/lmss/m/n/10.95 (-20) 53: 159--63. doi:10.1016/j.eco
-nedurev.2015.07.007. 
- []
-
 [1
 
 {C:/Users/nhuntington-klein/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
- [2]
-LaTeX Font Info:    Font shape `T1/lmss/b/n' in size <10.95> not available
-(Font)              Font shape `T1/lmss/bx/n' tried instead on input line 217.
- [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 346.
+ [2] [3]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 350.
  [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 346.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 350.
  (HuntingtonKleinCV.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 346.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 346.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 350.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 350.
 Package rerunfilecheck Info: File `HuntingtonKleinCV.out' has not changed.
 (rerunfilecheck)             Checksum: 074AE78EEECE90E13FB52FB403D34A06;1721.
 
@@ -1190,27 +1084,25 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 ### simple group (level 1) entered at line 5 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23012 strings out of 493305
- 387460 string characters out of 3124582
- 460883 words of memory out of 3000000
- 26281 multiletter control sequences out of 15000+200000
- 576939 words of font info for 78 fonts, out of 3000000 for 9000
+ 22967 strings out of 493305
+ 380724 string characters out of 3138838
+ 460770 words of memory out of 3000000
+ 26247 multiletter control sequences out of 15000+200000
+ 575456 words of font info for 75 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,65p,808b,8622s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/f
-onts/enc/dvips/lm/lm-ec.enc}{C:/Users/nhuntington-klein/AppData/Local/Programs/
-MiKTeX 2.9/fonts/enc/dvips/fontawesome/fontawesomethree.enc}{C:/Users/nhuntingt
-on-klein/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/fontawesome/fontawes
-ometwo.enc}<C:/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/fontawesome/FontAwesome.pfb><C:/Users/nhuntington-klein/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/nhu
-ntington-klein/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmss10.p
-fb><C:/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/lm/lmssbx10.pfb><C:/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 
-2.9/fonts/type1/public/lm/lmsso10.pfb>
-Output written on HuntingtonKleinCV.pdf (4 pages, 153341 bytes).
+ 55i,12n,65p,808b,8623s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/tex-gyre/q-ec.enc}
+{C:/Users/nhuntington-klein/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/fontawes
+ome/fontawesomethree.enc}{C:/Users/nhuntington-klein/AppData/Roaming/MiKTeX/2.9
+/fonts/enc/dvips/fontawesome/fontawesometwo.enc}<C:/Users/nhuntington-klein/App
+Data/Roaming/MiKTeX/2.9/fonts/type1/public/fontawesome/FontAwesome.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/tex-gyre/qplb.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/public/tex-gyre/qplr.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
+ublic/tex-gyre/qplri.pfb>
+Output written on HuntingtonKleinCV.pdf (4 pages, 237602 bytes).
 PDF statistics:
- 131 PDF objects out of 1000 (max. 8388607)
+ 133 PDF objects out of 1000 (max. 8388607)
  19 named destinations out of 1000 (max. 500000)
- 12401 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 10353 words of extra memory for PDF output out of 12000 (max. 10000000)
 

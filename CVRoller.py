@@ -18,11 +18,11 @@ from __future__ import (absolute_import, division, print_function,
 from re import sub
 from collections import OrderedDict, defaultdict
 from calendar import month_name
+from copy import deepcopy
 import pypandoc
 import json
-from copy import deepcopy
 #####TODO: figure out if we actually need any of this, if not we can avoid importing
-#####this unless there's actually a .bib import
+#####citeproc-py unless there's actually a .bib import
 from citeproc.py2compat import *
 
 #####################
@@ -226,9 +226,6 @@ def readcites(filename,style,keys=None):
                         except:
                             raise ValueError('Unable to find working encoding for '+filename)    
             
-        #####TODO: at this point, go BACK through the BibTeX file and pick up all
-        #the attributes and add them, even the ones not supported by citeproc-py
-        #Based on BibTeX file formatting, this is likely to be fiddly. So let it error out.
         with open(filename,"r") as f:
             bibtext = f.read()
         
@@ -243,7 +240,7 @@ def readcites(filename,style,keys=None):
                 #or the end of the file
                 
                 #SO! start at {key
-                keytext = bibtext[bibtext.find('{'+'long_completed_2015'):]
+                keytext = bibtext[bibtext.find('{'+b):]
                 #Then jump to after the first comma
                 keytext = keytext[keytext.find(',')+1:]
                 #Now stop the next time we see a \n@, then, very comma followed by a new line is a new item
@@ -296,7 +293,6 @@ def readcites(filename,style,keys=None):
         #Get the file
         csl = requests.get(style)
         #Write it to disk
-        ######TODO: Is there a way to use this with the file in memory rather than writing it?
         with open(style[style.rfind('/')+1:]+'.csl',"w") as f:
             f.write(csl.text)
         bib_style = CitationStylesStyle(style[style.rfind('/')+1:]+'.csl',validate=False)
@@ -707,9 +703,9 @@ def applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd):
     #If theme contains any section-specific theming, bring that in
     for i in theme:
         #If the key is attribute:section that's how we know!
-        if i.find(':') > -1:
+        if i.find('@') > -1:
             #split into attribute and section
-            modify = i.split(':')
+            modify = i.split('@')
             #find any sections with that type and modify them.
             for sec in vsd:
                 if vsd[sec]['type'] == modify[1]:
@@ -769,8 +765,6 @@ def buildmd(vsd,data,secframedef,secglue,itemwrapperdef,type):
             #Check that data actually exists for this section
             try:
                 data[sec]
-                #####TODO: wrap these in tags so that a template file can get them
-                #####This may require doing all of this separately by file-out type
                 #Build each entry by plugging each entry's attributes into its format
                 #Make it a defaultdict so any missing keys return a blank, not an error
                 #format_map, not format(**) to allow defaultdict
@@ -842,12 +836,12 @@ chdir(wd+'/example')
 #####################
 
 #Open up file containing CV layout information
+#TODO: don't hardcode the name of the layout file
 with open('layout.txt','r') as structfile:
     struct = structfile.read()
 
 ###Start reading CV layout structure
 #####TODO: allow generic line-end characters, not just \n
-#####TODO: allow properly formatted JSON structure file to be read in directly
 
 #Remove comments from structure file - lines that start with %.
 #Count how many comments we have and edit that many lines out
@@ -922,7 +916,7 @@ for i in struct:
     #(which we want so it can be different in different versions)
     structdict[str(count)] = getoptions(i)
 
-    #Filling in missing values:
+    #Filling in missing values with defaults:
     #If it's missing a "type" attribute, give it its name, in lower-case, as a default
     try: 
         structdict[str(count)]['type']
@@ -1007,19 +1001,36 @@ for v in versions:
                 topop.append(sec)
         except:
             ''   
+    #Limit the vsd to just the sections that are actually in this version        
     for p in topop:
         vsd.pop(p)
     
     #Now remake vsd with named top-level keys
     vsd = OrderedDict({vsd[sec]['name']:vsd[sec] for sec in vsd})
-
-    #If there's a bib option, bring in the citations!
-    for sec in vsd:
-        arrangecites(vsd,sec,data)
     
-    #Now reorder the data as appropriate
+    #If there are section-specific attributes, apply them
     for sec in vsd:
+        #Create a separate dictionary for updating so the dict isn't modified while looping over it
+        optionsupdate = {}
+        for att in vsd[sec]:
+            #Check for the @-sign that inidcates a version-specific attribute
+            if att.find('@') > -1:
+                #Check if it applies to this section
+                if att[att.find('@')+1:] == v:
+                    #write over the original attribute
+                    optionsupdate.update({att[:att.find('@')]: vsd[sec][att]})
+        vsd[sec].update(optionsupdate)
+        #clean up
+        del optionsupdate
+    
+        #Other section-specific processing
+        #If there's a bib option, bring in the citations!
+        arrangecites(vsd,sec,data)
+        
+        #Now reorder the data as appropriate
         sortitems(vsd,sec,data)
+                    
+        
         
     #Write finished version to file
     #####################

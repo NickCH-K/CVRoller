@@ -75,11 +75,13 @@ After the metadata, the CVRoller Layout file contains information on each sectio
 version: web, pdf
 title: "Working Papers"
 subtitle: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
-format: "{cite} {extra}\br**Abstract**: {abstract}\br"
-sectionframe: "**{title}**\br*{subtitle}*\br{meat}"
+format@web: "{cite} {extra}\br**Abstract**: {abstract}\br"
+sectionframe@web: "**{title}**\br*{subtitle}*\br{meat}"
 ```
 
 Each section starts with the section name, led off by two hash tags `##`. This name tells CVRoller what CV data to pick up. So this section will use CV information tagged for the `working` section (not case-sensitive). It doesn't matter much what you name your sections, except for the head section (with your name, email, etc.), which either must be called `head`, or should have the `type: head` option.
+
+Options can be version-specific, using the `@` symbol. For example, the `format@web` option here will set the `format` option, but only for the version of the CV named `web`. Similarly, `sectionframe` is only set for `web` here, and left as its default value for `pdf`.
 
 No options are required. A section without any options will simply print out all the section entries in the data that aren't assigned an attribute.
 
@@ -106,7 +108,7 @@ Special Sections
 
 There are three currently recognized special section types that don't follow normal rules.
 
-The first is `head`, which usually goes first and contains information like name, email, etc.. the only difference with `head` is that, by default, it does not print a section title.
+The first is `head`, which usually goes first and contains information like name, email, etc.. Some CVRoller variants, such as PDF-out using moderncv, requires that a head section be present.
 
 The second is `text`, which simply prints a text block without reference to the CV data.
 

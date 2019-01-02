@@ -1,4 +1,4 @@
-%Default Theme for CVRoller (this file is unnecessary and for testing and demonstrative purposes only, as this theme is baked into the code anyway)
+%Default HTML Theme for CVRoller 
 
 %List all user-settable options in 'options', one per line, with default following a colon
 ##options
@@ -69,11 +69,11 @@ hr.secdiv.off {
 
 <table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv {sectiondivider}"/><br/>
 
-##sectionframe:head
+##sectionframe@head
 
 <table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>
 
-##sectionframe:date
+##sectionframe@date
 
 <table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>
 

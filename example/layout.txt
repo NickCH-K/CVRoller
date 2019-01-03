@@ -1,13 +1,16 @@
 %This section lays out the versions and their options
-%Note that sectiondivider in the defaulttheme.txt file is on by default, this is just for illustration
 version: web
     out: cv.html
+	%Note that sectiondivider in the defaulttheme.txt file is on by default, this is just for illustration
 	theme: defaulttheme.txt, sectiondivider=on
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 	theme: banking, fontfamily=serif
 	%processor defaults to pdflatex anyway
 	processor: pdflatex
+version: pdffiletheme
+	out: "BasicPDFCV.pdf"
+	theme: defaultpdftheme.txt
 version: wd
     out: "WordCV.docx"
 version: markdown
@@ -30,13 +33,13 @@ format: "{photo}{name}\br{position}, {institution}\br{email}, {phone}\br{website
 %Note that it DOES need to match the section name in the data file, but that's not case sensitive
 ##Employment
 %Don't want this in the web version
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##Education
 %Indent here is actually kind of ugly, just want to demonstrate it for the moderncv version.
 %The @pdf indicates that this option only applies to the version named pdf.
 type@pdf: indent
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##cites
 title: Academic Publications
@@ -50,11 +53,13 @@ subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:
 %the bib option will store the formatted citation as a {raw} attribute, and it can be accessed by the format option in that way.
 format@web: "{raw} [Link]({url}). {note}\br{abstract}\br"
 format@markdown: "{raw} [Link]({url}). {note}\br{abstract}\br"
+type@pdffiletheme: hangingindent
 
 ##pubs2
 title: "Other Work"
 format: "{cite}"
 type@pdf: hangingindent
+type@pdffiletheme: hangingindent
 %Sections can have their own source file.
 %In this case it would be easier to just fold this into the main file, this is for illustration.
 file: nonpeerreviewedpubs.csv
@@ -66,9 +71,11 @@ subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:
 ##working
 title: "Working Papers"
 type@pdf: hangingindent
+type@pdffiletheme: hangingindent
 format@pdf: {cite}
 format@web: "{cite} {extra}\br {abstract}\br"
 format@markdown: "{cite} {extra}\br {abstract}\br"
+format@pdffiletheme: {cite}
 subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 
@@ -79,24 +86,25 @@ title: Dormant Papers
 version: web, markdown
 
 ##Book
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##Teaching
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##conference
 title: "Conference Presentations & Invited Talks"
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##awards
 title: "Fellowships And Awards"
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 %By default, items are presented by ID in the original data in descending order, or, failing that, in reverse order of how they're stored in
 %the CV data file. but you can order by other things, too.
 order: year, descending
 type@pdf: cvitem
 format@pdf: {{{year}}}{{{name}}}
 format@markdown: {year} {name}
+format@pdffiletheme: {year}, {name}
 
 ##servicereferee
 %The sep option shows how items are separated from each other, by default a line break
@@ -104,19 +112,19 @@ format@markdown: {year} {name}
 sep:", "
 order: alphabetical
 title: "Referee Service"
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##serviceother
 title: "Other Service"
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##thesis
 title: "Thesis Committees"
-version: pdf, wd, markdown
+version: pdf, wd, markdown, pdffiletheme
 
 ##workingon
 title: "Things I'm Working On"
-version: web, markdown
+version: web, markdown, pdffiletheme
 order: alphabetical
 
 ##media

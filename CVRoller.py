@@ -62,6 +62,23 @@ def getoptions(block):
 
 #####################
 ##      FCN:       ##
+##     REMOVE      ##
+##   COMMENTS      ##
+#####################
+def remove_comments(block):
+    #Add \n so that it can catch a comment on the first line
+    block = '\n'+block
+    #Then, allow comments that don't start on the first character of the line by getting rid of
+    #whitespace between a new line and a %
+    block = sub('\n+[ \t]+?%','\n%',block)
+    #Count how many comments we have and edit that many lines out
+    for i in range(0,block.count('\n%')):
+        #Cut from the occurrence of the % to the end of the line
+        block = block[0:block.find('\n%')+1]+block[block.find('\n%')+1:][block[block.find('\n%')+1:].find('\n')+1:]
+    return block
+
+#####################
+##      FCN:       ##
 ##   CHECK DICT    ##
 ##     DEPTH       ##
 #####################
@@ -845,15 +862,7 @@ with open('layout.txt','r') as structfile:
 #####TODO: allow generic line-end characters, not just \n
 
 #Remove comments from structure file - lines that start with %.
-#First, add a line break to the beginning of the file in case the first line is a comment, so it can be found
-struct = '\n'+struct
-#Then, allow comments that don't start on the first character of the line by getting rid of
-#whitespace between a new line and a %
-struct = sub('\n+[ \t]+?%','\n%',struct)
-#Finally, count how many comments we have and edit that many lines out
-for i in range(0,struct.count('\n%')):
-    #Cut from the occurrence of the % to the end of the line
-    struct = struct[0:struct.find('\n%')+1]+struct[struct.find('\n%')+1:][struct[struct.find('\n%')+1:].find('\n')+1:]
+struct = remove_comments(struct)
 
 #Isolate metadata - everything before the first #
 meta = struct[0:struct.find('##')]
@@ -1065,15 +1074,8 @@ for v in versions:
 
             #Remove comments from theme file - lines that start with %.
             #First, start the file with a \n so that it can pick up any comments on line 1
-            themetext = '\n'+themetext
-            #Then, allow comments that don't start on the first character of the line by getting rid of
-            #whitespace between a new line and a %
-            themetext = sub('\n+[ \t]+?%','\n%',themetext)
-            #Count how many comments we have and edit that many lines out
-            for i in range(0,themetext.count('\n%')):
-                #Cut from the occurrence of the % to the end of the line
-                themetext = themetext[0:themetext.find('\n%')+1]+themetext[themetext.find('\n%')+1:][themetext[themetext.find('\n%')+1:].find('\n')+1:]
- 
+            themetext = remove_comments(themetext)
+
             ###Now to the theme sections
             #Split into sections
             themetext = themetext.split('##')
@@ -1135,135 +1137,218 @@ for v in versions:
         except:
             ''
         
-        #Get defaults
-        theme, secglue, secframedef, itemwrapperdef = defaulttheme('pdf',versions[v],vsd)
-        
-        #We need theme['options'] to be a dict before going to apply theming
-        theme['options'] = getoptions(theme['options'])
-        
-        #for pagenumbers and fontchange, 'on' and 'off' translate to 'no comment' and 'comment', respectively
+        #Check if we're dealing with moderncv pdf or from a template file
+        pdftype = 'moderncv'
         try:
-            if themeopts['pagenumbers'] == 'on':
-                theme['options']['pagenumbers'] = '%'
-            themeopts.pop('pagenumbers')
-        except:
-            ''
-        try:
-            if themeopts['fontchange'] == 'on':
-                theme['options']['fontchange'] = ' '
-            themeopts.pop('fontchange')
+            if versions[v]['theme'].find('.') > -1:
+                pdftype = 'cvroller'
         except:
             ''
         
-        #Do the format for the head section by hand
-        vsd['head']['out'] = ''
-        #It only allows one extrainfo, so compile them and put them all in at the end
-        extrainfo = ''
-        for i in data['head']:
-            for j in data['head'][i]:
-                if j in ['title','address','quote']:
-                    vsd['head']['out'] = vsd['head']['out'] + '\\'+j+'{'+data['head'][i][j]+'}\n'
-                elif j in ['email']:
-                    #Preconvert to get rid of any link framing, doesn't work here
-                    emailadd = data['head'][i][j][:]
-                    #Just the parts in the parentheses
-                    if emailadd.find('(') > -1:
-                        emailadd = emailadd[emailadd.find('(')+1:emailadd.find(')')]
-                    #And if you've got a mailto:, drop that
-                    if emailadd.find('mailto:') > -1:
-                        emailadd = emailadd[emailadd.find(':')+1:]
-                    #and add 
-                    vsd['head']['out'] = vsd['head']['out'] + '\\'+j+'{'+emailadd+'}\n'
-                elif j in ['mobile','fixed','fax']:
-                    phoneformat = sub('[ -]','~',data['head'][i][j])
-                    vsd['head']['out'] = vsd['head']['out'] + '\\phone['+j+']{'+phoneformat+'}\n'
-                elif j in ['phone']:
-                    phoneformat = sub('[ -]','~',data['head'][i][j])
-                    vsd['head']['out'] = vsd['head']['out'] + '\\phone{'+phoneformat+'}\n'
-                elif j in ['linkedin','twitter','github']:
-                    #preconvert to get rid of any link framing
-                    handle = data['head'][i][j][:]
-                    #Just the parts in the parentheses
-                    if handle.find('(') > -1:
-                        handle = handle[handle.find('(')+1:handle.find(')')]
-                    #If the whole thing ends with a slash, get rid of it
-                    if handle[-1:] == '/':
-                        handle = handle[0:-1]
-                    #Just the part after the last slash
-                    if handle.find('/') > -1:
-                        handle = handle[handle.rfind('/')+1:]
-                    vsd['head']['out'] = vsd['head']['out'] + '\\social['+j+']{'+handle+'}\n'
-                elif j in ['homepage','website']:
-                    #Preconvert to get rid of any link framing, doesn't work here
-                    url = data['head'][i][j][:]
-                    #Just the parts in the parentheses
-                    if url.find('(') > -1:
-                        url = url[url.find('(')+1:url.find(')')]
-                    vsd['head']['out'] = vsd['head']['out'] + '\\homepage'+'{'+url+'}\n'
-                elif j in ['address1']:
-                    #Multi-part addresses
-                    try:
-                        vsd['head']['out'] = vsd['head']['out'] + '\\address{'+data['head'][i][j]+'}{'+data['head'][i]['address2']+'}{'+data['head'][i]['address3']+'}\n'
-                    except:
-                        vsd['head']['out'] = vsd['head']['out'] + '\\address{'+data['head'][i][j]+'}{'+data['head'][i]['address2']+'}\n'
-                elif j in ['name']:
-                    #split in two
-                    namesplit = data['head'][i][j].split(' ',maxsplit=1)
-                    namesplit.append('')
-                    vsd['head']['out'] = vsd['head']['out'] + '\\name{'+namesplit[0]+'}{'+namesplit[1]+'}\n'
-                elif j in ['name1']:
-                    vsd['head']['out'] = vsd['head']['out'] + '\\name{'+data['head'][i][j]+'}{'+data['head'][i]['name2']+'}\n'
-                elif j in ['photo','picture','profile','image']:
-                    #Preformat to get rid of any ! image framing, doesn't work here.
-                    imgloc = data['head'][i][j][:]
-                    #Just the parts in the parentheses
-                    if imgloc.find('(') > -1:
-                        imgloc = imgloc[imgloc.find('(')+1:imgloc.find(')')]
-                    vsd['head']['out'] = vsd['head']['out'] + '\\photo['+theme['options']['photowidth']+']['+theme['options']['photoframe']+']{'+imgloc+'}\n'
-                elif j in ['id']:
-                    ''
-                    #Skip id.
-                else:
-                    #If it's the first extrainfo
-                    if len(extrainfo) == 0:
-                        extrainfo = data['head'][i][j]
-                    else:
-                        extrainfo = ', '.join([extrainfo,data['head'][i][j]])
-                    
-        #If there was any extrainfo, add it
-        if len(extrainfo) > 0:
-            vsd['head']['out'] = vsd['head']['out'] + '\\extrainfo{'+extrainfo+'}\n'
-        #The head section must end with the beginning of the document
-        docbegin = ('%Document beginning\n'
-                    '\\begin{document}\n'
-                    '\\makecvtitle')
-        vsd['head']['out'] = vsd['head']['out'] + docbegin
-        #Add the head to the header which will also not be translated by pandoc
-        theme['header'] = theme['header'] + '\n' + vsd['head']['out']
-        #and make sure that buildmd doesn't process the header
-        vsd.pop('head')
+        #####################
+        ##      BUILD      ##
+        ##     MODERNCV    ##
+        ##       PDF       ##
+        #####################
+        if pdftype == 'moderncv':        
         
-        #and apply theming
-        theme,themeopts,secglue,secframedef,itemwrapperdef = applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd)
-               
-        #Now build it!
-        cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef,versions[v]['type'])
-        
-        #Save the PDF both as a PDF and as a raw .tex file
-        #open up and save to a .tex file with the same filename as the eventual pdf but a .tex extension
-        with open(versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex','w',encoding='utf-8') as texfile:
-            texfile.write(theme['header']+cv+theme['footer'])
-        
-        #Figure out which LaTeX compiler is going to be used
-        try:
-            versions[v]['processor'] = versions[v]['processor'].lower()
-        except:
-            versions[v]['processor'] = 'pdflatex'
+            #Get defaults
+            theme, secglue, secframedef, itemwrapperdef = defaulttheme('pdf',versions[v],vsd)
             
-        #and then call it directly to generate the PDF.
-        import subprocess
-        subprocess.call(versions[v]['processor']+' '+versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex')
+            #We need theme['options'] to be a dict before going to apply theming
+            theme['options'] = getoptions(theme['options'])
+            
+            #for pagenumbers and fontchange, 'on' and 'off' translate to 'no comment' and 'comment', respectively
+            try:
+                if themeopts['pagenumbers'] == 'on':
+                    theme['options']['pagenumbers'] = '%'
+                themeopts.pop('pagenumbers')
+            except:
+                ''
+            try:
+                if themeopts['fontchange'] == 'on':
+                    theme['options']['fontchange'] = ' '
+                themeopts.pop('fontchange')
+            except:
+                ''
+            
+            #Do the format for the head section by hand
+            vsd['head']['out'] = ''
+            #It only allows one extrainfo, so compile them and put them all in at the end
+            extrainfo = ''
+            for i in data['head']:
+                for j in data['head'][i]:
+                    if j in ['title','address','quote']:
+                        vsd['head']['out'] = vsd['head']['out'] + '\\'+j+'{'+data['head'][i][j]+'}\n'
+                    elif j in ['email']:
+                        #Preconvert to get rid of any link framing, doesn't work here
+                        emailadd = data['head'][i][j][:]
+                        #Just the parts in the parentheses
+                        if emailadd.find('(') > -1:
+                            emailadd = emailadd[emailadd.find('(')+1:emailadd.find(')')]
+                        #And if you've got a mailto:, drop that
+                        if emailadd.find('mailto:') > -1:
+                            emailadd = emailadd[emailadd.find(':')+1:]
+                        #and add 
+                        vsd['head']['out'] = vsd['head']['out'] + '\\'+j+'{'+emailadd+'}\n'
+                    elif j in ['mobile','fixed','fax']:
+                        phoneformat = sub('[ -]','~',data['head'][i][j])
+                        vsd['head']['out'] = vsd['head']['out'] + '\\phone['+j+']{'+phoneformat+'}\n'
+                    elif j in ['phone']:
+                        phoneformat = sub('[ -]','~',data['head'][i][j])
+                        vsd['head']['out'] = vsd['head']['out'] + '\\phone{'+phoneformat+'}\n'
+                    elif j in ['linkedin','twitter','github']:
+                        #preconvert to get rid of any link framing
+                        handle = data['head'][i][j][:]
+                        #Just the parts in the parentheses
+                        if handle.find('(') > -1:
+                            handle = handle[handle.find('(')+1:handle.find(')')]
+                        #If the whole thing ends with a slash, get rid of it
+                        if handle[-1:] == '/':
+                            handle = handle[0:-1]
+                        #Just the part after the last slash
+                        if handle.find('/') > -1:
+                            handle = handle[handle.rfind('/')+1:]
+                        vsd['head']['out'] = vsd['head']['out'] + '\\social['+j+']{'+handle+'}\n'
+                    elif j in ['homepage','website']:
+                        #Preconvert to get rid of any link framing, doesn't work here
+                        url = data['head'][i][j][:]
+                        #Just the parts in the parentheses
+                        if url.find('(') > -1:
+                            url = url[url.find('(')+1:url.find(')')]
+                        vsd['head']['out'] = vsd['head']['out'] + '\\homepage'+'{'+url+'}\n'
+                    elif j in ['address1']:
+                        #Multi-part addresses
+                        try:
+                            vsd['head']['out'] = vsd['head']['out'] + '\\address{'+data['head'][i][j]+'}{'+data['head'][i]['address2']+'}{'+data['head'][i]['address3']+'}\n'
+                        except:
+                            vsd['head']['out'] = vsd['head']['out'] + '\\address{'+data['head'][i][j]+'}{'+data['head'][i]['address2']+'}\n'
+                    elif j in ['name']:
+                        #split in two
+                        namesplit = data['head'][i][j].split(' ',maxsplit=1)
+                        namesplit.append('')
+                        vsd['head']['out'] = vsd['head']['out'] + '\\name{'+namesplit[0]+'}{'+namesplit[1]+'}\n'
+                    elif j in ['name1']:
+                        vsd['head']['out'] = vsd['head']['out'] + '\\name{'+data['head'][i][j]+'}{'+data['head'][i]['name2']+'}\n'
+                    elif j in ['photo','picture','profile','image']:
+                        #Preformat to get rid of any ! image framing, doesn't work here.
+                        imgloc = data['head'][i][j][:]
+                        #Just the parts in the parentheses
+                        if imgloc.find('(') > -1:
+                            imgloc = imgloc[imgloc.find('(')+1:imgloc.find(')')]
+                        vsd['head']['out'] = vsd['head']['out'] + '\\photo['+theme['options']['photowidth']+']['+theme['options']['photoframe']+']{'+imgloc+'}\n'
+                    elif j in ['id']:
+                        ''
+                        #Skip id.
+                    else:
+                        #If it's the first extrainfo
+                        if len(extrainfo) == 0:
+                            extrainfo = data['head'][i][j]
+                        else:
+                            extrainfo = ', '.join([extrainfo,data['head'][i][j]])
+                        
+            #If there was any extrainfo, add it
+            if len(extrainfo) > 0:
+                vsd['head']['out'] = vsd['head']['out'] + '\\extrainfo{'+extrainfo+'}\n'
+            #The head section must end with the beginning of the document
+            docbegin = ('%Document beginning\n'
+                        '\\begin{document}\n'
+                        '\\makecvtitle')
+            vsd['head']['out'] = vsd['head']['out'] + docbegin
+            #Add the head to the header which will also not be translated by pandoc
+            theme['header'] = theme['header'] + '\n' + vsd['head']['out']
+            #and make sure that buildmd doesn't process the header
+            vsd.pop('head')
+            
+            #and apply theming
+            theme,themeopts,secglue,secframedef,itemwrapperdef = applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd)
+                   
+            #Now build it!
+            cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef,versions[v]['type'])
+            
+            #Save the PDF both as a PDF and as a raw .tex file
+            #open up and save to a .tex file with the same filename as the eventual pdf but a .tex extension
+            with open(versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex','w',encoding='utf-8') as texfile:
+                texfile.write(theme['header']+cv+theme['footer'])
+            
+            #Figure out which LaTeX compiler is going to be used
+            try:
+                versions[v]['processor'] = versions[v]['processor'].lower()
+            except:
+                versions[v]['processor'] = 'pdflatex'
+                
+            #and then call it directly to generate the PDF.
+            import subprocess
+            subprocess.call(versions[v]['processor']+' '+versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex')
+      
+        #####################
+        ##      BUILD      ##
+        ##      OTHER      ##
+        ##       PDF       ##
+        #####################
+        else:
+            #Theme may require name separate
+            try:
+                for i in data['head']:
+                    name = data['head'][i]['name']
+            except:
+                name = ''
+            
+            #Bring in theme, which there must be, otherwise would have defaulted to moderncv
+            #Split up options
+            themeopts = ('themetitle='+versions[v]['theme']).split(',')
+            #separate into attributes and content
+            themeopts = [[i.strip() for i in j.split('=')] for j in themeopts]
+            #and turn into dict
+            themeopts = {i[0]:i[1] for i in themeopts}
+            
+            with open(themeopts['themetitle'],'r') as themefile:
+                themetext = themefile.read()
+            
+            ###Start reading theme layout structure
+
+            #Remove comments from theme file - lines that start with %.
+            themetext = remove_comments(themetext)
+            ###Now to the theme sections
+            #Split into sections
+            themetext = themetext.split('##')
+            #The first line of each section is the key, the rest is the text
+            theme = {}
+            [theme.update({i[0:i.find('\n')]:i[i.find('\n')+1:]}) for i in themetext]                    
+            
+            #Defaults to be easily overriden
+            secglue = '\n'
+            secframedef = '\n\\section*{{{title}}}  \n{subtitle}  \n{meat}'  
+            itemwrapperdef = '{item}\n'
+
+            for sec in vsd:
+                #If it has a sep option, we don't want that \n after {item}
+                try:
+                    vsd[sec]['sep']
+                    vsd[sec]['itemwrapper'] = '{item}'
+                except:
+                    ''
+            
+            theme,themeopts,secglue,secframedef,itemwrapperdef = applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd)
+            
+            #Now build it!
+            cv = buildmd(vsd,data,secframedef,secglue,itemwrapperdef,versions[v]['type'])
         
+            #Save the PDF both as a PDF and as a raw .tex file
+            #open up and save to a .tex file with the same filename as the eventual pdf but a .tex extension
+            with open(versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex','w',encoding='utf-8') as texfile:
+                texfile.write(theme['header']+cv+theme['footer'])
+            
+            #Figure out which LaTeX compiler is going to be used
+            try:
+                versions[v]['processor'] = versions[v]['processor'].lower()
+            except:
+                versions[v]['processor'] = 'pdflatex'
+                
+            #and then call it directly to generate the PDF.
+            import subprocess
+            subprocess.call(versions[v]['processor']+' '+versions[v]['out'][0:versions[v]['out'].rfind('.')]+'.tex')
+
     #####################
     ##      BUILD      ##
     ##       THE       ##

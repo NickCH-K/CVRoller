@@ -41,6 +41,7 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Suppress citeproc-py warnings for unsupported fields when reading in bibtex files
 * Allow version-specific options within a section
 * Allow comments that don't start on the first character of the line
+* Allow more generic PDF generation without moderncv
 
 Features that are Completed but Need Testing
 ----------------------
@@ -57,7 +58,7 @@ Small Fixes/Features to Come
 * Add Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
 * Figure out way to allow tables more easily (tables currently work but you have to very oddly stick the table header row in the format option). Note this follows from the markdown package's markdown parser requiring a table header.
-* Allow more generic PDF generation without moderncv
+* Figure out the escaping on `##format` arguments in non-moderncv PDF themes.
 
 Medium/Far Term Fixes and Features to Come
 ----------------------------------

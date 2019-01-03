@@ -193,6 +193,6 @@ Media Mentions
 -   [Is Robert anti-teacher?](https://edexcellence.net/commentary/podcasts/is-robert-anti-teacher) The Education Gadfly, November 5, 2014\
 -   [Study: Teacher hiring should be more scientific](http://komonews.com/news/local/study-teacher-hiring-should-be-more-scientific). Associated Press, October 29, 2014
 
--   Last updated: January 2, 2019
+-   Last updated: January 3, 2019
 
 

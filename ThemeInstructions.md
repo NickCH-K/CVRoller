@@ -3,9 +3,7 @@ How to Write a CVRoller HTML/CSS Theme
 
 This document will describe how the CVRoller theme file works for HTML-out so that you can write or edit your own.
 
-For LaTeX output, CVRoller themes are simply [moderncv](https://www.ctan.org/pkg/moderncv) themes. See the LayoutInstructions to see how to customize your moderncv template of choice in the Layout file. If you'd like to create your own theme for a PDF CV, you'll need to write a moderncv theme (or write an HTML theme and use Print to get a PDF!).
-
-This document will mostly explain how to write an HTML theme.
+For LaTeX output, CVRoller themes are simply [moderncv](https://www.ctan.org/pkg/moderncv) themes. See the LayoutInstructions to see how to customize your moderncv template of choice in the Layout file. See below if you'd like to write your own PDF theme, although it is considerably more difficult (or write an HTML theme and use Print to get a PDF!).
 
 Comments can be added to theme files using the percent sign `%`. Any line beginning with `%` will be ignored.
 
@@ -160,3 +158,17 @@ One thing to keep in mind is that citations processed from a BibTeX file are pre
 ```
 
 would make all the BibTeX citations red as long as they're in a section with the `cites` type, but leave alone any other sections that use the `raw` attribute.
+
+
+How to Write a CVRoller LaTeX/PDF Theme
+=============================
+
+Basiaclly, LaTeX/PDF themes work the exact same as HTML themes and follow the same syntax as above. The main difference is that the `##style` attribute is no longer required.
+
+The main difficulty in writing a LaTeX/PDF theme is figuring out character escaping. LaTeX code contains characters like `\` and `{` in great measure, and getting them to show up properly can be a real trial-and-error task.
+
+More confusing, the escaping rules vary throughout the theme document. Anything written in the `##header` or `##footer` sections doesn't need to be escaped. Anything in `##options` does, though. So replace those `\`s with `\\` and the `{` and `}` with `{{` and `}}`.
+
+For the other attributes, like `sectionframe`, etc., back slashes do *not* need to be escaped, but curly braces do. So `\section*{{{title}}}` (noting three sets of curly braces, one for the `{title}` data substitution, and the other two to actually write a set of curly braces to LaTeX.
+
+As of this writing, I have not figured out the correct escaping procedures for `##format`. But I'm working on it.

@@ -43,7 +43,8 @@ def getoptions(block):
         #Break by row
         out = block.split('\n')
         #Remove blank entries from blank lines
-        out = [i for i in out if i]  
+        #and strip early, in case a line is just a tab or space or something
+        out = [i.strip() for i in out if i.strip()]  
         #Split along the :, use maxsplit in case : is in an argument
         out = [i.split(':',maxsplit=1) for i in out]
         #Get rid of trailing and leading spaces
@@ -844,13 +845,15 @@ with open('layout.txt','r') as structfile:
 #####TODO: allow generic line-end characters, not just \n
 
 #Remove comments from structure file - lines that start with %.
-#Count how many comments we have and edit that many lines out
+#First, add a line break to the beginning of the file in case the first line is a comment, so it can be found
+struct = '\n'+struct
+#Then, allow comments that don't start on the first character of the line by getting rid of
+#whitespace between a new line and a %
+struct = sub('\n+[ \t]+?%','\n%',struct)
+#Finally, count how many comments we have and edit that many lines out
 for i in range(0,struct.count('\n%')):
     #Cut from the occurrence of the % to the end of the line
     struct = struct[0:struct.find('\n%')+1]+struct[struct.find('\n%')+1:][struct[struct.find('\n%')+1:].find('\n')+1:]
-#The above procedure doesn't work if there's a comment on the first line
-if struct[0] == '%':
-    struct = struct[struct.find('\n')+1:]
 
 #Isolate metadata - everything before the first #
 meta = struct[0:struct.find('##')]
@@ -1061,13 +1064,15 @@ for v in versions:
             ###Start reading theme layout structure
 
             #Remove comments from theme file - lines that start with %.
+            #First, start the file with a \n so that it can pick up any comments on line 1
+            themetext = '\n'+themetext
+            #Then, allow comments that don't start on the first character of the line by getting rid of
+            #whitespace between a new line and a %
+            themetext = sub('\n+[ \t]+?%','\n%',themetext)
             #Count how many comments we have and edit that many lines out
             for i in range(0,themetext.count('\n%')):
                 #Cut from the occurrence of the % to the end of the line
                 themetext = themetext[0:themetext.find('\n%')+1]+themetext[themetext.find('\n%')+1:][themetext[themetext.find('\n%')+1:].find('\n')+1:]
-            #The above procedure doesn't work if there's a comment on the first line
-            if themetext[0] == '%':
-                themetext = themetext[themetext.find('\n')+1:]
  
             ###Now to the theme sections
             #Split into sections

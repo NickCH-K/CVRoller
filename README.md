@@ -39,6 +39,8 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Add LaTeX-out
 * Fix many, many LaTeX conversion oddities from pypandoc.
 * Suppress citeproc-py warnings for unsupported fields when reading in bibtex files
+* Allow version-specific options within a section
+* Allow comments that don't start on the first character of the line
 
 Features that are Completed but Need Testing
 ----------------------
@@ -47,6 +49,7 @@ Features that are Completed but Need Testing
 * LaTeX themes and most options for those themes
 * LaTeX PDF processors other than pdflatex
 * Input files that have various different encodings
+* Are there any HTML tags in CSL citation formatting that need to be changed back to Markdown? `<i>` and `<b>` already changed back. But are there others?
 
 Small Fixes/Features to Come
 --------------------
@@ -54,11 +57,7 @@ Small Fixes/Features to Come
 * Add Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
 * Figure out way to allow tables more easily (tables currently work but you have to very oddly stick the table header row in the format option). Note this follows from the markdown package's markdown parser requiring a table header.
-* Find all HTML tags in citation formatting and change back to Markdown for the purpose of eventual LaTeX-out and Word-out. `<i>` and `<b>` already changed back. But are there others?
 * Allow more generic PDF generation without moderncv
-* Allow version-specific options within a section
-* Use pypandoc.download_pandoc to install pandoc if it isn't already.
-* Allow comments that don't start on the first character of the line
 
 Medium/Far Term Fixes and Features to Come
 ----------------------------------
@@ -75,3 +74,4 @@ Original Planned Additions Perhaps Abandoned or Not a Problem
 * Current implementation uses pandas to read in data as strings, which turns missings into the actual string 'nan'. Is that the best way?
 * Is there a better way of getting line breaks from the layout and data files than forcing people to write \br and turning it into space-space-\n?
 * Figure out how to import and use CSL files without having to write them to disk
+* Use pypandoc.download_pandoc to install pandoc if it isn't already.

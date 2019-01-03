@@ -3,15 +3,16 @@
 version: web
     out: cv.html
 	theme: defaulttheme.txt, sectiondivider=on
-%processor defaults to pdflatex anyway
 version: pdf
     out: "HuntingtonKleinCV.pdf"
 	theme: banking, fontfamily=serif
+	%processor defaults to pdflatex anyway
 	processor: pdflatex
 version: wd
     out: "WordCV.docx"
 version: markdown
 	out: "cv.md"
+	
 %followed by other information, notably the CV data itself
 file: cvdata.xlsx
 

@@ -25,9 +25,10 @@ width: 70%
 <style>
 *{font-family: {fontfamily};
 	font-size: {fontsize}}
-table.section {
+div.section {
 	border: 0px;
 	background-color: #FFFFFF;
+	display: table;
 	max-width: {width};
 	min-width: {width};
 	width: {width};
@@ -38,11 +39,13 @@ table.section {
 	vertical-align: text-top;
 	color: {titlecolor};
 	width: 20%;
+	display: table-cell;
 	border-right: solid 1px black;
 	padding: 20px}
 .secmeat {
 	text-align: left;
 	width: 80%;
+	display: table-cell;
 	padding: 20px;}
 hr.secdiv {
 	height: 1px;
@@ -67,15 +70,15 @@ hr.secdiv.off {
 
 ##sectionframe
 
-<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv {sectiondivider}"/><br/>
+<div class = "section"><div class="sectitle">**{title}**</div><div class="secmeat">{subtitle}{meat}</div></div><br/><hr class="secdiv {sectiondivider}"/><br/>
 
 ##sectionframe@head
 
-<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>
+<div class = "section"><div class="secmeat">{meat}</div></div>
 
 ##sectionframe@date
 
-<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>
+<div class = "section"><div class="secmeat">{meat}</div></div>
 
 ##itemwrapper
 

@@ -57,7 +57,7 @@ Small Fixes/Features to Come
 * Currently has heavy reliance on layout file ending lines with `\n`. Be more flexible
 * Add Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
-* Figure out way to allow tables more easily (tables currently work but you have to very oddly stick the table header row in the format option). Note this follows from the markdown package's markdown parser requiring a table header.
+* Figure out way to allow tables without headers. This should be possible through pandoc with the simple_tables or multiline_tables options but this hasn't been tried yet.
 * Figure out the escaping on `##format` arguments in non-moderncv PDF themes.
 
 Medium/Far Term Fixes and Features to Come

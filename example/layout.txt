@@ -2,6 +2,7 @@
 version: web
     out: cv.html
 	%Note that sectiondivider in the defaulttheme.txt file is on by default, this is just for illustration
+	%Also note that defaulttheme.txt (without any options changed) is the same theme that is used when no theme is specified, hardcoded in CVRoller.
 	theme: defaulttheme.txt, sectiondivider=on
 version: pdf
     out: "HuntingtonKleinCV.pdf"

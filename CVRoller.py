@@ -471,9 +471,12 @@ def defaulttheme(format, v, vsd):
         theme['style'] = ('<style>'
              '*{font-family: Georgia, serif;'
              'font-size: medium}'
-             'table.section {'
+             'div.section {'
              'border: 0px;'
              'background-color: #FFFFFF;'
+             'display: table;'
+             'max-width: 70%;'
+             'min-width: 70%;'
              'width: 70%;'
              'margin-left: auto;'
              'margin-right: auto}'
@@ -482,11 +485,13 @@ def defaulttheme(format, v, vsd):
              'vertical-align: text-top;'
              'color: #009933;'
              'width: 20%;'
+             'display: table-cell;'
              'border-right: solid 1px black;'
              'padding: 20px}'
              '.secmeat {'
              'text-align: left;'
              'width: 80%;'
+             'display: table-cell;'
              'padding: 20px;}'
              'hr.secdiv {'
              'height: 1px;'
@@ -510,7 +515,7 @@ def defaulttheme(format, v, vsd):
         try:
             secframedef = v['sectionframe']
         except:
-            secframedef = '<table class = "section"><tr><td class="sectitle">**{title}**</td><td class="secmeat">{subtitle}{meat}</td></tr></table><br/><hr class="secdiv"/><br/>'  
+            secframedef = '<div class = "section"><div class="sectitle">**{title}**</div><div class="secmeat">{subtitle}{meat}</div></div><br/><hr class="secdiv"/><br/>'  
 
         try:
             itemwrapperdef = v['itemwrapper']
@@ -523,7 +528,7 @@ def defaulttheme(format, v, vsd):
                 try:
                     vsd[sec]['sectionframe']
                 except:
-                    vsd[sec]['sectionframe'] = '<table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>'
+                    vsd[sec]['sectionframe'] = '<div class = "section"><div class="secmeat">{meat}</div></div>'
 
     elif format == 'pdf':
         #Note that some strange decisions here, like the % comment lines

@@ -6,9 +6,10 @@ Nick C. Huntington-Klein CV
 <style>
 *{font-family: Georgia, serif;
     font-size: medium}
-table.section {
+div.section {
     border: 0px;
     background-color: #FFFFFF;
+    display: table;
     max-width: 70%;
     min-width: 70%;
     width: 70%;
@@ -19,11 +20,13 @@ table.section {
     vertical-align: text-top;
     color: #009933;
     width: 20%;
+    display: table-cell;
     border-right: solid 1px black;
     padding: 20px}
 .secmeat {
     text-align: left;
     width: 80%;
+    display: table-cell;
     padding: 20px;}
 hr.secdiv {
     height: 1px;
@@ -41,22 +44,19 @@ hr.secdiv.off {
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <body>
-<table class="section">
-<tr>
-<td class="secmeat">
+<div class="section">
+<div class="secmeat">
 <p><span class="head photo"><img src="profile.jpg" alt="Profile" width="130" /></span><span class="head name">Nick C. Huntington-Klein</span><br />
 <span class="head position">Assistant Professor of Economics</span>, <span class="head institution">CSU Fullerton</span><br />
 <span class="head email"><a href="mailto:nhuntington-klein@fullerton.edu">nhuntington-klein@fullerton.edu</a></span>, <span class="head phone">(657) 278-3918</span><br />
 <span class="head website">nickchk.com</span>, Twitter: @<span class="head twitter"><a href="https://twitter.com/nickchk">nickchk</a></span>, GitHub: <span class="head github"><a href="https://github.com/NickCH-K">NickCH-K</a></span></p>
-</td>
-</tr>
-</table>
-<table class="section">
-<tr>
-<td class="sectitle">
+</div>
+</div>
+<div class="section">
+<div class="sectitle">
 <strong>Academic Publications</strong>
-</td>
-<td class="secmeat">
+</div>
+<div class="secmeat">
 <p>Please email me at <a href="mailto:nhuntington-klein@fullerton.edu">nhuntington-klein@fullerton.edu</a> for working PDFs if not linked.</p>
 <p><span class="cites raw">Huntington-Klein, Nick. 2018. “College Choice as a Collective Decision”. <em>Economic Inquiry</em> 56 (2): 1202–19.</span> <a href="http://onlinelibrary.wiley.com/doi/10.1111/ecin.12470/full">Link</a>. <span class="cites note"><a href="http://nickchk.com/Huntington-Klein_2017_College_Choice_as_a_Collective_Decision.pdf">Working Paper PDF</a></span><br />
 <span class="cites abstract">Although the choice between colleges can be thought of as being made collectively by a family, models of educational choice almost universally portray the decision as made by the student alone. Using a novel experimental method for identifying collective decision functions, I find that students have more influence than parents over the decision, but not exclusive control. Students care more than parents about classroom experience and future earnings. Ignoring the dual-agent nature of the decision can weaken predictions and lead to poorly-targeted policy designs.</span></p>
@@ -76,18 +76,16 @@ hr.secdiv.off {
 <span class="cites abstract">In an analysis connecting labor market earnings to college major choices, we find statistically significant relationships between changes in wages by occupation and subsequent changes in college majors completed in related fields of college study between 1982 and 2012. College majors (defined at a detailed level) are most strongly related to wages observed three years earlier, when students were college freshmen. The responses to wages vary depending on the extent to which there is a strong mapping of majors into particular occupations. We also find that women, blacks, Hispanics, and students with low test scores are less likely to respond to wage changes. These findings have implications for policy interventions designed to align students' major choices with labor market demand.</span></p>
 <p><span class="cites raw">Huntington-Klein, Nick. 2015. “Subjective and Projected Returns to Education”. <em>Journal of Economic Behavior &amp; Organization</em> 117: 10–25. doi:10.1016/j.jebo.2015.05.005.</span> <a href="http://www.sciencedirect.com/science/article/pii/S0167268115001407">Link</a>. <span class="cites note">Recipient of 2013 Storer Award for Labor Economics.</span><br />
 <span class="cites abstract">There is significant heterogeneity over high school students in the wage and employment rate returns to education. I evaluate this heterogeneity using subjective returns derived from a data set of high school juniors and seniors in Washington State. Variation over observables in projected returns estimated using observed data is uncorrelated with variation in subjective returns elicited by directly asking students about their beliefs. These results mean that returns estimated using observed data are likely a very weak proxy for student beliefs.</span></p>
-</td>
-</tr>
-</table>
+</div>
+</div>
 <br/>
 <hr class="secdiv on"/>
 <p><br/></p>
-<table class="section">
-<tr>
-<td class="sectitle">
+<div class="section">
+<div class="sectitle">
 <strong>Other Work</strong>
-</td>
-<td class="secmeat">
+</div>
+<div class="secmeat">
 <p>Please email me at <a href="mailto:nhuntington-klein@fullerton.edu">nhuntington-klein@fullerton.edu</a> if you cannot access these papers.</p>
 <p><span class="pubs2 cite">&quot;CVRoller: A Python Program Designed to Automatically Generate and Update CVs.&quot; 2018. <a href="http://www.cvroller.com">cvroller.com</a></span> <span class="pubs2 extra"></span><br />
 <span class="pubs2 abstract">This is a general-purpose automatic document generation language tuned specifically towards the generation of academic CVs. Multiple different CV variants can be updated at once from centrally updated CV data. CVRoller allows CV generation in HTML, PDF, and Markdown formats, and was used to make the CV you are reading right now.</span></p>
@@ -107,18 +105,16 @@ hr.secdiv.off {
 <span class="pubs2 abstract">This report describes the production of sub-baccalaureate certificates in Washington State, and projects the growth of certificate production through 2023.</span></p>
 <p><span class="pubs2 cite">&quot;It’s Selective, But Is It Effective? Exploring the Predictive Validity of Teacher Selection Tools&quot; with Dan Goldhaber and Cyrus Grout. 2014. CEDR Policy Brief 2014-9.</span> <span class="pubs2 extra"></span><br />
 <span class="pubs2 abstract">Evidence suggests teacher hiring in public schools is ad-hoc and often does not result in good selection amongst applicants. Some districts use structured selection instruments in the hiring process, but we know little about the efficacy of such tools. In this paper we evaluate the ability of applicant selection tools used by the Spokane Public Schools (SPS) to predict three outcomes: measures of teachers' value-added contributions to student learning, teacher absence behavior, and attrition rates. We observe all applicants to the district, both those who are and who are not hired. We find that the screening instruments predict teacher value-added in student achievement and teacher attrition, but not teacher absences.</span></p>
-</td>
-</tr>
-</table>
+</div>
+</div>
 <br/>
 <hr class="secdiv on"/>
 <p><br/></p>
-<table class="section">
-<tr>
-<td class="sectitle">
+<div class="section">
+<div class="sectitle">
 <strong>Working Papers</strong>
-</td>
-<td class="secmeat">
+</div>
+<div class="secmeat">
 <p>Please email me at <a href="mailto:nhuntington-klein@fullerton.edu">nhuntington-klein@fullerton.edu</a> for working PDFs if not linked.</p>
 <p><span class="working cite">&quot;Human Capital vs. Signaling is Empirically Unresolvable.&quot; CSU Fullerton Department of Economics Working Paper 2018/010.</span> <span class="working extra"><a href="https://business.fullerton.edu/department/economics/assets/CSUF_WP_10-18.pdf?_=0.9280972001934785">PDF</a></span><br />
 <span class="working abstract">Economists offer two major explanations for the fact that we find causal labor market returns to education. The first is human capital accumulation: education improves ability. The second is signaling: education allows initially high-ability students to distinguish themselves. A major point of interest in the economics of education is relative contributions of signaling and human capital. Empirical evidence generally excludes the trivial case: neither human capital nor signaling explain either 0% or 100% of the return. I argue that exclusions of the trivial case form the limits of what can be learned from empirical data. An education returns model with some non-zero contribution of both signaling and human capital cannot be empirically distinguished from another model with different non-zero contributions, making human capital vs. signaling a poor framing for understanding the return as a whole, and for policy decision-making.</span></p>
@@ -132,49 +128,43 @@ hr.secdiv.off {
 <span class="working abstract">Past research on choice under ambiguity - decisions made when the probability of each outcome is unknown - has typically focused on scenarios in which ambiguity is presented alongside risks with known probabilities. Understanding the response to ambiguity is then difficult to distinguish from the response to risk, confounding our understanding of how subjects behave in conditions of ambiguity. In this paper I take advantage of the fact that all decisions are necessarily ambiguous to some extent to develop a scenario in which ambiguity is present but is otherwise risk-free. Respondents participate in a task that is very similar to a multi-armed bandit but with no random variation in payouts. I show that respondents anticipate ambiguity in payouts without prompting, continue to do so for long periods of time, respond differently to gains and losses in this context, and that this tendency is independent of risk preference. I offer a basic, clean framework for creating a riskless ambiguous environment for subjects, and argue that these exploratory results make the case for further study of ambiguity in riskless environments.</span></p>
 <p><span class="working cite">&quot;Most Likely to Succeed: Personality and Long-Run Economic Outcomes&quot; with Elaina Rose.</span> <span class="working extra"></span><br />
 <span class="working abstract">We estimate the effect of college seniors' personality traits on long-run career and economic outcomes. The analysis uses a novel data set that merges information from the 1980 - 1984 West Point yearbooks with detailed alumni records. Personality traits were inferred from peer-written narratives and faculty-conferred distinctions. The narratives were evaluated by West Point alumni from non-study classes and the multiple reports were aggregated using a Latent Class Model (LCM). We find that cadets identified by faculty as leaders, and those characterized by peers as leaders, determined, or social prove to be more successful in terms of military and civilian career outcomes 31-35 years after graduation.</span></p>
-</td>
-</tr>
-</table>
+</div>
+</div>
 <br/>
 <hr class="secdiv on"/>
 <p><br/></p>
-<table class="section">
-<tr>
-<td class="sectitle">
+<div class="section">
+<div class="sectitle">
 <strong>Dormant Papers</strong>
-</td>
-<td class="secmeat">
+</div>
+<div class="secmeat">
 <p><a href="http://nickchk.com/filedrawer.html">The File Drawer</a></p>
-</td>
-</tr>
-</table>
+</div>
+</div>
 <br/>
 <hr class="secdiv on"/>
 <p><br/></p>
-<table class="section">
-<tr>
-<td class="sectitle">
+<div class="section">
+<div class="sectitle">
 <strong>Things I'm Working On</strong>
-</td>
-<td class="secmeat">
+</div>
+<div class="secmeat">
 <p><span class="workingon raw">An Informational Intervention to Encourage Full Course Loads with Andrew Gill</span></p>
 <p><span class="workingon raw">Empirical Economics Replication Project with Andrew Gill</span></p>
 <p><span class="workingon raw">Statistical Discrimination and Labor Market Competitiveness</span></p>
 <p><span class="workingon raw">The Complexity of College Course Requirements with Rachel Baker</span></p>
 <p><span class="workingon raw">The Development of a Woman-Friendly Culture: Evidence from West Point with Elaina Rose</span></p>
 <p><span class="workingon raw">The Potential Impact of Free Community College Programs with William Zumeta</span></p>
-</td>
-</tr>
-</table>
+</div>
+</div>
 <br/>
 <hr class="secdiv on"/>
 <p><br/></p>
-<table class="section">
-<tr>
-<td class="sectitle">
+<div class="section">
+<div class="sectitle">
 <strong>Media Mentions</strong>
-</td>
-<td class="secmeat">
+</div>
+<div class="secmeat">
 <p><span class="media raw"><a href="http://fortune.com/2018/11/29/chicos-unilever-gsk-handmaids-tale-sequel-broadsheet-november-29/?xid=gn_editorspicks">Chico's, Unilever GSK, 'Handmaid's Tale' Sequel: Broadsheet November 29</a>. Fortune Magazine, December 1, 2018</span></p>
 <p><span class="media raw"><a href="https://mailchi.mp/financialaccess/the-faiv-week-of-nov262018">The faiV: Week of November 26, 2018: The Astounding Edition</a>. fai, November 30, 2018</span></p>
 <p><span class="media raw"><a href="https://www.purewow.com/news/west-point-study-on-women-helping-each-other-at-work">High-Five Your Work Wife: New Study Shows How Women Help Each Other Advance</a>. PureWow, Sarah Stiefvater, November 29, 2018</span></p>
@@ -191,18 +181,15 @@ hr.secdiv.off {
 <p><span class="media raw"><a href="http://hechingerreport.org/25399-2/">Facing growing scrutiny, colleges set out to prove their value</a>. The Hechinger Report, January 22, 2016.</span></p>
 <p><span class="media raw"><a href="https://edexcellence.net/commentary/podcasts/is-robert-anti-teacher">Is Robert anti-teacher?</a> The Education Gadfly, November 5, 2014</span></p>
 <p><span class="media raw"><a href="http://komonews.com/news/local/study-teacher-hiring-should-be-more-scientific">Study: Teacher hiring should be more scientific</a>. Associated Press, October 29, 2014</span></p>
-</td>
-</tr>
-</table>
+</div>
+</div>
 <br/>
 <hr class="secdiv on"/>
 <p><br/></p>
-<table class="section">
-<tr>
-<td class="secmeat">
-<p>Last updated: <span class="date monthname">January</span> <span class="date day">3</span>, <span class="date year">2019</span></p>
-</td>
-</tr>
-</table>
+<div class="section">
+<div class="secmeat">
+<p>Last updated: <span class="date monthname">January</span> <span class="date day">4</span>, <span class="date year">2019</span></p>
+</div>
+</div>
 </body>
 </html>

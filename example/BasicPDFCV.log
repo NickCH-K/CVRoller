@@ -1,12 +1,16 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.3.12)  3 JAN 2019 12:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.28)  5 JAN 2019 21:10
 entering extended mode
 **./BasicPDFCV.tex
 (BasicPDFCV.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 75 language(s) loaded.
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
+
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\a
+rticle.cls"
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\size11.clo"
+
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\s
+ize11.clo"
 File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -21,21 +25,26 @@ File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geomet
+ry\geometry.sty"
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphi
+cs\keyval.sty"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
+diek\ifpdf.sty"
 Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
+diek\ifvtex.sty"
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxe
+tex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \Gm@cnth=\count87
@@ -51,20 +60,24 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks15
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geomet
+ry\geometry.cfg"))
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\i
+nputenc.sty"
 Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks16
 \inpenc@posthook=\toks17
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\u
+tf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\t
+1enc.dfu"
 File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
@@ -305,7 +318,8 @@ File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\o
+t1enc.dfu"
 File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
@@ -346,7 +360,8 @@ File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\o
+msenc.dfu"
 File: omsenc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
@@ -370,7 +385,8 @@ Now handling font encoding U ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\hanging\hanging.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hangin
+g\hanging.sty"
 Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
 \h@ngcommawd=\skip43
 \h@ngfstopwd=\skip44
@@ -381,14 +397,17 @@ Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
 \h@ngcolonwd=\skip49
 \h@ngscolonwd=\skip50
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
+ef\hyperref.sty"
 Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
+diek\hobsub-hyperref.sty"
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
+diek\hobsub-generic.sty"
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
@@ -427,24 +446,28 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
+ek\auxhook.sty"
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
+ek\kvoptions.sty"
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen111
 \Hy@linkcounter=\count90
 \Hy@pagecounter=\count91
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
+ef\pd1enc.def"
 File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
 \Hy@SavedSpaceFactor=\count92
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00mikt
+ex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 Package hyperref Info: Hyper figures OFF on input line 4509.
@@ -456,7 +479,8 @@ Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4762.
 \c@Hy@tempcnt=\count93
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\url\ur
+l.sty"
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
@@ -480,19 +504,20 @@ LaTeX Info: Redefining \pageref on input line 6443.
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
+ef\hpdftex.def"
 File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
 \Fld@listcount=\count98
 \c@bookmark@seq@number=\count99
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdi
+ek\rerunfilecheck.sty"
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip51
-)
-(BasicPDFCV.aux)
+) (BasicPDFCV.aux)
 \openout1 = `BasicPDFCV.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -546,10 +571,13 @@ LaTeX Font Info:    ... okay on input line 8.
 
 \AtBeginShipoutBox=\box26
 Package hyperref Info: Link coloring OFF on input line 8.
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperr
+ef\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+("C:\Users\nhuntington-klein\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ober
+diek\gettitlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count100
@@ -557,8 +585,7 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 8.
 LaTeX Info: Redefining \pageref on input line 8.
 LaTeX Info: Redefining \nameref on input line 8.
-
-(BasicPDFCV.out) (BasicPDFCV.out)
+ (BasicPDFCV.out) (BasicPDFCV.out)
 \@outlinefile=\write3
 \openout3 = `BasicPDFCV.out'.
 
@@ -571,7 +598,8 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 {C:/Users/nhuntington-klein/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
- [2] [3] [4]
+ [2] [3]
+[4]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 524.
  [5]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 524.
@@ -584,17 +612,19 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 524.
  ) 
 Here is how much of TeX's memory you used:
  5075 strings out of 493305
- 74209 string characters out of 3138838
- 162242 words of memory out of 3000000
+ 76222 string characters out of 3124582
+ 162346 words of memory out of 3000000
  8598 multiletter control sequences out of 15000+200000
  7498 words of font info for 27 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  28i,5n,32p,422b,341s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on BasicPDFCV.pdf (5 pages, 87418 bytes).
+<C:/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmbx12.pfb><C:/Users/nhuntington-klein/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/nhuntington-klein/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:
+/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmtt10.pfb>
+Output written on BasicPDFCV.pdf (5 pages, 87417 bytes).
 PDF statistics:
  80 PDF objects out of 1000 (max. 8388607)
  20 named destinations out of 1000 (max. 500000)

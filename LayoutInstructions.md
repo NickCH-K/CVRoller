@@ -65,7 +65,7 @@ Current supported non-required options include:
 
 `processor`, for PDF only, is the name of the TeX-to-PDF converter you'd like to use. The processor must be installed directly, and defaults to PDFLaTeX.
 
-Head Section
+Sections
 ------------------------------
 
 After the metadata, the CVRoller Layout file contains information on each section of the CV to be included, and the options for each section. Here's an example:
@@ -102,6 +102,8 @@ Options available include:
 `order` determines the order in which items are displayed. By default, each item is displayed in descending order according to its `id` in the data. `order: ascending` will instead use ascending order, `order: alphabetical` will order the items according to the alphabetical order of the *content* of the item, and `order: attributename, ascending` or `order: attributename, descending` will order items according to the `attributename` attribute of each item (which can be any attribute) in ascending or descending order.
 
 `sep` is similar to the `sectionglue` option from the Verisons section above, except that instead of gluing together sections, this glues together items. By default, this is `\br`, with a line break between each item. But, for example, setting `sep:", "` will list all items on the same line, separated by commas.
+
+`span` and `spanskip`: in HTML-out CVs, each attribute is wrapped in a `<span>` tag so that the CSS can style each attribute. However, this can sometimes lead to problems. For example, if the attribute is a URL and the `<a>` tag is in the `format` argument (as opposed to the preferred method of including a Markdown link in the attribute itself), it won't work to wrap your URL in a `<span>` before sending it to `<a>`! So `span` and `spanskip` allow you to specify which attributes do or do not get `<span>` tags. `span: title, text`, for example, will include `<span>` wrappers *only* for the `title` and `text` attributes, and no others. Alternately, `spanskip: title, text` will include `<span>` wrappers for all attributes *except* title and text.
 
 Special Sections
 ------------------------------

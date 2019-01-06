@@ -1115,6 +1115,32 @@ for v in versions:
             #Limit to unique list
             attlist = list(set(attlist))
             
+            #If there's a span or spanskip attribute, modify the attribute list that gets a span
+            try:
+                #Look for a span attribute. Split and strip it
+                attkeep = vsd[sec]['span'].split(',')
+                attkeep = [i.strip() for i in attkeep]
+                #Keep only the parts of attlist that are also in attkeep
+                attlist = list(set(attlist) & set(attkeep))
+                
+                #Clean up
+                del attkeep
+            except:
+                ''
+            #Now for spanskip
+            try:
+                #Look for a spanskip attribute. Split and strip it
+                attdrop = vsd[sec]['spanskip'].split(',')
+                attdrop = [i.strip() for i in attdrop]
+                #Keep only parts of attlist that are NOT in attdrop
+                attlist = list(set(attlist) - set(attdrop))
+                
+                #clean up
+                del attdrop
+            except:
+                ''
+                
+            
             #Now, wherever in the format we see the sub code, replace it with the sub code wrapped in a span
             for a in attlist:
                 #Skip the substitution if it's inside parentheses, as that will mess up Markdown translation

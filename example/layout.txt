@@ -1,3 +1,6 @@
+%WORTH NOTING! This layout file is a complex mess!
+%That's because it serves as an example file to show off every single bell and whistle CVRoller has.
+%The file I use for my actual CV, and the file you'll write for yours, are MUCH BETTER!
 %This section lays out the versions and their options
 version: web
     out: cv.html
@@ -79,6 +82,9 @@ format@markdown: "{cite} {extra}\br {abstract}\br"
 format@pdffiletheme: {cite}
 subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+%for demonstration's sake, ONLY include a span wrapper in HTML files for the cite, extra,
+%and abstract attributes, and no others! (of course, those are the only attributes here...)
+span: cite, extra, abstract
 
 ##tag
 type: text
@@ -106,6 +112,8 @@ type@pdf: cvitem
 format@pdf: {{{year}}}{{{name}}}
 format@markdown: {year} {name}
 format@pdffiletheme: {year}, {name}
+%For demonstration's sake, skip the span wrapper for the year attribute here in HTML versions
+spanskip: year
 
 ##servicereferee
 %The sep option shows how items are separated from each other, by default a line break

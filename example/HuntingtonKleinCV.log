@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.28)  5 JAN 2019 21:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.28)  7 JAN 2019 21:02
 entering extended mode
 **./HuntingtonKleinCV.tex
 (HuntingtonKleinCV.tex
@@ -1145,12 +1145,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--21
 
 {C:/Users/nhuntington-klein/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
  [2] [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 350.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 353.
  [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 350.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 353.
  (HuntingtonKleinCV.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 350.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 350.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 353.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 353.
 Package rerunfilecheck Info: File `HuntingtonKleinCV.out' has not changed.
 (rerunfilecheck)             Checksum: 074AE78EEECE90E13FB52FB403D34A06;1721.
 
@@ -1163,11 +1163,11 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 ### simple group (level 1) entered at line 5 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 22967 strings out of 493305
- 386446 string characters out of 3124582
+ 22965 strings out of 493305
+ 386424 string characters out of 3124582
  460770 words of memory out of 3000000
  26247 multiletter control sequences out of 15000+200000
- 575456 words of font info for 75 fonts, out of 3000000 for 9000
+ 575310 words of font info for 74 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,12n,65p,808b,8619s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/f
@@ -1181,7 +1181,7 @@ s/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/tex-gy
 re/qplb.pfb><C:/Users/nhuntington-klein/AppData/Local/Programs/MiKTeX 2.9/fonts
 /type1/public/tex-gyre/qplr.pfb><C:/Users/nhuntington-klein/AppData/Local/Progr
 ams/MiKTeX 2.9/fonts/type1/public/tex-gyre/qplri.pfb>
-Output written on HuntingtonKleinCV.pdf (4 pages, 237602 bytes).
+Output written on HuntingtonKleinCV.pdf (4 pages, 237353 bytes).
 PDF statistics:
  133 PDF objects out of 1000 (max. 8388607)
  19 named destinations out of 1000 (max. 500000)

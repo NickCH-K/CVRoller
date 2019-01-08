@@ -130,20 +130,23 @@ type: date
 
 By default, this uses `title: "Last Updated: "` and will print 'Last Updated: MonthName Date, Year'. But this can be customized. A `title` option will change the 'Last Updated: ', and the `format` option, which is by default `'{monthname} {day}, {year}'`, can be used to change how the date/time is, using the attributes `year, month, monthname, day, hour, minute,` or `second`.
 
+Processing Citations
+=====================
+
 Using BibTeX Databases
 ----------------------
 
 One section option not covered so far is `bib`. `bib` tells CVRoller to import a BibTeX database and use the citations in it as data for this section. Make sure that the database is in BibTeX format, not Better BibTeX. The database can be in .bib or JSON format, with the JSON file formatted according to [this example](https://github.com/brechtm/citeproc-py/blob/master/examples/citeproc_json.py). 
 
-`bib` takes two arguments, separated by commas. The first is the file location of the database, and should end in .bib or .json. The second is the citation style. This option uses CSL formatting. You can select any style available on [this page](https://www.zotero.org/styles). Either download one of the .csl files and then put the filepath in as the option, ending in .csl, or just put in the ID of the citation style and CVRoller will get it for you. Just hover over the style you want, right-click or command-click, select "copy link location", and include this as the option. For example, the very first style on that page gives "https://www.zotero.org/styles/3-biotech". 
+`bib` takes two arguments, separated by commas. The first is the file location of the database, and should end in .bib or .json. The second is the citation style. This option uses CSL formatting. You can select any style available on [this page](https://www.zotero.org/styles). Either download one of the .csl files and then put the filepath in as the option, ending in .csl, or just put in the ID of the citation style and CVRoller will get it for you. You can include the full URL of the citation style as shown on the Zotero page, for example "https://www.zotero.org/styles/3-biotech", or just the name of the style itself, for example "3-biotech".
 
-CSL files stored on other websites may also work; your mileage may vary. Getting the .csl file from a website will store it on your computer so you can refer to it by filepath naxt time. 
+CSL files stored on other websites may also work; your mileage may vary. Getting the .csl file from a website will store it on your computer. If you include just the name of the style itself, like "3-biotech", it will download it the first time you run it, and then use the already-downloaded file every time after that. 
 
 By default, `bib` will use all citations in the database. `bib` can take a third argument of a list of citation keys, separated by semicolons ;. This tells CVRoller which citation keys from the database to use. Alternately, if there is data for the section with a `key` attribute, these will be used as the citation keys to include.
 
 For example, the `bib` option 
 
-`bib: "library.bib", https://www.zotero.org/styles/apa, "frank2012;james2015"`
+`bib: file="library.bib", style=apa, keys="frank2012;james2015"`
 
 will use the APA style with the library.bib database, picking only the citation keys `frank2012` and `james2015`. Alternately, if the section's data included rows with the term `key` in the attribute column, and `frank2012` and `james2015` as rows in the content column, only `frank2012` and `james2015` would be chosen.
 
@@ -169,6 +172,29 @@ will work, but
 ```
 
 will not. Similarly, if you have a comma followed by a new line in any of the attributes (for example if you have a paragraph break in an abstract that for some reason ends on a comma), that won't work either.
+
+Using the Crossref Database with ORCID or DOI
+----------------------
+
+Another option for getting publications in your CV is by looking them up in the [Crossref](https://www.crossref.org/) database. You can do this either by giving a list of DOIs directly, or by giving your [ORCID](https://orcid.org/), uh, ID, and CVRoller will look up your ID and pick out all the DOIs it finds there.
+
+Take for example
+
+```
+doi: keys="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
+```
+
+This will look up the DOIs `10.1111/ssqu.12483;10.1257` and `10.1257/pandp.20181114` in the Crossref database and format them as citations in the `chicago-author-date-16th-edition` style. DOIs should be separated by a semicolon, and can also be included in the CV data as a `key` attribute. 
+
+The `style` option here works the exact same as in the `bib` option described in the previous section. Basically, choose one from [this page](https://www.zotero.org/styles).
+
+By default, citations gathered in this way will be ordered in reverse chronological order according to the `year` and `month` BibTeX attributes (if available). `order: ascending` will give ascending chronological order. Chronological order can be overriden with an `order` option in the section.
+
+If you are just using Crossref to get your citations formatted and print them, you should be good to go! Three short notes, though, if you're planning to use `format` to get at some of the individual attributes of the citation to use them elsewhere:
+
+1. I dropped the `reference` attribute. Took up a lot of space, and were you really going to use this?
+2. Crossref sometimes doesn't have all the attributes. In the example `doi:` option above, the abtract for `10.1111/ssqu.12483` is not in Crossref, and so if I have an `{abstract}` substitution in my `format` argument, it will not show up for that one.
+3. Crossref returns data in a multi-nested format, with attributes inside attributes inside attributes! Unfortunately, at this moment there's no way to let you access anything but the top level. I've left these nested attributes in there, but if you try to use them you'll get back the full nesting structure. For example, if I include `{issued}` in my `format` argument, it will show me "{'date-parts': [[2018, 2, 12]]}" since the `date-parts` attribute is nested inside `issued`. There's no way to get at `date-parts` by itself.
 
 Using moderncv for LaTeX PDF CVs
 --------------------------------

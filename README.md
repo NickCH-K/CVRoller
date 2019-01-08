@@ -42,6 +42,7 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Allow version-specific options within a section
 * Allow comments that don't start on the first character of the line
 * Allow more generic PDF generation without moderncv
+* Allow citation import from Crossref
 
 Features that are Completed but Need Testing
 ----------------------

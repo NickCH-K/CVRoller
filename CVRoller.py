@@ -10,8 +10,9 @@ It's a generic automatic-document generator that happens to be designed for CVs.
 
 @author: nhuntington-klein@fullerton.edu
 """
-
+#read_record_public(self, orcid_id, request_type, token, put_code=None, accept_type='application/orcid+json')
 #Had to be installed: citeproc-py, pypandoc
+#If you want to get publication info from ORCID you must install the orcid package
 
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
@@ -25,6 +26,16 @@ import json
 #####citeproc-py unless there's actually a .bib import
 from citeproc.py2compat import *
 
+'''
+id='APP-2OOJ0BDG4JKEG2IJ'
+secret='5c22a2cd-c483-40e0-b642-cb81051a01eb'
+api = orcid.PublicAPI(id, secret, sandbox=False)
+search_token = api.get_search_token_from_orcid()
+summary = api.read_record_public('0000-0002-7352-3991', 'activities',search_token)
+
+w1 = works.filter(orcid='0000-0002-7352-3991')
+'''
+
 #####################
 ##     USEFUL      ##
 ##   FUNCTIONS     ##
@@ -35,18 +46,18 @@ from citeproc.py2compat import *
 ##     READ        ##
 ##    OPTIONS      ##
 #####################
-def getoptions(block):
+def getoptions(block,line='\n',sep=':'):
     #if passed what is already a dict, send it back
     if isinstance(block,dict):
         return block
     else:
         #Break by row
-        out = block.split('\n')
+        out = block.split(line)
         #Remove blank entries from blank lines
         #and strip early, in case a line is just a tab or space or something
         out = [i.strip() for i in out if i.strip()]  
         #Split along the :, use maxsplit in case : is in an argument
-        out = [i.split(':',maxsplit=1) for i in out]
+        out = [i.split(sep,maxsplit=1) for i in out]
         #Get rid of trailing and leading spaces
         #and replace \br with line ending space-space-\n
         #####TODO: figure out a better way than establishing \br as an alternate line break to allow line breaks in the options, e.g. for item formats
@@ -210,8 +221,37 @@ def readcites(filename,style,keys=None):
     from citeproc import Citation, CitationItem
     import warnings
     
-    #Determine which file type we're dealing with
-    if filename[filename.find('.')+1:].lower() == 'bib':
+    #Create full list of attributes to append later
+    allatts = {}
+    
+    #Check if it's a list being sent in from doi
+    if isinstance(filename,list):
+        from citeproc.source.json import CiteProcJSON
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            bib_source = CiteProcJSON(filename)   
+        
+        #Keep the original data around to fill back in later after the processing
+        allatts = {i['id']:i for i in filename}
+        
+        #Prune and edit
+        #Create topop array to avoid modifying an iterable
+        for a in allatts:
+            #we don't need references, remove to clean up a bit
+            #Can't use other dicts either, but leave them be for now, maybe they can be accessed later.
+            #with some crazy syntax
+            try:
+                allatts[a].pop('reference')
+            except:
+                pass
+            
+            #and if it's not a string, make it one. It won't be a pleasant result but at least you'll
+            #see why it's not working and avoid error messages
+            for i in allatts[a]:
+                if not isinstance(allatts[a][i],str):
+                    allatts[a][i] = str(allatts[a][i])
+    #If it's not a list it should be a filename. Determine which file type we're dealing with
+    elif filename[filename.find('.')+1:].lower() == 'bib':
         from citeproc.source.bibtex import BibTeX
         #load in data
         #Try encodings until one sticks.
@@ -275,28 +315,24 @@ def readcites(filename,style,keys=None):
                     if (i[0].lower() in ['doi','isbn','issn','pmid']):
                         i[0] = i[0].upper()
                     
-                    #Finally, add these items to bib_source, but only if they're not already there.
-                    #don't overwrite anything citeproc-py did.
-                    try:
-                        bib_source[b][i[0]]
-                    except:
-                        bib_source[b][i[0]] = i[1]
+                keytext = {i[0]:i[1] for i in keytext}
+                allatts.update({b:keytext})
         except:
             warnings.warn('BibTeX file '+filename+' isn\'t squeaky clean. See layout help file. Couldn\'t import items other than those defined by citeproc-py.')
         
     elif filename[filename.find('.')+1:].lower() == 'json':
-        #####TODO: JSON INPUT IS UNTESTED
-        import json
+        #####TODO: JSON FILE INPUT IS UNTESTED
         from citeproc.source.json import CiteProcJSON
         #load in data
         with open(filename,'r') as jsonfile:
             jsonbib = json.load(jsonfile)
-        bib_source = CiteProcJSON(json.loads(jsonbib))   
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            bib_source = CiteProcJSON(json.loads(jsonbib))   
         
         #pick up all the attributes and add them, even the ones not supported by citeproc-py
         for b in jsonbib:
-            bib_source[b['id']].update(b)
-        
+            bib_source[b['id']].update(b)    
     else:
         raise ValueError('Filetype for '+filename+' not supported.')
     
@@ -305,8 +341,9 @@ def readcites(filename,style,keys=None):
     #If filepath is specified, use that for style.
     if style.find('.csl') > -1:
         bib_style = CitationStylesStyle(style,validate=False)
-    else:
-        #Otherwise, load it, save it, bring it in, and at the end, delete it
+    elif style.find('/') > -1:
+        #If a URL is specified, use that.
+        #Otherwise, load it, save it, bring it in        
         import requests
         #Get the file
         csl = requests.get(style)
@@ -314,6 +351,18 @@ def readcites(filename,style,keys=None):
         with open(style[style.rfind('/')+1:]+'.csl',"w") as f:
             f.write(csl.text)
         bib_style = CitationStylesStyle(style[style.rfind('/')+1:]+'.csl',validate=False)
+    else:
+        #If it's just the name alone, check for a file, and if it's not there, download it
+        try: 
+            bib_style = CitationStylesStyle(style+'.csl',validate=False)
+        except:
+            import requests
+            #Get the file
+            csl = requests.get('https://www.zotero.org/styles/'+style)
+            #Write it to disk
+            with open(style[style.rfind('/')+1:]+'.csl',"w") as f:
+                f.write(csl.text)
+            bib_style = CitationStylesStyle(style[style.rfind('/')+1:]+'.csl',validate=False)
     
     #Create bibliography
     bibliography = CitationStylesBibliography(bib_style, bib_source, formatter.html)
@@ -326,7 +375,7 @@ def readcites(filename,style,keys=None):
         keys = bib_source
     else:
         bibliography.register(Citation([CitationItem(i) for i in keys]))
-        
+     
     #Try to put in reverse chronological order by getting year and month values, if available
     #while building dictionary
     bibdata = OrderedDict()
@@ -344,6 +393,8 @@ def readcites(filename,style,keys=None):
         date = str(year*100+month)
         #Turn each part into a regular dict so the data can be easily accessed later
         bibdata[str(count)] = dict(bib_source[i])
+        #Add into that dict everything from keytext, but favor bibdata if item names compete!
+        bibdata[str(count)] = dict(list(allatts[i].items())+list(bibdata[str(count)].items()))
         #Add in the new data. Change <i> and <b> back to Markdown for LaTeX and Word purposes later
         bibdata[str(count)].update({'item':i,'date':date,'raw':str(bibliography.bibliography()[count]).replace('<b>','**').replace('</b>','**').replace('<i>','*').replace('</i>','*')})
         #bibdata[str(count)] = {'item':i,'date':date,'raw':str(bibliography.bibliography()[count])}
@@ -363,21 +414,22 @@ def readcites(filename,style,keys=None):
 #sets things up for the above readcites() function to work.
 def arrangecites(vsd,sec,data):
     try:
-        #split option
-        bibopt = vsd[sec]['bib'].split(',')
-        #remove whitespace
-        bibopt = [i.strip() for i in bibopt]
-        #Remove quotes at beginning and end
-        for i in bibopt:
-            if ((i[0] in ['"',"'"]) and (i[len(i[1])-1] in ['"',"'"])):
-                i = i[1:len(i[1])-1]
+        #get the bib options
+        bibopt = getoptions(vsd[sec]['bib'],line=',',sep='=')
+        
+        #If style is missing, default to APA
+        try:
+            bibopt['style']
+        except:
+            bibopt['style'] = 'apa'
+        
         #If there's a list of keys in the option, start the key list!
         keys = []
         try:
-            optkeys = bibopt[2].split(';')
+            optkeys = bibopt['keys'].split(';')
             [keys.append(i.strip()) for i in optkeys]
         except:
-            ''
+            pass
         
         #If there's a list of keys in the data, remove them from data but add them to keys
         try:
@@ -386,20 +438,19 @@ def arrangecites(vsd,sec,data):
                     keys.append(data[sec][row]['key'])
                     data[sec].pop(row)
                 except:
-                    ''
+                    pass
         except:
-            ''
+            pass
         #If neither source had any keys, replace keys with None
         if len(keys) == 0:
             keys = None
-        
         #Now get the formatted citation and add to the data
         try:
-            data[sec].update(readcites(bibopt[0],bibopt[1],keys))
+            data[sec].update(readcites(bibopt['file'],bibopt['style'],keys))
         except:
             #If it didn't exist up to now, create it
-            data[sec] = readcites(bibopt[0],bibopt[1],keys)
-        
+            data[sec] = readcites(bibopt['file'],bibopt['style'],keys)
+            
         #By default, sections with .bib entries are sorted by the date attribute
         #So put that in unless an order is already specified
         try:
@@ -407,7 +458,97 @@ def arrangecites(vsd,sec,data):
         except:
             vsd[sec]['order'] = 'date'
     except:
-        ''
+        pass
+
+#####################
+##      FCN:       ##
+##       DOI       ##
+##      CITES      ##
+#####################
+def arrangedoi(vsd,sec,data):
+    try:
+        #get options
+        doiopt = getoptions(vsd[sec]['doi'],line=',',sep='=')
+        
+        #If style is missing, default to APA
+        try:
+            doiopt['style']
+        except:
+            doiopt['style'] = 'apa'
+        
+        #if missing lang option, default to en-US. So USA-centric of me!
+        try:
+            doiopt['lang']
+        except:
+            doiopt['lang']='en-US'
+        
+        #If there's a list of keys in the option, start the key list!
+        keys = []
+        try:
+            optkeys = doiopt['keys'].split(';')
+            [keys.append(i.strip()) for i in optkeys]
+        except:
+            pass
+        
+        #If there's a list of keys in the data, remove them from data but add them to keys
+        try:
+            for row in data[sec]:
+                try:
+                    keys.append(data[sec][row]['key'])
+                    data[sec].pop(row)
+                except:
+                    pass
+        except:
+            pass
+        
+        #Now get the formatted citation and add to the data
+        import requests
+        
+        #create basic numeric ids
+        idnumber = 0
+        #and compile them together
+        doidata = []
+        for k in keys:
+            #Get the JSON with ALL the data in case it's needed for something in format
+            #and also to get date for ordering
+            citedata = requests.get('http://dx.doi.org/'+k,headers={'Accept':'application/citeproc+json'})
+            citedata = json.loads(citedata.text)
+            
+            #Add the id to the data
+            citedata['id'] = str(idnumber)
+            
+            #Remove all jats tags added by crossref
+            for i in citedata:
+                if isinstance(citedata[i],str):
+                    if citedata[i].find('jats:') > -1:
+                        #Remove opening and closing jats tags
+                        citedata[i] = sub('</*?jats:.+?>','',citedata[i])
+            
+            #And add to doidata
+            doidata.append(citedata)
+            
+            idnumber = idnumber + 1
+        
+        #clean up
+        del citedata
+        
+        #Now get the formatted citation and add to the data
+        try:
+            data[sec].update(readcites(doidata,doiopt['style']))
+        except:
+            #If it didn't exist up to now, create it
+            data[sec] = readcites(doidata,doiopt['style'])
+        
+        #By default, sections with .bib entries are sorted by the date attribute
+        #So put that in unless an order is already specified
+        try:
+            vsd[sec]['order']
+        except:
+            vsd[sec]['order'] = 'date'
+        
+    except:
+        pass
+
 
 #####################
 ##      FCN:       ##
@@ -455,7 +596,7 @@ def sortitems(vsd,sec,data):
                 #but if that's not possible...
                 data[sec] = OrderedDict(sorted(data[sec].items(), key=lambda t: t[0],reverse=True))
     except:
-        ''
+        pass
 
 #####################
 ##      FCN:       ##
@@ -668,7 +809,7 @@ def defaulttheme(format, v, vsd):
                 vsd[sec]['sep']
                 vsd[sec]['itemwrapper'] = '{item}'
             except:
-                ''
+                pass
                     
     return theme, secglue, secframedef, itemwrapperdef
 
@@ -696,7 +837,7 @@ def applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd):
                     theme[i] = sub('{'+j+'}',theme['options'][j],theme[i])
         
     except:
-        ''
+        pass
     
     #Allow user to overwrite parts, and offer defaults if the theme omits them.
     try: 
@@ -705,7 +846,7 @@ def applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd):
         try:
             secglue = theme['sectionglue']
         except:
-            ''
+            pass
         
     try:
         secframedef = versions[v]['sectionframe']
@@ -713,7 +854,7 @@ def applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd):
         try: 
             secframedef = theme['sectionframe']
         except:
-            ''
+            pass
     
     try:
         itemwrapperdef = versions[v]['itemwrapper']
@@ -721,7 +862,7 @@ def applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd):
         try: 
             itemwrapperdef = theme['itemwrapper']
         except:
-            ''  
+            pass  
     
     #If theme contains any section-specific theming, bring that in
     for i in theme:
@@ -800,7 +941,7 @@ def buildmd(vsd,data,secframedef,secglue,itemwrapperdef,type):
                 #Clean up
                 [data[sec][i].pop('itemmeat') for i in data[sec]]
             except:
-                ''
+                pass
         
         
         #If it's latex, preconvert everything to avoid double-conversion
@@ -815,7 +956,7 @@ def buildmd(vsd,data,secframedef,secglue,itemwrapperdef,type):
                 s['subtitle'] = pypandoc.convert_text(s['subtitle'],'latex',format='md',encoding='utf-8',extra_args=['--no-wrap'])
                 s['subtitle'] = s['subtitle'][0:-2]
             except:
-                ''
+                pass
         
         #Build full section
         try:
@@ -992,7 +1133,7 @@ for sec in structdict:
             # If not, create the section
             data[structdict[sec]['name']] = addldata[structdict[sec]['name']]    
     except:
-        ''
+        pass
 
 #####################
 ##      BUILD      ##
@@ -1017,7 +1158,7 @@ for v in versions:
             if not v in secversions:
                 topop.append(sec)
         except:
-            ''   
+            pass   
     #Limit the vsd to just the sections that are actually in this version        
     for p in topop:
         vsd.pop(p)
@@ -1044,6 +1185,9 @@ for v in versions:
         #If there's a bib option, bring in the citations!
         arrangecites(vsd,sec,data)
         
+        #If there's a doi option, bring in the citations!
+        arrangedoi(vsd,sec,data)
+        
         #Now reorder the data as appropriate
         sortitems(vsd,sec,data)
                     
@@ -1066,11 +1210,7 @@ for v in versions:
         #Bring in theme, if present
         try:
             #Split up options
-            themeopts = ('themetitle='+versions[v]['theme']).split(',')
-            #separate into attributes and content
-            themeopts = [[i.strip() for i in j.split('=')] for j in themeopts]
-            #and turn into dict
-            themeopts = {i[0]:i[1] for i in themeopts}
+            themeopts = getoptions('themetitle='+versions[v]['theme'],line=',',sep='=')
             
             with open(themeopts['themetitle'],'r') as themefile:
                 themetext = themefile.read()
@@ -1126,7 +1266,7 @@ for v in versions:
                 #Clean up
                 del attkeep
             except:
-                ''
+                pass
             #Now for spanskip
             try:
                 #Look for a spanskip attribute. Split and strip it
@@ -1138,7 +1278,7 @@ for v in versions:
                 #clean up
                 del attdrop
             except:
-                ''
+                pass
                 
             
             #Now, wherever in the format we see the sub code, replace it with the sub code wrapped in a span
@@ -1160,13 +1300,9 @@ for v in versions:
     #####################
     elif versions[v]['type'] == 'pdf':
         try:
-            themeopts = ('template='+versions[v]['theme']).split(',')
-            #separate into attributes and content
-            themeopts = [[i.strip() for i in j.split('=')] for j in themeopts]
-            #and turn into dict
-            themeopts = {i[0]:i[1] for i in themeopts}
+            themeopts = getoptions('template='+versions[v]['theme'],line=',',sep='=')
         except:
-            ''
+            pass
         
         #Check if we're dealing with moderncv pdf or from a template file
         pdftype = 'moderncv'
@@ -1174,7 +1310,7 @@ for v in versions:
             if versions[v]['theme'].find('.') > -1:
                 pdftype = 'cvroller'
         except:
-            ''
+            pass
         
         #####################
         ##      BUILD      ##
@@ -1195,13 +1331,13 @@ for v in versions:
                     theme['options']['pagenumbers'] = '%'
                 themeopts.pop('pagenumbers')
             except:
-                ''
+                pass
             try:
                 if themeopts['fontchange'] == 'on':
                     theme['options']['fontchange'] = ' '
                 themeopts.pop('fontchange')
             except:
-                ''
+                pass
             
             #Do the format for the head section by hand
             vsd['head']['out'] = ''
@@ -1269,7 +1405,7 @@ for v in versions:
                             imgloc = imgloc[imgloc.find('(')+1:imgloc.find(')')]
                         vsd['head']['out'] = vsd['head']['out'] + '\\photo['+theme['options']['photowidth']+']['+theme['options']['photoframe']+']{'+imgloc+'}\n'
                     elif j in ['id']:
-                        ''
+                        pass
                         #Skip id.
                     else:
                         #If it's the first extrainfo
@@ -1327,11 +1463,7 @@ for v in versions:
             
             #Bring in theme, which there must be, otherwise would have defaulted to moderncv
             #Split up options
-            themeopts = ('themetitle='+versions[v]['theme']).split(',')
-            #separate into attributes and content
-            themeopts = [[i.strip() for i in j.split('=')] for j in themeopts]
-            #and turn into dict
-            themeopts = {i[0]:i[1] for i in themeopts}
+            themeopts = getoptions('themetitle='+versions[v]['theme'],line=',',sep='=')
             
             with open(themeopts['themetitle'],'r') as themefile:
                 themetext = themefile.read()
@@ -1358,7 +1490,7 @@ for v in versions:
                     vsd[sec]['sep']
                     vsd[sec]['itemwrapper'] = '{item}'
                 except:
-                    ''
+                    pass
             
             theme,themeopts,secglue,secframedef,itemwrapperdef = applytheming(theme,themeopts,secglue,secframedef,itemwrapperdef,vsd)
             

@@ -7,19 +7,19 @@ version: web
 	%Note that sectiondivider in the defaulttheme.txt file is on by default, this is just for illustration
 	%Also note that defaulttheme.txt (without any options changed) is the same theme that is used when no theme is specified, hardcoded in CVRoller.
 	theme: defaulttheme.txt, sectiondivider=on
-version: pdf
-    out: "HuntingtonKleinCV.pdf"
-	theme: banking, fontfamily=serif
-	%processor defaults to pdflatex anyway
-	processor: pdflatex
-version: pdffiletheme
-	out: "BasicPDFCV.pdf"
-	theme: defaultpdftheme.txt
-version: wd
-    out: "WordCV.docx"
-version: markdown
-	out: "cv.md"
-	
+%version: pdf
+%    out: "HuntingtonKleinCV.pdf"
+%	theme: banking, fontfamily=serif
+%	%processor defaults to pdflatex anyway
+%	processor: pdflatex
+%version: pdffiletheme
+%	out: "BasicPDFCV.pdf"
+%theme: defaultpdftheme.txt
+%version: wd
+%    out: "WordCV.docx"
+%version: markdown
+%	out: "cv.md"
+
 %followed by other information, notably the CV data itself
 file: cvdata.xlsx
 
@@ -49,13 +49,14 @@ version: pdf, wd, markdown, pdffiletheme
 title: Academic Publications
 %A bib option uses a BibTeX library (either in .bib form, or JSON form), then points to a .csl citation style
 %which can also be a citation style at zotero.com.
-bib: publications.bib, chicago-author-date-16th-edition.csl
+%bib: file=publications.bib, style=chicago-author-date-16th-edition
+doi: keys="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
 %Subtitles are allowed
 %Note the use here (and in other places) of Markdown formatting for things like links, images, etc.
 subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 %the bib option will store the formatted citation as a {raw} attribute, and it can be accessed by the format option in that way.
-format@web: "{raw} [Link]({url}). {note}\br{abstract}\br"
+format@web: "{raw} [Link]({url}). {note}\br{abstract}\br{relation}"
 format@markdown: "{raw} [Link]({url}). {note}\br{abstract}\br"
 type@pdffiletheme: hangingindent
 
@@ -140,6 +141,8 @@ order: alphabetical
 title: "Media Mentions"
 %Data can be loaded from JSON as well
 file: mediamentions.json
+type@pdf: hangingindent
+type@pdffiletheme: hangingindent
 
 ##date
 type: date

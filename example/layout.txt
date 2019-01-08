@@ -47,16 +47,23 @@ version: pdf, wd, markdown, pdffiletheme
 
 ##cites
 title: Academic Publications
+
 %A bib option uses a BibTeX library (either in .bib form, or JSON form), then points to a .csl citation style
 %which can also be a citation style at zotero.com.
-%bib: file=publications.bib, style=chicago-author-date-16th-edition
-doi: keys="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
+bib: file=publications.bib, style=chicago-author-date-16th-edition
+
+%Other ways to get publications in (commented out for now)
+%Looking up a list of DOIs:
+%doi: keys="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
+%Using an orcid (fill in with actual id and secret, see Layout Instructions)
+%doi: orcid = "0000-0002-7352-3991", style = "chicago-author-date-16th-edition", id = "APIidfromORCID", secret = "secretkeyfromORCID"
+
 %Subtitles are allowed
 %Note the use here (and in other places) of Markdown formatting for things like links, images, etc.
 subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 subtitle@markdown: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
 %the bib option will store the formatted citation as a {raw} attribute, and it can be accessed by the format option in that way.
-format@web: "{raw} [Link]({url}). {note}\br{abstract}\br{relation}"
+format@web: "{raw} [Link]({url}). {note}\br{abstract}\br"
 format@markdown: "{raw} [Link]({url}). {note}\br{abstract}\br"
 type@pdffiletheme: hangingindent
 

@@ -26,15 +26,6 @@ import json
 #####citeproc-py unless there's actually a .bib import
 from citeproc.py2compat import *
 
-'''
-id='APP-2OOJ0BDG4JKEG2IJ'
-secret='5c22a2cd-c483-40e0-b642-cb81051a01eb'
-api = orcid.PublicAPI(id, secret, sandbox=False)
-search_token = api.get_search_token_from_orcid()
-summary = api.read_record_public('0000-0002-7352-3991', 'activities',search_token)
-
-w1 = works.filter(orcid='0000-0002-7352-3991')
-'''
 
 #####################
 ##     USEFUL      ##
@@ -328,11 +319,17 @@ def readcites(filename,style,keys=None):
             jsonbib = json.load(jsonfile)
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            bib_source = CiteProcJSON(json.loads(jsonbib))   
+            bib_source = CiteProcJSON(jsonbib)   
+
+        #Keep the original data around to fill back in later after the processing
+        allatts = {i['id']:i for i in jsonbib}
         
-        #pick up all the attributes and add them, even the ones not supported by citeproc-py
-        for b in jsonbib:
-            bib_source[b['id']].update(b)    
+        for a in allatts:            
+            #If it's not a string, make it one. It won't be a pleasant result but at least you'll
+            #see why it's not working and avoid error messages
+            for i in allatts[a]:
+                if not isinstance(allatts[a][i],str):
+                    allatts[a][i] = str(allatts[a][i]) 
     else:
         raise ValueError('Filetype for '+filename+' not supported.')
     
@@ -498,6 +495,32 @@ def arrangedoi(vsd,sec,data):
                     data[sec].pop(row)
                 except:
                     pass
+        except:
+            pass
+        
+        #If there's an orcid, get keys from there!
+        try:
+            doiopt['orcid']
+            import orcid
+            
+            #Open up API
+            api = orcid.PublicAPI(doiopt['id'], doiopt['orcid'], sandbox=False)
+            #Get search token for public API
+            search_token = api.get_search_token_from_orcid()
+            #Search for records from that orcid
+            summary = api.read_record_public(doiopt['orcid'], 'activities',search_token)
+            
+            #It will append a thorny path item to the end of 'works'
+            summary['works'].pop('path')
+            
+            #Go through and get the DOIs if ya find em
+            #'group' is where the data actually is
+            for i in summary['works']['group']:
+                #look in external ids, and then to external-id within
+                for j in i['external-ids']['external-id']:
+                    #check that it's a DOI and if it is add it.
+                    if j['external-id-type'] == 'doi':
+                        keys.append(j['external-id-value'])
         except:
             pass
         

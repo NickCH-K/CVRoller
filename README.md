@@ -12,7 +12,7 @@ For an explanation of how the CV layout language works, see LayoutInstructions.m
 How to Use CVRoller
 ====================
 1. Ensure that you have installed Python, as well as the `citeproc-py` and `pypandoc` packages (both available via `pip`). `pypandoc` also requires that you install `pandoc`, which can be done with the `pypandoc` package itself (see `help(pypandoc)`), installed separately, or if you install `pypandoc` from Anaconda, `pandoc` will be automatically installed.
-2. If you want to output PDF files, also ensure that you have installed a LaTeX-to-PDF processor like PDFLatex. The processor should be callable from the command line. 
+2. If you want to output PDF files, also ensure that you have installed a LaTeX-to-PDF processor like PDFLatex. The processor should be callable from the command line. Similarly, if you want to use ORCID to get your citations, make sure you have the `orcid` package installed (also available via `pip`).
 3. Read the Instruction files `LayoutInstructions.md` and `CVDataInstructions.md` to see how to construct your CVRoller Layout file and your file(s) of CV data. Also see the files in the `example` folder for guidance.
 4. Create a CVRoller Layout file and save it as `layout.txt` (for the moment, this exact name is required). Put it in a folder.
 5. Create any data files you may want - spreadsheets, JSON files, .bib, profile images, etc., and put them in the same folder.
@@ -42,7 +42,7 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Allow version-specific options within a section
 * Allow comments that don't start on the first character of the line
 * Allow more generic PDF generation without moderncv
-* Allow citation import from Crossref
+* Allow citation import from Crossref and ORCID.
 
 Features that are Completed but Need Testing
 ----------------------
@@ -52,6 +52,7 @@ Features that are Completed but Need Testing
 * LaTeX PDF processors other than pdflatex
 * Input files that have various different encodings
 * Are there any HTML tags in CSL citation formatting that need to be changed back to Markdown? `<i>` and `<b>` already changed back. But are there others?
+* Allowing citations from multiple different options (i.e. a `doi` option AND a `bib` option).
 
 Small Fixes/Features to Come
 --------------------
@@ -59,11 +60,12 @@ Small Fixes/Features to Come
 * Add Word-out
 * Put in way of locating layout file other than the placeholder hardcoding.
 * Figure out way to allow tables without headers. This should be possible through pandoc with the simple_tables or multiline_tables options but this hasn't been tried yet.
-* Figure out the escaping on `##format` arguments in non-moderncv PDF themes.
+* Figure out the escaping on `##format` arguments in non-moderncv PDF themes. For now it is but a mystery.
+* Properly handle ORCID id/secret
 
 Medium/Far Term Fixes and Features to Come
 ----------------------------------
-* Import citations from online databases like ORCID and PubMed
+* Import citations from PubMed
 * Add scheduler so that if run on a server, will regularly check for updates to data and re-generate files
 * Add uploader or FTP so that the generated CVs can be automatically uploaded to a website
 * Program/website that makes it easy to generate layout files so people don't have to learn the language

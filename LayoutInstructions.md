@@ -188,6 +188,19 @@ This will look up the DOIs `10.1111/ssqu.12483;10.1257` and `10.1257/pandp.20181
 
 The `style` option here works the exact same as in the `bib` option described in the previous section. Basically, choose one from [this page](https://www.zotero.org/styles).
 
+Here's how using an ORCID looks:
+
+```
+doi: orcid = "0000-0002-7352-3991", style = "chicago-author-date-16th-edition", id = "APIidfromORCID", secret = "secretkeyfromORCID"
+```
+
+This will pick up all DOIs listed under the ORCID, and then use Crossref to look them all up. To fill in the id and secret (for now, hopefully this process will improve in the future), go to [ORCID Developer Tools](https://orcid.org/developer-tools), enable the public API, and add a client. Then go back to the Developer Tools page, find your client, click "Show details", and copy in the "Client ID" and "Client Secret"
+
+You can, if you like, mix and match. You can include `keys` as well as an ORCID, if, for example, your ORCID account is somehow missing one of your publications:
+
+```
+doi: orcid = "0000-0002-7352-3991", keys = "10.1111/ssqu.12483", style = "chicago-author-date-16th-edition"
+
 By default, citations gathered in this way will be ordered in reverse chronological order according to the `year` and `month` BibTeX attributes (if available). `order: ascending` will give ascending chronological order. Chronological order can be overriden with an `order` option in the section.
 
 If you are just using Crossref to get your citations formatted and print them, you should be good to go! Three short notes, though, if you're planning to use `format` to get at some of the individual attributes of the citation to use them elsewhere:

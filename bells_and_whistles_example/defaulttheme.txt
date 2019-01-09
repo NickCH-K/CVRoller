@@ -1,0 +1,86 @@
+%Default HTML Theme for CVRoller 
+
+%List all user-settable options in 'options', one per line, with default following a colon
+##options
+
+%Sets color of section title and also your name
+titlecolor: #009933
+%Determines whether there's a horizontal rule between each section. on or off.
+sectiondivider: on
+%Font family
+fontfamily: Georgia, serif
+%font size
+fontsize: medium
+%width on page
+width: 70%
+
+%Required options include header, style, and footer.
+
+##header
+
+<html><head><title>{name} CV</title>{style}<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>
+
+##style
+
+<style>
+*{font-family: {fontfamily};
+	font-size: {fontsize}}
+div.section {
+	border: 0px;
+	background-color: #FFFFFF;
+	display: table;
+	max-width: {width};
+	min-width: {width};
+	width: {width};
+	margin-left: auto;
+	margin-right: auto}
+.sectitle {
+	text-align: right;
+	vertical-align: text-top;
+	color: {titlecolor};
+	width: 20%;
+	display: table-cell;
+	border-right: solid 1px black;
+	padding: 20px}
+.secmeat {
+	text-align: left;
+	width: 80%;
+	display: table-cell;
+	padding: 20px;}
+hr.secdiv {
+	height: 1px;
+	border: 0;
+	width: 25%;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}
+hr.secdiv.off {
+	height: 0px}
+.abstract {font-size:smaller}
+.head.name {
+	font-size: xx-large;
+	color: {titlecolor}}
+.photo {float:left;
+	padding-right: 40px}
+</style>
+
+##footer
+
+</body></html>
+
+##sectionglue
+
+##sectionframe
+
+<div class = "section"><div class="sectitle">**{title}**</div><div class="secmeat">{subtitle}{meat}</div></div><br/><hr class="secdiv {sectiondivider}"/><br/>
+
+##sectionframe@head
+
+<div class = "section"><div class="secmeat">{meat}</div></div>
+
+##sectionframe@date
+
+<div class = "section"><div class="secmeat">{meat}</div></div>
+
+##itemwrapper
+
+{item}
+

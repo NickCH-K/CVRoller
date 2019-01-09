@@ -1,0 +1,118 @@
+%This section lays out the versions and their options
+version: web
+    out: cv.html
+	theme: defaulttheme.txt
+version: pdf
+    out: "HuntingtonKleinCV.pdf"
+	theme: casual, fontfamily=serif, color=blue
+	
+%And now load in the file that has all the information that goes on the CV
+file: cvdata.xlsx
+
+%Each section is marked by two hash tags ##, then the name of the section
+##head
+
+%The type of the section tells the theme how to style it
+%And also there are a few special section types CVRoller treats differently: head, date, text.
+%Note that type is already the section name by default. types exist so that the theme (whether it's a CSS/HTML theme, moderncv/LaTeX theme, etc.) knows how to style the section!
+type: head
+
+%A format option tells CVRoller how to construct each item out of its constituent parts.
+%Note that, here, the format argument is only needed for the HTML version; PDF handles the head section's format in its own way.
+format: "{photo}{name}\br{position}, {institution}\br{email}, {phone}\br{website}, Twitter: @{twitter}, GitHub: {github}"
+
+%Note that the section name does to match the section name in the data file, but it's not case sensitive. In cvdata.xlsx, employment data is tagged as "employment"
+##Employment
+
+%I don't want the employment section in the web version, so I tell it to just be in the PDF.
+version: pdf
+
+##Education
+version: pdf
+
+##cites
+%I don't want this section titled "cites". I want it titled "Academic Publications"
+title: Academic Publications
+
+%Here I'm reading in my citation data from a .bib file, but there are many other ways to do it - see LayoutInstructions.md.
+bib: file=publications.bib, style=chicago-author-date-16th-edition
+
+%Subtitles are allowed. Note I'm using a Markdown-style link here.
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+
+%You can specify that an argument only applies to one of the versions with @. I only want to use this format for the web version, not the PDF (I don't want abstracts in my PDF).
+format@web: "{raw} [Link]({url}). {note}\br{abstract}\br"
+
+##pubs2
+title: "Other Work"
+
+%In this section, I've pre-formatted my citations the way I want them in my cvdata.xlsx file, and labeled them as "cite". So I just have it display the raw citations.
+format: "{cite}"
+
+type@pdf: hangingindent
+format@web: "{cite} {extra}\br {abstract}\br"
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
+
+##working
+title: "Working Papers"
+type@pdf: hangingindent
+format@pdf: {cite}
+format@web: "{cite} {extra}\br {abstract}\br"
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+
+##tag
+%There are several special section types: Head, as we had above, text, which takes no data and just displays a "text" argument, and date, which you'll see below.
+type: text
+text: "[The File Drawer](http://nickchk.com/filedrawer.html)"
+title: Dormant Papers
+version: web
+
+##Book
+
+##Teaching
+version: pdf
+
+##conference
+title: "Conference Presentations & Invited Talks"
+version: pdf
+
+##awards
+title: "Fellowships And Awards"
+version: pdf
+
+%You can use an order argument to tell CVRoller what order to put your items in.
+order: year, descending
+
+%cvitem is a special moderncv type for the PDF version.
+type: cvitem
+
+%Format arguments for LaTeX/PDF files are a little tricky, note the triple-{}s here. See LayoutInstructions.md.
+format: {{{year}}}{{{name}}}
+
+##servicereferee
+%sep tells CVRoller what to put between the items. Here I just want all the journals I've refereed to show up on the same line, split by commas.
+sep:", "
+%And in alphabetical order!
+order: alphabetical
+title: "Referee Service"
+version: pdf
+
+##serviceother
+title: "Other Service"
+version: pdf
+
+##thesis
+title: "Thesis Committees"
+version: pdf
+
+##workingon
+title: "Things I'm Working On"
+version: web
+order: alphabetical
+
+##media
+title: "Media Mentions"
+type@pdf: hangingindent
+
+##date
+type: date

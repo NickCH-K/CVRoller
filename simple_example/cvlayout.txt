@@ -1,0 +1,86 @@
+version: web
+    out: index.html
+	theme: cvtheme.txt
+version: pdf
+    out: "HuntingtonKleinCV.pdf"
+	theme: banking, fontfamily=serif, color=green
+	
+file: cvdata.xlsx
+
+##head
+type: head
+format: "{photo}{name}\br{position}, {institution}\br{email}, {phone}\br{website}, Twitter: @{twitter}, GitHub: {github}"
+
+##Employment
+version: pdf
+
+##Education
+version: pdf
+
+##cites
+title: Academic Publications
+bib: publications.bib, chicago-author-date-16th-edition.csl
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+format@web: "{raw} [Link]({url}). {note}\br{abstract}\br"
+
+##pubs2
+title: "Other Work"
+format: "{cite}"
+type@pdf: hangingindent
+format@web: "{cite} {extra}\br {abstract}\br"
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) if you cannot access these papers."
+
+##working
+title: "Working Papers"
+type@pdf: hangingindent
+format@pdf: {cite}
+format@web: "{cite} {extra}\br {abstract}\br"
+subtitle@web: "Please email me at [nhuntington-klein@fullerton.edu](mailto:nhuntington-klein@fullerton.edu) for working PDFs if not linked."
+
+##tag
+type: text
+text: "[The File Drawer](http://nickchk.com/filedrawer.html)"
+title: Dormant Papers
+version: web
+
+##Book
+
+##Teaching
+version: pdf
+
+##conference
+title: "Conference Presentations & Invited Talks"
+version: pdf
+
+##awards
+title: "Fellowships And Awards"
+version: pdf
+order: year, descending
+type: cvitem
+format: {{{year}}}{{{name}}}
+
+##servicereferee
+sep:", "
+order: alphabetical
+title: "Referee Service"
+version: pdf
+
+##serviceother
+title: "Other Service"
+version: pdf
+
+##thesis
+title: "Thesis Committees"
+version: pdf
+
+##workingon
+title: "Things I'm Working On"
+version: web, markdown, pdffiletheme
+order: alphabetical
+
+##media
+title: "Media Mentions"
+type@pdf: hangingindent
+
+##date
+type: date

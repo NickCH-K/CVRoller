@@ -7,18 +7,18 @@ version: web
 	%Note that sectiondivider in the defaulttheme.txt file is on by default, this is just for illustration
 	%Also note that defaulttheme.txt (without any options changed) is the same theme that is used when no theme is specified, hardcoded in CVRoller.
 	theme: defaulttheme.txt, sectiondivider=on
-%version: pdf
-%    out: "HuntingtonKleinCV.pdf"
-%	theme: banking, fontfamily=serif
-%	%processor defaults to pdflatex anyway
-%	processor: pdflatex
-%version: pdffiletheme
-%	out: "BasicPDFCV.pdf"
-%theme: defaultpdftheme.txt
-%version: wd
-%    out: "WordCV.docx"
-%version: markdown
-%	out: "cv.md"
+version: pdf
+    out: "HuntingtonKleinCV.pdf"
+	theme: banking, fontfamily=serif
+	%processor defaults to pdflatex anyway
+	processor: pdflatex
+version: pdffiletheme
+	out: "BasicPDFCV.pdf"
+theme: defaultpdftheme.txt
+version: wd
+    out: "WordCV.docx"
+version: markdown
+	out: "cv.md"
 
 %followed by other information, notably the CV data itself
 file: cvdata.xlsx
@@ -54,9 +54,13 @@ bib: file=publications.bib, style=chicago-author-date-16th-edition
 
 %Other ways to get publications in (commented out for now)
 %Looking up a list of DOIs:
-%doi: keys="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
+%doi: doi="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
 %Using an orcid (fill in with actual id and secret, see Layout Instructions)
 %doi: orcid = "0000-0002-7352-3991", style = "chicago-author-date-16th-edition", id = "APIidfromORCID", secret = "secretkeyfromORCID"
+%Using pmid or pmcid entries from PubMed (defaults to database = "pubmed", no need to specify that)
+%pmid: pmid="4425484;4425485", style = "chicago-author-date-16th-edition", database = "PubMed"
+%Or with PMCID:
+%pmid: pmcid="2990724;2990725", style = "chicago-author-date-16th-edition", database = "PMC"
 
 %Subtitles are allowed
 %Note the use here (and in other places) of Markdown formatting for things like links, images, etc.

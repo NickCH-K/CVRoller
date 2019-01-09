@@ -10,7 +10,6 @@ It's a generic automatic-document generator that happens to be designed for CVs.
 
 @author: nhuntington-klein@fullerton.edu
 """
-#read_record_public(self, orcid_id, request_type, token, put_code=None, accept_type='application/orcid+json')
 #Had to be installed: citeproc-py, pypandoc
 #If you want to get publication info from ORCID you must install the orcid package
 
@@ -482,16 +481,16 @@ def arrangedoi(vsd,sec,data):
         #If there's a list of keys in the option, start the key list!
         keys = []
         try:
-            optkeys = doiopt['keys'].split(';')
+            optkeys = doiopt['doi'].split(';')
             [keys.append(i.strip()) for i in optkeys]
         except:
             pass
         
-        #If there's a list of keys in the data, remove them from data but add them to keys
+        #If there's a list of DOIs in the data, remove them from data but add them to keys
         try:
             for row in data[sec]:
                 try:
-                    keys.append(data[sec][row]['key'])
+                    keys.append(data[sec][row]['doi'])
                     data[sec].pop(row)
                 except:
                     pass
@@ -572,6 +571,96 @@ def arrangedoi(vsd,sec,data):
     except:
         pass
 
+#####################
+##      FCN:       ##
+##     PUBMED      ##
+##      CITES      ##
+#####################
+def arrangepmid(vsd,sec,data):
+    try:
+        #get options
+        pmidopt = getoptions(vsd[sec]['pmid'],line=',',sep='=')
+        
+        #If style is missing, default to AMA
+        try:
+            pmidopt['style']
+        except:
+            pmidopt['style'] = 'american-medical-association'
+        
+        try:
+            pmidopt['database'] = pmidopt['database'].lower()
+        except:
+            pmidopt['database'] = 'pubmed'
+        
+        #If there's a list of keys in the option, start the key list!
+        keys = []
+        if pmidopt['database'] == 'pubmed':
+            try:
+                optkeys = pmidopt['pmid'].split(';')
+                [keys.append(str(i).strip()) for i in optkeys]
+            except:
+                pass
+        elif pmidopt['database'] == 'pmc':
+            try:
+                optkeys = pmidopt['pmcid'].split(';')
+                [keys.append(str(i).strip()) for i in optkeys]
+            except:
+                pass
+        
+        #If there's a list of keys in the data, remove them from data but add them to keys
+        try:
+            for row in data[sec]:
+                if pmidopt['database'] == 'pubmed':
+                    try:
+                        keys.append(str(data[sec][row]['pmid']))
+                        data[sec].pop(row)
+                    except:
+                        pass
+                elif pmidopt['database'] == 'pmc':
+                     try:
+                        keys.append(str(data[sec][row]['pmcid']))
+                        data[sec].pop(row)
+                     except:
+                        pass                   
+        except:
+            pass
+        
+        
+        #Remove duplicates
+        
+        #Now get the formatted citation and add to the data
+        import requests
+        
+        #Call from PMID API
+        pmidcall = requests.get('https://api.ncbi.nlm.nih.gov/lit/ctxp/v1/'+pmidopt['database']+'/?format=csl&id='+'&id='.join(keys))
+        
+        #And convert to JSON, conveniently already in the exact format citeproc needs
+        pmiddata = json.loads(pmidcall.text)
+        
+        #clean up
+        del pmidcall
+
+        #Citeproc expects a list here, and if there was only one key we won't have one.
+        #so make one!
+        if len(keys) == 1:
+            pmiddata = [pmiddata]
+        
+        #Now get the formatted citation and add to the data
+        try:
+            data[sec].update(readcites(pmiddata,pmidopt['style']))
+        except:
+            #If it didn't exist up to now, create it
+            data[sec] = readcites(pmiddata,pmidopt['style'])
+        
+        #By default, sections with .bib entries are sorted by the date attribute
+        #So put that in unless an order is already specified
+        try:
+            vsd[sec]['order']
+        except:
+            vsd[sec]['order'] = 'date'
+        
+    except:
+        pass
 
 #####################
 ##      FCN:       ##
@@ -1211,8 +1300,12 @@ for v in versions:
         #If there's a doi option, bring in the citations!
         arrangedoi(vsd,sec,data)
         
+        #If there's a pmid option, bring in the citations!
+        arrangepmid(vsd,sec,data)
+        
         #Now reorder the data as appropriate
         sortitems(vsd,sec,data)
+        
                     
         
         

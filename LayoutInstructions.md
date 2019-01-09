@@ -181,12 +181,12 @@ Another option for getting publications in your CV is by looking them up in the 
 Take for example
 
 ```
-doi: keys="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
+doi: doi="10.1111/ssqu.12483;10.1257/pandp.20181114", style="chicago-author-date-16th-edition"
 ```
 
-This will look up the DOIs `10.1111/ssqu.12483;10.1257` and `10.1257/pandp.20181114` in the Crossref database and format them as citations in the `chicago-author-date-16th-edition` style. DOIs should be separated by a semicolon, and can also be included in the CV data as a `key` attribute. 
+This will look up the DOIs `10.1111/ssqu.12483;10.1257` and `10.1257/pandp.20181114` in the Crossref database and format them as citations in the `chicago-author-date-16th-edition` style. DOIs should be separated by a semicolon, and can also be included in the CV data as a `doi` attribute. 
 
-The `style` option here works the exact same as in the `bib` option described in the previous section. Basically, choose one from [this page](https://www.zotero.org/styles).
+The `style` option here works the exact same as in the `bib` option described in the previous section. Basically, choose one from [this page](https://www.zotero.org/styles). Defaults to APA if not specified.
 
 Here's how using an ORCID looks:
 
@@ -196,10 +196,11 @@ doi: orcid = "0000-0002-7352-3991", style = "chicago-author-date-16th-edition", 
 
 This will pick up all DOIs listed under the ORCID, and then use Crossref to look them all up. To fill in the id and secret (for now, hopefully this process will improve in the future), go to [ORCID Developer Tools](https://orcid.org/developer-tools), enable the public API, and add a client. Then go back to the Developer Tools page, find your client, click "Show details", and copy in the "Client ID" and "Client Secret"
 
-You can, if you like, mix and match. You can include `keys` as well as an ORCID, if, for example, your ORCID account is somehow missing one of your publications:
+You can, if you like, mix and match. You can include `doi` as well as an ORCID, if, for example, your ORCID account is somehow missing one of your publications:
 
 ```
-doi: orcid = "0000-0002-7352-3991", keys = "10.1111/ssqu.12483", style = "chicago-author-date-16th-edition"
+doi: orcid = "0000-0002-7352-3991", doi = "10.1111/ssqu.12483", style = "chicago-author-date-16th-edition"
+```
 
 By default, citations gathered in this way will be ordered in reverse chronological order according to the `year` and `month` BibTeX attributes (if available). `order: ascending` will give ascending chronological order. Chronological order can be overriden with an `order` option in the section.
 
@@ -209,8 +210,32 @@ If you are just using Crossref to get your citations formatted and print them, y
 2. Crossref sometimes doesn't have all the attributes. In the example `doi:` option above, the abtract for `10.1111/ssqu.12483` is not in Crossref, and so if I have an `{abstract}` substitution in my `format` argument, it will not show up for that one.
 3. Crossref returns data in a multi-nested format, with attributes inside attributes inside attributes! Unfortunately, at this moment there's no way to let you access anything but the top level. I've left these nested attributes in there, but if you try to use them you'll get back the full nesting structure. For example, if I include `{issued}` in my `format` argument, it will show me "{'date-parts': [[2018, 2, 12]]}" since the `date-parts` attribute is nested inside `issued`. There's no way to get at `date-parts` by itself.
 
+Using the PubMed Database with PMIDs or PMCIDs
+----------------------
+
+The final option for getting publications in your CV is by looking them up in the [PubMed](https://www.ncbi.nlm.nih.gov/pubmed) database. You can do this by giving a list PMID or PMCID values.
+
+Take for example
+
+```
+pmid: pmid="4425484;4425485", style = "chicago-author-date-16th-edition", database = "PubMed"
+```
+
+This will look up the PMIDs `4425484` and `4425485` in the Crossref database and format them as citations in the `chicago-author-date-16th-edition` style. PMIDs should be separated by a semicolon, and can also be included in the CV data as a `pmid` attribute. 
+
+The `style` option here works the exact same as in the `bib` option described in the previous section. Basically, choose one from [this page](https://www.zotero.org/styles). Defaults to AMA if not specified.
+
+You can use PMCIDs instead of PMIDs if you like. Note that it's still `pmid:` not `pmcid:`, although the IDs themselves are given by `pmcid=`. This time we do need to specify the database.
+
+```
+pmid: pmcid="2990724;2990725", style = "chicago-author-date-16th-edition", database = "PMC"
+```
+
+By default, citations gathered in this way will be ordered in reverse chronological order according to the `year` and `month` BibTeX attributes (if available). `order: ascending` will give ascending chronological order. Chronological order can be overriden with an `order` option in the section.
+
+
 Using moderncv for LaTeX PDF CVs
---------------------------------
+=================================
 
 PDF CVs are built in CVRoller using the moderncv class, the documentation for which can be found [here](https://ctan.org/tex-archive/macros/latex/contrib/moderncv). A few of the moderncv features (such as the included cover letter, or actually using BiBTeX rather than routing the BiBTeX data through citeproc/CSL) are not supported, and for some other features you're going to have to work a bit. 
 

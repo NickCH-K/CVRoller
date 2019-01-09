@@ -19,30 +19,85 @@ Education
 Academic Publications
 =====================
 
--   Huntington-Klein, Nick, and Elaina Rose. 2018. “Gender Peer Effects in a Predominantly Male Environment : Evidence from West Point”. *AEA Papers and Proceedings* 108: 392–95.\
--   Goldhaber, Dan, Cyrus Grout, and Nick Huntington-Klein. 2017. “Screen Twice , Cut Once : Assessing the Predictive Validity of Applicant Selection Tools”. *Education Finance and Policy* 12 (2): 197–223.\
--   Huntington-Klein, Nick. 2017. “A Method for Estimating Local Average Treatment Effects in Aggregate Data with Imperfect Assignment”. *Applied Economics Letters* 24 (11): 762–65.\
--   Huntington-Klein, Nick, James Cowan, and Dan Goldhaber. 2017. “Selection into Online Community College Courses and Their Effects on Persistence”. *Research in Higher Education* 58 (3): 244–69.\
--   Huntington-Klein, Nick. 2016. “"( Un )informed College and Major Choice ": Verification in an Alternate Setting”. *Economics of Education Review* 53: 159–63.\
--   Huntington-Klein, Nick. 2015. “Subjective and Projected Returns to Education”. *Journal of Economic Behavior & Organization* 117: 10–25.
+Please email me at <nhuntington-klein@fullerton.edu> for working PDFs if not linked.
+
+-   Huntington-Klein, Nick, and Elaina Rose. 2018. “Gender Peer Effects in a Predominantly Male Environment : Evidence from West Point”. *AEA Papers and Proceedings* 108: 392–95. [Link](https://www.aeaweb.org/articles?id=10.1257/pandp.20181114).\
+    There is considerable interest in the success of women in overwhelmingly male environments. One hypothesized determinant of success is the increased presence of other women. However, the theoretical direction of this effect is uncertain. Previous studies of heavily male contexts have had mixed results. We take advantage of random peer group assignment at West Point military academy to identify gender peer effects in the first years in which women were admitted. We find that women do significantly better when placed in companies with more women peers. The addition of one woman peer reduces the gender progression gap by half.
+
+-   Goldhaber, Dan, Cyrus Grout, and Nick Huntington-Klein. 2017. “Screen Twice , Cut Once : Assessing the Predictive Validity of Applicant Selection Tools”. *Education Finance and Policy* 12 (2): 197–223. [Link](http://www.mitpressjournals.org/doi/abs/10.1162/EDFP_a_00200#.V-AgX_lpEdV).\
+    Despite their widespread use, there is little academic evidence on whether applicant selection tools can improve teacher-hiring processes. We examine two screening instruments used to select classroom teachers. The screening instruments strongly predict teacher value-added in math and teacher attrition and weakly predict value-added in reading, but do not predict teacher absences. An increase of one standard deviation in screening scores is associated with an increase of about 0.06 standard deviations of student math achievement and a decrease in teacher attrition of three percentage points. These results are robust to corrections for sample selection.
+
+-   Huntington-Klein, Nick. 2017. “A Method for Estimating Local Average Treatment Effects in Aggregate Data with Imperfect Assignment”. *Applied Economics Letters* 24 (11): 762–65. [Link](http://www.tandfonline.com/doi/full/10.1080/13504851.2016.1226483).\
+    In some contexts, the effect of a treatment can be estimated with easily-accessible aggregate rather than individual data, using difference-in-difference estimation. However, under imperfect assignment this produces intent-to-treat estimates, which may not be the treatment effect of interest. This paper provides a method for estimating local average treatment effects using aggregate data. I also suggest a data source that allows the method to be applied when treatment rates are not recorded.
+
+-   Huntington-Klein, Nick, James Cowan, and Dan Goldhaber. 2017. “Selection into Online Community College Courses and Their Effects on Persistence”. *Research in Higher Education* 58 (3): 244–69. [Link](http://link.springer.com/article/10.1007/s11162-016-9425-z).\
+    Online courses at the college level are growing in popularity, and nearly all community colleges offer online courses (Allen & Seaman, 2015). What is the effect of the expanded availability of online curricula on persistence in the field and towards a degree? We use a model of self-selection to estimate the effect of taking an online course, using region and time variation in internet service as a source of identifying variation. Our method, as opposed to standard experimental methods, allows us to consider the effect among students who actually choose to take such courses. For the average person, taking an online course has a negative effect on the probability of taking another course in the same field and on the probability of earning a degree. The negative effect on graduation for for students who choose to take an online course is stronger than the negative effect for the average student. Community colleges must balance these results against the attractive features of online courses, and may want to consider actively targeting online courses towards those most likely to do well in them.
+
+-   Huntington-Klein, Nick. 2016. “"( Un )informed College and Major Choice ": Verification in an Alternate Setting”. *Economics of Education Review* 53: 159–63. [Link](http://www.sciencedirect.com/science/article/pii/S0272775715302284).\
+    In their recent paper "(Un)informed College and Major Choice: Evidence from Linked Survey and Administrative Data," Hastings, Neilson, Ramirez, & Zimmerman (2016) provide an informal costly-information model, linking family background to studentsÃ¢â‚¬â„¢ beliefs about educational costs and benefits. They verify predictions of their model using a data set of beliefs about college institutions and majors among Chilean college applicants and students. I test some of those same predictions using a data set of beliefs about college institutions and different levels of college education among high school students in the United States. I verify their predictions, with some exceptions, supporting the use of their costly-search model.
+
+-   Huntington-Klein, Nick. 2015. “Subjective and Projected Returns to Education”. *Journal of Economic Behavior & Organization* 117: 10–25. [Link](http://www.sciencedirect.com/science/article/pii/S0167268115001407). Recipient of 2013 Storer Award for Labor Economics.\
+    There is significant heterogeneity over high school students in the wage and employment rate returns to education. I evaluate this heterogeneity using subjective returns derived from a data set of high school juniors and seniors in Washington State. Variation over observables in projected returns estimated using observed data is uncorrelated with variation in subjective returns elicited by directly asking students about their beliefs. These results mean that returns estimated using observed data are likely a very weak proxy for student beliefs.
 
 Other Work
 ==========
 
+Please email me at <nhuntington-klein@fullerton.edu> if you cannot access these papers.
+
 -   "CVRoller: A Python Program Designed to Automatically Generate and Update CVs." 2018. [cvroller.com](http://www.cvroller.com)\
--   "A Study of West Point Shows How Women Help Each Other Advance" with Elaina Rose. 2018. Harvard Business Review.\
--   "vtable: A Quick and Easy Variable Browser for R." 2018. [github.com/NickCH-K/vtable](https://www.github.com/NickCH-K/vtable).\
+    This is a general-purpose automatic document generation language tuned specifically towards the generation of academic CVs. Multiple different CV variants can be updated at once from centrally updated CV data. CVRoller allows CV generation in HTML, PDF, and Markdown formats, and was used to make the CV you are reading right now.
+
+-   "A Study of West Point Shows How Women Help Each Other Advance" with Elaina Rose. 2018. Harvard Business Review. [Link](https://hbr.org/2018/11/a-study-of-west-point-shows-how-women-help-each-other-advance)\
+    This Harvard Business Review article summarizes work by myself and Elaina Rose on the performance of women at the West Point military academy in the early 1980s. We look at the progression gap between men and women, and whether women tended to do better when randomly placed in companies that have a heavier concentration of women.
+
+-   "vtable: A Quick and Easy Variable Browser for R." 2018. [github.com/NickCH-K/vtable](https://www.github.com/NickCH-K/vtable). [Link](http://nickchk.com/vtable.html).\
+    This is an R package for the purpose of viewing information about data while working on it. vtable() automatically generates an displays a table of information about the variables in a data set, including name, class, range, labels, and summary statistics.
+
 -   "Student Courseload at CSU Fullerton" with Andrew Gill. 2018. Report for CSU Fullerton.\
+    This report details a pair of studies performed at CSU Fullerton. The first uses administrative data to examine the effect of an increased student courseload on student performance. The second examines an experiment performed with the goal of increasing student courseload.
+
 -   "Assessing the Effects of Tuition-Free Community College in Maryland" with William Zumeta. 2017. Maryland Independent Colleges and Universities Association.\
--   "Utilizing Independent Colleges and Universities to Fulfill States’ College Degree Attainment Goals" with William Zumeta. 2017. The Council of Independent Colleges.\
--   "The Cost-Effectiveness of Undergraduate Education at Private Nondoctoral Colleges and Universities" with William Zumeta. 2015. The Council of Independent Colleges.\
+    This report examines the likely financial impact on students and the state of a potential plan for Maryland to implement tuition-free community college.
+
+-   "Utilizing Independent Colleges and Universities to Fulfill States’ College Degree Attainment Goals" with William Zumeta. 2017. The Council of Independent Colleges. [Link](https://www.cic.edu/r/cd/Pages/Utilizing-Independent-Colleges-2017.aspx)\
+    America's diverse higher education landscape includes more than 700 four-year nonprofit colleges and universities that focus on baccalaureate education. These private nondoctoral (PND) institutions are located in almost every state and collectively enroll about 1.6 million students and award nearly 150,000 degrees annually, with the majority of these being bachelor's degrees. As this report will show, these independent colleges and universities are effective and efficient academic enterprises and, as such, are a valuable resource to the states in which they are located, as well as to the nation.
+
+-   "The Cost-Effectiveness of Undergraduate Education at Private Nondoctoral Colleges and Universities" with William Zumeta. 2015. The Council of Independent Colleges. [Link](https://www.cic.edu/r/cd/Pages/Cost-Effectiveness-2015.aspx)\
+    This study examines key aspects of the cost-effectiveness of PND colleges as providers of baccalaureate degrees and explores how states might feasibly make better use of these colleges to produce more degrees efficiently. The study looks at degree production and cost in the PND sector relative to other higher education sectors, focusing on the most comparable public institutions. PND colleges and universities have a 22 percentage point edge over comparable public institutions in four-year graduation rates and a nearly 12 point advantage in six-year graduation rates, and they hold a significant advantage for all subgroups. Moreover, PND colleges retain students initially interested in STEM and health to degrees in those majors at rates (41 percent) approaching twice the rates of public doctoral and nondoctoral institutions (24 and 23 percent, respectively).
+
 -   "Understanding Sub-baccalaureate Certificate Production and Incidence in Washington's Labor Force Through 2023" with William Zumeta. 2015. Washington Student Achievement Council.\
--   "It’s Selective, But Is It Effective? Exploring the Predictive Validity of Teacher Selection Tools" with Dan Goldhaber and Cyrus Grout. 2014. CEDR Policy Brief 2014-9.
+    This report describes the production of sub-baccalaureate certificates in Washington State, and projects the growth of certificate production through 2023.
+
+-   "It’s Selective, But Is It Effective? Exploring the Predictive Validity of Teacher Selection Tools" with Dan Goldhaber and Cyrus Grout. 2014. CEDR Policy Brief 2014-9.\
+    Evidence suggests teacher hiring in public schools is ad-hoc and often does not result in good selection amongst applicants. Some districts use structured selection instruments in the hiring process, but we know little about the efficacy of such tools. In this paper we evaluate the ability of applicant selection tools used by the Spokane Public Schools (SPS) to predict three outcomes: measures of teachers' value-added contributions to student learning, teacher absence behavior, and attrition rates. We observe all applicants to the district, both those who are and who are not hired. We find that the screening instruments predict teacher value-added in student achievement and teacher attrition, but not teacher absences.
 
 Working Papers
 ==============
 
--   -   -   -   -   -   
+Please email me at <nhuntington-klein@fullerton.edu> for working PDFs if not linked.
+
+-   "Human Capital vs. Signaling is Empirically Unresolvable." CSU Fullerton Department of Economics Working Paper 2018/010. [PDF](https://business.fullerton.edu/department/economics/assets/CSUF_WP_10-18.pdf?_=0.9280972001934785)\
+    Economists offer two major explanations for the fact that we find causal labor market returns to education. The first is human capital accumulation: education improves ability. The second is signaling: education allows initially high-ability students to distinguish themselves. A major point of interest in the economics of education is relative contributions of signaling and human capital. Empirical evidence generally excludes the trivial case: neither human capital nor signaling explain either 0% or 100% of the return. I argue that exclusions of the trivial case form the limits of what can be learned from empirical data. An education returns model with some non-zero contribution of both signaling and human capital cannot be empirically distinguished from another model with different non-zero contributions, making human capital vs. signaling a poor framing for understanding the return as a whole, and for policy decision-making.
+
+-   "Semester Course Load and Student Performance" with Andrew Gill (2018). CSUF Department of Economics Working Paper 2018/009. [PDF](https://business.fullerton.edu/department/economics/assets/CSUF_WP_9-18_upd.pdf?_=0.032422021483441976)\
+    Many college students in the United States take longer than the proscribed four years to complete their bachelor's degrees. Long time-to-degree leads to billions of dollars of additional costs in higher education in the form of education costs and lost wages. Time-to-degree can be reduced if students to take more credits each term. However, an increased course load may lead students to reduce their time investment in each course, harming performance. Using longitudinal data on two cohorts of students at a regional four-year university with a high average time-to-degree, we fail to find any evidence that a high course load has a negative impact on student performance in class. This result is consistent with a model where students substitute time away from non-education activities when their course loads increase.
+
+-   "The Changing Importance of Earnings in College Major Choice" with Elizabeth Ackert. CSU Fullerton Department of Economics Working Paper 2018/006. [PDF](https://business.fullerton.edu/department/economics/assets/CSUF_WP_6-18.pdf?_=0.5066671690928286)\
+    Prior studies find that undergraduate major choices are responsive to earnings associated with those majors, but weakly suggests that responsiveness has dropped over time. Using data on college graduates from 1973 to 2013, we find that responsiveness of major choice to labor market returns has weakened over time. The weakening response is due to changes within demographic groups rather than demographic changes in the college graduate population over time. If the goal is to maintain or increase the alignment between college major and labor market returns, incentivizing undergraduates to select high-earning majors is necessary.
+
+-   "Student Preference for Guidance and Complexity in College Major Requirements" with Rachel Baker. CEPA Working Paper 04/2018 and CSU Fullerton Department of Economics Working Paper 2018/005. [PDF](https://cepa.stanford.edu/content/student-preference-guidance-and-complexity-college-major-requirements)\
+    In order to graduate with a bachelor's degree, students must determine which classes they must take in order to satisfy the requirements of their major. These requirements are often complex and difficult to comprehend, leading to some policy interventions that aim to reduce complexity by either increasing the amount of student guidance in course choice or by reducing the amount of complexity-increasing choice. We perform two student preference experiments on students at two large four-year universities to determine how students might respond to increasing guidance or reduced choice in their course-taking options. We find that students do not respond strongly to increases in guidance such as grouping courses into meaningful categories or removing cross-cutting requirements, but strongly reject a reduction in options, even when given a rationale for the reduction. These results suggest that increased-guidance policies have some avenues to operate in without student push-back, but that strong reductions in choice are unlikely to be popular.
+
+-   "Keeping an Eye Out: Behavior in the Presence of Riskless Ambiguity." CSU Fullerton Department of Economics Working Paper 2018/001. [PDF](http://nickchk.com/Huntington-Klein_2018_Keeping_an_Eye_Out.pdf)\
+    Past research on choice under ambiguity - decisions made when the probability of each outcome is unknown - has typically focused on scenarios in which ambiguity is presented alongside risks with known probabilities. Understanding the response to ambiguity is then difficult to distinguish from the response to risk, confounding our understanding of how subjects behave in conditions of ambiguity. In this paper I take advantage of the fact that all decisions are necessarily ambiguous to some extent to develop a scenario in which ambiguity is present but is otherwise risk-free. Respondents participate in a task that is very similar to a multi-armed bandit but with no random variation in payouts. I show that respondents anticipate ambiguity in payouts without prompting, continue to do so for long periods of time, respond differently to gains and losses in this context, and that this tendency is independent of risk preference. I offer a basic, clean framework for creating a riskless ambiguous environment for subjects, and argue that these exploratory results make the case for further study of ambiguity in riskless environments.
+
+-   "Most Likely to Succeed: Personality and Long-Run Economic Outcomes" with Elaina Rose.\
+    We estimate the effect of college seniors' personality traits on long-run career and economic outcomes. The analysis uses a novel data set that merges information from the 1980 - 1984 West Point yearbooks with detailed alumni records. Personality traits were inferred from peer-written narratives and faculty-conferred distinctions. The narratives were evaluated by West Point alumni from non-study classes and the multiple reports were aggregated using a Latent Class Model (LCM). We find that cadets identified by faculty as leaders, and those characterized by peers as leaders, determined, or social prove to be more successful in terms of military and civilian career outcomes 31-35 years after graduation.
+
+Dormant Papers
+==============
+
+-   [The File Drawer](http://nickchk.com/filedrawer.html)
 
 Book
 ====
@@ -75,7 +130,14 @@ Conference Presentations & Invited Talks
 Fellowships And Awards
 ======================
 
--   -   -   -   -   -   -   -   
+-   2018 Faculty Recognition for Scholarly and Creative Activity, California State University Fullerton\
+-   2018 Economics Faculty Excellence Fellowship, California State University Fullerton\
+-   2017 Graduation Initiative 2025 Grant, California State University Fullerton\
+-   2016 Jr/Sr Grant, California State University Fullerton\
+-   2014 Ensley Fellowship\
+-   2013 Storer Award for Labor Economics\
+-   2011 Best Second-Year Paper Award, Department of Economics, University of Washington\
+-   2010-2014 Collaborative Researchers in Educational Sciences Training (CREST) pre-doctoral research fellowship, Institute of Education Sciences
 
 Referee Service
 ===============
@@ -101,6 +163,16 @@ Thesis Committees
 -   CSUF Economics MA, committee member, Kyle Stanhope\
 -   University of Oklahoma Communication Sciences PhD, committee member: Anna Jilla
 
+Things I'm Working On
+=====================
+
+-   An Informational Intervention to Encourage Full Course Loads with Andrew Gill\
+-   Empirical Economics Replication Project with Andrew Gill\
+-   Statistical Discrimination and Labor Market Competitiveness\
+-   The Complexity of College Course Requirements with Rachel Baker\
+-   The Development of a Woman-Friendly Culture: Evidence from West Point with Elaina Rose\
+-   The Potential Impact of Free Community College Programs with William Zumeta
+
 Media Mentions
 ==============
 
@@ -121,6 +193,6 @@ Media Mentions
 -   [Is Robert anti-teacher?](https://edexcellence.net/commentary/podcasts/is-robert-anti-teacher) The Education Gadfly, November 5, 2014\
 -   [Study: Teacher hiring should be more scientific](http://komonews.com/news/local/study-teacher-hiring-should-be-more-scientific). Associated Press, October 29, 2014
 
--   Last updated: January 7, 2019
+-   Last updated: January 8, 2019
 
 

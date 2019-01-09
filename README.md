@@ -42,7 +42,7 @@ Makin' Progress! Fixes/Features Added Since First Commit
 * Allow version-specific options within a section
 * Allow comments that don't start on the first character of the line
 * Allow more generic PDF generation without moderncv
-* Allow citation import from Crossref and ORCID.
+* Allow citation import from PubMed, Crossref,and ORCID.
 
 Features that are Completed but Need Testing
 ----------------------
@@ -52,7 +52,6 @@ Features that are Completed but Need Testing
 * LaTeX PDF processors other than pdflatex
 * Input files that have various different encodings
 * Are there any HTML tags in CSL citation formatting that need to be changed back to Markdown? `<i>` and `<b>` already changed back. But are there others?
-* Allowing citations from multiple different options (i.e. a `doi` option AND a `bib` option).
 
 Small Fixes/Features to Come
 --------------------
@@ -62,10 +61,11 @@ Small Fixes/Features to Come
 * Figure out way to allow tables without headers. This should be possible through pandoc with the simple_tables or multiline_tables options but this hasn't been tried yet.
 * Figure out the escaping on `##format` arguments in non-moderncv PDF themes. For now it is but a mystery.
 * Properly handle ORCID id/secret
+* Allowing citations from multiple different options (i.e. a `doi` option AND a `bib` option).
+* There's not a way to get a list of someone's PMID's from some sort of repository, is there, like ORCID for DOIs?
 
 Medium/Far Term Fixes and Features to Come
 ----------------------------------
-* Import citations from PubMed
 * Add scheduler so that if run on a server, will regularly check for updates to data and re-generate files
 * Add uploader or FTP so that the generated CVs can be automatically uploaded to a website
 * Program/website that makes it easy to generate layout files so people don't have to learn the language

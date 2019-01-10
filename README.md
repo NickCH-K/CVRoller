@@ -5,7 +5,7 @@ This is a script designed to be a generic automatic document compiling language,
 
 The goal is to have a format for writing document layout structures and data (including from spreadsheet, JSON, .bib, or sites like ORCID or PubMed), then reading in both and spitting out any number of varieties of CV (including website, PDF, and Word).
 
-This project is under construction. Soon it will be to the point where it's basically usable (at least on the base level), but without implementation of some features that may come in handy, and which requires learning the layout language to use. Eventually the goal is to have a system that's easy to use without having to learn too much.
+This project is pretty much ready to go, although there are a few minor features to be filled in, and it currently requires learning the layout language to use. Eventually the goal is to have a system that's easy to use without having to learn too much.
 
 For an explanation of how the CV layout language works, see LayoutInstructions.md. For an explanation on how to put together the CV data file, see CVDataInstructions.md. To figure out how to write your own HTML/CSS theme for CVRoller, see ThemeInstructions.md.
 

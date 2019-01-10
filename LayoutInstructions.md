@@ -199,7 +199,7 @@ This will pick up all DOIs listed under the ORCID, and then use Crossref to look
 You can, if you like, mix and match. You can include `doi` as well as an ORCID, if, for example, your ORCID account is somehow missing one of your publications:
 
 ```
-doi: orcid = "0000-0002-7352-3991", doi = "10.1111/ssqu.12483", style = "chicago-author-date-16th-edition"
+doi: orcid = "0000-0002-7352-3991", doi = "10.1111/ssqu.12483", style = "chicago-author-date-16th-edition", id = "APIidfromORCID", secret = "secretkeyfromORCID
 ```
 
 By default, citations gathered in this way will be ordered in reverse chronological order according to the `year` and `month` BibTeX attributes (if available). `order: ascending` will give ascending chronological order. Chronological order can be overriden with an `order` option in the section.

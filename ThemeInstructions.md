@@ -3,7 +3,7 @@ How to Write a CVRoller HTML/CSS Theme
 
 This document will describe how the CVRoller theme file works for HTML-out so that you can write or edit your own.
 
-For LaTeX output, CVRoller themes are simply [moderncv](https://www.ctan.org/pkg/moderncv) themes. See the LayoutInstructions to see how to customize your moderncv template of choice in the Layout file. See below if you'd like to write your own PDF theme, although it is considerably more difficult (or write an HTML theme and use Print to get a PDF!).
+For LaTeX output, CVRoller themes are simply [moderncv](https://www.ctan.org/pkg/moderncv) themes. See the LayoutInstructions to see how to customize your moderncv template of choice in the Layout file. See below if you'd like to write your own non-moderncv PDF theme, although it is considerably more difficult than writing an HTML theme (or write an HTML theme and use Print to get a PDF!).
 
 Comments can be added to theme files using the percent sign `%`. Any line beginning with `%` will be ignored.
 
@@ -73,17 +73,27 @@ There are also several optional attributes which have defaults if not assigned. 
 `itemwrapper` allows you to put each item in a tag. By default this is set to `{item}` which just displays the item by itself. `<em>{item}</em>`, for example, would put the `<em>` tag around each item.
 
 
-These optional attributes: `sectionglue`, `sectionframe`, and `itemwrapper`, as well as **any section attribute that can be specified in the layout file** can be modified in the theme for specific section types, overriding the CV-wide settings (but not overriding any settings detailed in the layout file itself). This can be done using a colon to specify which section to apply it to. For example,
+These optional attributes: `sectionglue`, `sectionframe`, and `itemwrapper`, as well as **any section attribute that can be specified in the layout file** can be modified in the theme for specific section types, overriding the CV-wide settings (but not overriding any settings detailed in the layout file itself). This can be done using `@` to specify which section to apply it to. For example,
 
 ```
-##sectionframe:head
+##sectionframe@head
 
 <table class = "section"><tr><td class="secmeat">{meat}</td></tr></table>
 ```
 
 will apply this particular section frame just to sections with the `head` type. 
 
-You may want to seriously consider including a `format:head` part in your theme, as `head` really needs a format, and if it's not in the theme the user will be forced to figure out the syntax for `format` in order to use your theme.
+You may want to seriously consider including a `format@head` part in your theme, as `head` really needs a format, and if it's not in the theme the user will be forced to figure out the syntax for `format` in order to use your theme.
+
+Finally, noting that you can set default section options in your theme, you may want to look into setting the `span` or `spanskip` options for some sections (see LayoutInstruction) if your theme is taking an attribute and sticking it somewhere that won't work if you wrap it in a `<span>` tag first. For example, if you had
+
+```
+##format@linksection
+
+<a href = "{url}">{linkname}</a>
+```
+
+You'd want to make sure that `{url}` didn't get wrapped in a `<span>` tag, and could avoid this problem by setting `spanskip@linksection` appropriately in your theme.
 
 User Options
 ------------
@@ -110,6 +120,13 @@ Then, in later parts of the theme, if you include the option in curly braces, li
 ```
 
 Note that each user option is followed by a colon and then a default value. So the default title color in this theme is `#33ff33`.
+
+When you set up options in this way, a user can do something in their layout file like
+
+```
+version: mycoolcv.html
+    theme: agreattheme.txt, titlecolor=#000000, sectiondivider=off
+```
 
 CSS Classes
 ------------

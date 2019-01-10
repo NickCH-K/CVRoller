@@ -27,7 +27,7 @@ version: rawMD
 file: cvdata.xlsx
 ```
 
-The metadata block begins by listing all the *versions* of the document to be produced. Here we have three versions: web, pdf, and wd. These names can be anything. I could call the PDF version of the CV myCVforEmail and it would work fine. Each time CVRoller is run, it will generate each of these three versions separately. Each of the versions must go at the top of the metadata block.
+The metadata block begins by listing all the *versions* of the document to be produced. Here we have four versions: web, pdf, wd, and rawMD. These names can be anything. I could call the PDF version of the CV myCVforEmail and it would work fine. Each time CVRoller is run, it will generate each of these four versions separately. Each of the versions must go at the top of the metadata block.
 
 Currently supported version variations include HTML, PDF (processed using the moderncv LaTeX package), Word (NOT YET SUPPORTED), or Markdown (which provides the raw Markdown code of the CV without any special formatting or theming). If you'd like to have your HTML-styled CV in PDF or Word format, you can make it as an HTML file, open it up in your browser, and use "Print PDF" or "Save Page As..." to turn it into a PDF or Word document. If you plan to do this you may want to find the option in your theme that lets you set the CV to full page width first.
 
@@ -61,7 +61,7 @@ Current supported non-required options include:
 
 `sectionglue`, which is by default set to two line breaks (`sectionglue: "\br\br"`), tells CVRoller how to 'glue' sections together, i.e. what goes between them. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
-`sectionframe`, tells CVRoller how to attach a section title, referred to as `{title}` to the `{meat}` of the section, which includes all the data. This is by default set to `sectionframe: "**{title}**\br{meat}"` and can be overriden in individual sections by adding `sectionframe` options to those sections. Use `\br` to indicate line breaks, and otherwise use Markdown.
+`sectionframe`, tells CVRoller how to attach a section title, referred to as `{title}` to the `{meat}` of the section, which includes all the data. This is by default set to `sectionframe: "**{title}**\br{meat}"` (or whatever your theme sets to be the default) and can be overriden in individual sections by adding `sectionframe` options to those sections. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
 `processor`, for PDF only, is the name of the TeX-to-PDF converter you'd like to use. The processor must be installed directly, and defaults to PDFLaTeX.
 
@@ -87,7 +87,7 @@ No options are required. A section without any options will simply print out all
 
 Options available include:
 
-`version` tells CVRoller which CV versions to include this section in, separated by commas. By default, each section is included in all versions. So `version: web, pdf` tells CVRoller to include this section in the CVs named `web` and `pdf` but not any others. Note that if you want the same section to show up in multiple versions but *formatted differently* in each of them (for example, perhaps I want `working` to show up in my wd CV but without the abstract), then you can simply make another copy of `##working` in the layout file, give it `version: wd`, and specify the options differently.
+`version` tells CVRoller which CV versions to include this section in, separated by commas. By default, each section is included in all versions. So `version: web, pdf` tells CVRoller to include this section in the CVs named `web` and `pdf` but not any others. Note that if you want the same section to show up in multiple versions but *formatted differently* in each of them (for example, perhaps I want `working` to show up in my wd CV but without the abstract), then you can use `@` with those options, like in `format@web` above. If you want the sections to appear in *different orders* in different versions, you can make multiple copies of each section, with the same name, and use `version` to say which copy goes in which version.
 
 `type` determines the section type. This is useful if you have a theme that refers to different section types. `type` will generally be omitted unless you want to use a particular styling offered by your theme, or unless you want to specify a special kind of section (see below). By default, `type` is set to the section name.
 
@@ -95,7 +95,7 @@ Options available include:
 
 `title` is the title of the section, to be printed. Similarly, `subtitle` is the subtitle. By default, `title` is the section name and subtitle is blank. Use `\br` to indicate line breaks, and otherwise use Markdown.
 
-`format` gives the layout of each item in the section. In the data, I have `cite, extra,` and `abstract` attributes for each item. The `format` option says how all of these attributes should be arranged into a single entry. By default, `format` is either set by theme, or is simply `{raw}` and will list out each of the items given no attribute. Use `\br` to indicate line breaks, `{attributename}` to indicate where particular attributes should go, and otherwise use Markdown. If you have a section where citation data comes from a BibTeX file (see below), you can refer to the formatted citation in your `format` option using `{raw}`.
+`format` gives the layout of each item in the section. In the data, I have `cite, extra,` and `abstract` attributes for each item. The `format` option says how all of these attributes should be arranged into a single entry. By default, `format` is either set by theme, or is simply `{raw}` and will list out each of the items given no attribute. Use `\br` to indicate line breaks, `{attributename}` to indicate where particular attributes should go, and otherwise use Markdown. If you have a section where citation data comes from a BibTeX file or from DOIs or PMIDs (see below), you can refer to the formatted citation in your `format` option using `{raw}`.
 
 `sectionframe` is as discussed above for the versions. This overrides the default `sectionframe` argument for just this section. Note that it can be very difficult to get `sectionframe` to work properly with the theme you've chosen, and generally you just want to let the theme handle this one.
 
@@ -110,7 +110,7 @@ Special Sections
 
 There are three currently recognized special section types that don't follow normal rules.
 
-The first is `head`, which usually goes first and contains information like name, email, etc.. Some CVRoller variants, such as PDF-out using moderncv, requires that a head section be present.
+The first is `head`, which usually goes first and contains information like name, email, etc.. Some CVRoller variants, such as PDF-out using moderncv, require that a head section be present.
 
 The second is `text`, which simply prints a text block without reference to the CV data.
 
@@ -142,7 +142,7 @@ One section option not covered so far is `bib`. `bib` tells CVRoller to import a
 
 CSL files stored on other websites may also work; your mileage may vary. Getting the .csl file from a website will store it on your computer. If you include just the name of the style itself, like "3-biotech", it will download it the first time you run it, and then use the already-downloaded file every time after that. 
 
-By default, `bib` will use all citations in the database. `bib` can take a third argument of a list of citation keys, separated by semicolons ;. This tells CVRoller which citation keys from the database to use. Alternately, if there is data for the section with a `key` attribute, these will be used as the citation keys to include.
+By default, `bib` will use all citations in the database. `bib` can take a third argument of a list of citation keys, separated by semicolons `;`. This tells CVRoller which citation keys from the database to use. Alternately, if there is data for the section with a `key` attribute, these will be used as the citation keys to include.
 
 For example, the `bib` option 
 
@@ -152,9 +152,9 @@ will use the APA style with the library.bib database, picking only the citation 
 
 By default, citations gathered in this way will be ordered in reverse chronological order according to the `year` and `month` BibTeX attributes (if available). `order: ascending` will give ascending chronological order. Chronological order can be overriden with an `order` option in the section. `order: id` will order according to the the reverse of the order the keys are read in, so with `james2015` first and then `frank2012` in the above example, or in the reverse of the order in which the .bib file itself is written if no keys are specified. `order: id, ascending` will use the actual order the keys are read in.
 
-If designing a `format` option for this section, the formatted citation is stored in the `{raw}` attribute. All other BibTeX attributes will be available using their BibTeX attribute names, other than the ones that citeproc-py processes into its own format. The only exceptions are that `{DOI}`, `{PMID}`, `{ISBN}`, and `{ISSN}` will be capitalized, even if they're not capitalized in the BiBTeX file.
+If designing a `format` option for this section, the formatted citation is stored in the `{raw}` attribute. All other BibTeX attributes will be available using their BibTeX attribute names, other than the ones that `citeproc-py` processes into its own format. The only exceptions are that `{DOI}`, `{PMID}`, `{ISBN}`, and `{ISSN}` will be capitalized, even if they're not capitalized in the BiBTeX file.
 
-This function uses the [https://github.com/brechtm/citeproc-py](citeproc-py) package, and so any citation cases that cannot be handled by citeproc-by is not guaranteed to be handled by CVRoller. CVRoller will, in addition to what citeproc-py picks up, take every attribute in the BibTeX file and make it available for the CSL style interpreter (citeproc-py will ignore some attributes that styles do use, like `DOI`), or for your `format` option (e.g., citeproc-py will not pick up an `abstract` item). However, for CVRoller to be able to do this, if you're using a .bib file, that .bib file has to be squeaky clean! CVRoller uses a comma followed by a new line to identify a new item. So, every item must end with a comma followed by a new line.
+This function uses the [https://github.com/brechtm/citeproc-py](citeproc-py) package, and so any citation cases that cannot be handled by citeproc-py are not guaranteed to be handled by CVRoller. CVRoller will, in addition to what citeproc-py picks up, take every attribute in the BibTeX file and make it available for the CSL style interpreter (citeproc-py will ignore some attributes that styles do use, like `DOI`), or for your `format` option (e.g., citeproc-py will not pick up an `abstract` item but CVRoller will). However, for CVRoller to be able to do this, if you're using a .bib file, that .bib file has to be squeaky clean! CVRoller uses a comma followed by a new line to identify a new item. So, every item must end with a comma followed by a new line.
 
 ```
 @article{key,
@@ -261,7 +261,7 @@ The basics of what you need to know are the following:
 	* Phone: `phone`, or you can get more specific and specify `mobile`, `fixed`, and/or `fax`.
 	* Website: `homepage` or `website`. This can be the URL itself, or you can use Markdown link syntax (which may be handy for your HTML CV) and CVRoller will fish the URL out for you.
 	* Address: `address`. If you want to use multiple address fields (which some moderncv templates handle differently) you can specify `address1`, `address2`, and (optional) `address3`.
-	* Social media: `linkedin`, `twitter`, `github`. These can be entered as handles alone, as URLs to your profile, or Markdown link syntax for links to your profile.
+	* Social media: `linkedin`, `twitter`, `github`. These can be entered as handles alone, as URLs to your profile, or Markdown link syntax for links to your profile. moderncv does not suppot other social media tags.
 	* Profile picture: `photo`, `picture`, `profile`, or `image`. This can be just the filename (with path, if it's not in the working directory), or can be Markdown image syntax.
 	* Everything else will be rendered as part of the `\extrainfo` moderncv entry, separated by commas.
 * If you want to write LaTeX code directly into your layout options or CV data (such as in a `sectionframe` section option), you must properly escape characters. Most pressing, make sure you use `\\` instead of `\`, and `{{` and `}}` instead of `{` and `}`.

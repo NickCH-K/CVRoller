@@ -7,7 +7,7 @@ The goal is to have a format for writing document layout structures and data (in
 
 This project is pretty much ready to go, although there are a few minor features to be filled in, and it currently requires learning the layout language to use. Eventually the goal is to have a system that's easy to use without having to learn too much.
 
-For an explanation of how the CV layout language works, see LayoutInstructions.md. For an explanation on how to put together the CV data file, see CVDataInstructions.md. To figure out how to write your own HTML/CSS theme for CVRoller, see ThemeInstructions.md.
+For an explanation of how the CV layout language works, see LayoutInstructions.md. For an explanation on how to put together the CV data file, see CVDataInstructions.md. To figure out how to write your own HTML/CSS or LaTeX theme for CVRoller, see ThemeInstructions.md.
 
 How to Use CVRoller
 ====================

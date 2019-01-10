@@ -27,14 +27,12 @@ If `attribute` is left blank for a section, CVRoller will assume that you want t
 
 `content` is whatever you want that attribute to be! `content` accepts plain text or Markdown (note that Markdown can also be used to create links with `[linkname](url)`, or images with `![Alt text](imagepath "Optional title")`. Use `\br` to indicate line breaks.
 
-`content` is very flexible, and will take pretty much anything. That means you can create interactive CVs by putting code in here. For example, if you're building an HTML CV, you could put HTML code here for an embedded video, or an iframe, or whatever. Note that unless that code is Markdown, it will just get used as-is and not be converted into other formats. So if you use HTML to embed an image, that image won't work if you are building a PDF version of your CV.
+`content` is very flexible, and will take pretty much anything. That means you can create interactive CVs by putting code in here. For example, if you're building an HTML CV, you could put HTML code here for an embedded video, or an iframe, or whatever. Note that unless that code is Markdown, it will just get used as-is and not be converted into other formats (although you may have to mess with it to deal with character-escaping, especially for LaTeX-out). So if you use HTML to embed an image, that image won't work if you are building a PDF version of your CV.
 
 If you are writing a CV data file intended to apply only to one section, which will be called from a `file` option in a single section, the `section` column can be omitted.
 
-How to Write a CVRoller JSON File
+How to Write a CVRoller JSON Data File
 ========================================
-
-CHECK THESE FORMATS AND MAKE SURE THEY ACTUALLY WORK
 
 A CVRoller JSON file is designed to mimic the spreadsheet layout above. 
 

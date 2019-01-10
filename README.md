@@ -11,13 +11,13 @@ For an explanation of how the CV layout language works, see LayoutInstructions.m
 
 How to Use CVRoller
 ====================
-1. Ensure that you have installed Python, as well as the `citeproc-py` and `pypandoc` packages (both available via `pip`). `pypandoc` also requires that you install `pandoc`, which can be done with the `pypandoc` package itself (see `help(pypandoc)`), installed separately, or if you install `pypandoc` from Anaconda, `pandoc` will be automatically installed.
-2. If you want to output PDF files, also ensure that you have installed a LaTeX-to-PDF processor like PDFLatex. The processor should be callable from the command line. Similarly, if you want to use ORCID to get your citations, make sure you have the `orcid` package installed (also available via `pip`).
+1. Ensure that you have installed Python, as well as the `citeproc-py` and `pypandoc` packages (both available via `pip`). `pypandoc` also requires that you install `pandoc`, which can be installed separately, done with the `pypandoc` package itself (see `help(pypandoc)`), or if you install `pypandoc` from Anaconda, `pandoc` will be automatically installed.
+2. If you want to output PDF files, also ensure that you have installed a LaTeX-to-PDF processor like PDFLatex. The processor should be callable from the command line (which hopefully should be set up automatically when you install LaTeX!). Similarly, if you want to use ORCID to get your citations, make sure you have the `orcid` package installed (also available via `pip`).
 3. Read the Instruction files `LayoutInstructions.md` and `CVDataInstructions.md` to see how to construct your CVRoller Layout file and your file(s) of CV data. Also see the files in the `bells_and_whistles_example` and `simple_example` folders for guidance. `bells_and_whistles` includes pretty much every feature CVRoller has to offer, so you can see how everything works, but it's a bit of a mess. `simple_example` is a lot more like what your own CV file is likely to look like.
 4. Create a CVRoller Layout file and save it. Put it in a folder.
-5. Create any data files you may want - spreadsheets, JSON files, .bib, profile images, etc., and put them in the same folder.
-6. Open up CVRoller.py in a Python instance. Go to lines 35 and 36 and tell CVRoller the name of the folder your stuff is in (this can be set to `layoutfolder = ''` if CVRoller.py is in the same folder as your stuff), and the name of your layout file (by default `layoutfile = 'layout.txt'`.
-7. Run CVRoller.py! It will output all finished files to the working directory.
+5. Create any data files you may want - spreadsheets, JSON files, .bib, profile images, themes (check the "themes" folder for some options) etc., and put them in the same folder.
+6. Open up CVRoller.py in a Python instance. Go to lines 35 and 36 and tell CVRoller the name of the folder your stuff is in (this can be set to `layoutfolder = ''` if CVRoller.py is in the same folder as your stuff), and the name of your layout file (by default `layoutfile = 'layout.txt'`. By default, if you download the whole repo, this is set to run the example in the `simple_example` folder.
+7. Run CVRoller.py! It will output all finished files to the directory specified in `layoutfolder` on line 35.
 8. Note that if you're creating a PDF file and you successfully make some .tex output but there's no PDF, try opening the .tex in a LaTeX editor and compiling directly. It will give you more detailed error messages than CVRoller can. One I've run into is not being able to locate fontawesome. This can be fixed by uninstalling the fontawesome package and re-installing it as a *non*-administrator. Another is characters in the original data that LaTeX can't parse, which can be fixed by using more standard characters in the original data.
 
 
@@ -60,8 +60,8 @@ Small Fixes/Features to Come
 * Put in way of locating layout file other than the placeholder hardcoding.
 * Figure out way to allow tables without headers. This should be possible through pandoc with the simple_tables or multiline_tables options but this hasn't been tried yet.
 * Figure out the escaping on `##format` arguments in non-moderncv PDF themes. For now it is but a mystery.
-* Properly handle ORCID id/secret
-* Allowing citations from multiple different options (i.e. a `doi` option AND a `bib` option).
+* Handle the ORCID id/secret in an easier way than requiring that it be put in in the layout file.
+* Allowing citations from multiple different arguments (i.e. a `doi` option AND a `bib` option).
 * There's not a way to get a list of someone's PMID's from some sort of repository, is there, like ORCID for DOIs?
 
 Medium/Far Term Fixes and Features to Come

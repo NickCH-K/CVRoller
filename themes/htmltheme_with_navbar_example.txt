@@ -1,0 +1,178 @@
+%This is the theme I use for the front page of nickchk.com
+%I wanted a navbar, and it would be easier to bake that right into the CVRoller output than to use an iframe or whatever to include the CV/Home
+%So I just included it in the header!
+
+%List all user-settable options in 'options', one per line, with default following a colon
+##options
+
+%Sets color of section title and also your name
+titlecolor: #009933
+%Determines whether there's a horizontal rule between each section. on or off.
+sectiondivider: on
+%Font family
+fontfamily: Georgia, serif
+%font size
+fontsize: medium
+%width on page
+width: 70%
+
+%Required options include header, style, and footer.
+
+##header
+
+<html><head><title>{name}</title>{style}<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="icon" 
+      type="image/icon" 
+      href="favicon.ico">
+<body>
+
+<ul class = "nav">
+<li class = "nav"><span class = "navname">Nick Huntington-Klein</span></li>
+<li class = "nav active"><a href = "index.html">CV/Home</a></li>
+<li class = "nav"><a href = "mailto:nhuntington-klein@fullerton.edu">Email</a>
+<li class = "nav"><div class = "dropdown"><button class = "dropbtn">Resources</button>
+<div class = "projects"><a href = "videos.html">Videos</a>
+<a href = "econometrics.html">Econometrics Resources</a>
+<a href = "https://www.goodreads.com/review/list/19131383-nick-chandler-klein?order=d&shelf=good-books-for-economists&sort=rating">Economics Booklist</a></div></div></li>
+<li class = "nav"><div class = "dropdown"><button class = "dropbtn">Projects</button>
+<div class = "projects"><a href = "causalgraphs.html">Causal Animations</a>
+<a href = "http://www.cvroller.com">CVRoller</a>
+<a href = "vtable.html">vtable</a></div>
+</div></li>
+<li class = "nav"><img src = "csuf-logo-only.png" height="46"></li>
+</ul>
+<br/><br/>
+
+
+##style
+
+<style>
+*{font-family: {fontfamily};
+	font-size: {fontsize}}
+ul.nav {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background-color: #FFFFFF;
+	width: 95vw;
+	font-family: Georgia, serif;
+	font-size: medium;
+	position: relative;
+}
+li.nav {
+	float: left;
+	text-decoration: none;
+	list-style-type: none;
+	border: none;
+}
+li.nav a {
+	text-decoration: none;
+	color: #000000;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+}
+li.nav a:hover, .dropdown:hover .dropbtn {
+	background-color: #99ff66;
+}
+li.nav:last-child{
+	float: right;
+}
+.navname {
+	color: #000000;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+}
+.active {
+	background-color: #009933;
+}
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+.dropbtn {
+	color: #000000;
+	display: block;
+	text-align: center;
+	padding: 15px 16px;
+	font-family: Georgia, serif;
+	font-size: medium;
+	border: none;
+}
+.projects {
+	display: none;
+	position: absolute;
+	background-color: #FFFFFF;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.projects a {
+	color: #000000;
+	background-color: #D3D3D3;
+	text-align: center;
+	padding: 14px 16px;
+	font-family: Georgia, serif;
+	font-size: medium;
+}
+.projects a:hover {
+	background-color: #99ff66;
+}
+.dropdown:hover .projects {display: block}
+div.section {
+	border: 0px;
+	background-color: #FFFFFF;
+	display: table;
+	max-width: {width};
+	min-width: {width};
+	width: {width};
+	margin-left: auto;
+	margin-right: auto}
+.sectitle {
+	text-align: right;
+	vertical-align: text-top;
+	color: {titlecolor};
+	width: 20%;
+	display: table-cell;
+	border-right: solid 1px black;
+	padding: 20px}
+.secmeat {
+	text-align: left;
+	width: 80%;
+	display: table-cell;
+	padding: 20px;}
+hr.secdiv {
+	height: 1px;
+	border: 0;
+	width: 25%;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))}
+hr.secdiv.off {
+	height: 0px}
+.abstract {font-size:smaller}
+.head.name {
+	font-size: xx-large;
+	color: {titlecolor}}
+.photo {float:left;
+	padding-right: 40px}
+</style>
+
+##footer
+
+</body></html>
+
+##sectionglue
+
+##sectionframe
+
+<div class = "section"><div class="sectitle">**{title}**</div><div class="secmeat">{subtitle}{meat}</div></div><br/><hr class="secdiv {sectiondivider}"/><br/>
+
+##sectionframe@head
+
+<div class = "section"><div class="secmeat">{meat}</div></div>
+
+##sectionframe@date
+
+<div class = "section"><div class="secmeat">{meat}</div></div>
+
+##itemwrapper
+
+{item}
+

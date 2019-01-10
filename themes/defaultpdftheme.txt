@@ -1,0 +1,87 @@
+%Default PDF Theme for CVRoller 
+
+%Since fancy-lookin' PDFs are generally handled by moderncv, this default PDF theme is for a real bare-bones affair.
+
+%List all user-settable options in 'options', one per line, with default following a colon
+
+%NOTE that options, header, and footer do not require things to be escaped
+%HOWEVER, for everything else (sectionglue, sectionframe, etc.), curly braces intended to actually appear in the LaTeX file must be escaped.
+%So a basic command in sectionframe might be \\begin{{section}}. And if you want to substitute something in you'll need another set. So \\section{{{title}}}
+##options
+
+%Places a divider between each section
+sectiondivider: \\vspace{{1cm}} \hrule \\vspace{{1cm}}
+%Font size
+fontsize: 11pt
+%Paper size
+papersize: a4paper
+%margins
+margins: 1in
+
+
+%Required options include header and footer.
+
+##header
+
+\documentclass[{fontsize},a4paper]{article}
+\usepackage[margin={margins}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{hanging}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\begin{document}
+
+##footer
+
+\end{document}
+
+
+##sectionglue
+
+
+
+##sectionframe
+
+\section*{{{title}}} 
+
+{subtitle}
+
+{meat}
+
+{sectiondivider}
+
+##sectionframe@head
+
+{meat}
+
+##sectionframe@date
+
+{meat}
+
+##sectionframe@hangingindent
+
+\section*{{{title}}} 
+
+{subtitle}
+
+\begin{{hangparas}}{{.25in}}{{1}}
+
+{meat} 
+
+\end{{hangparas}}
+
+{sectiondivider}
+
+##itemwrapper
+
+{item}
+
+##format@head
+
+
+{name}
+
+{position}, {institution}
+
+{email}, {phone}
+
